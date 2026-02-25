@@ -6,16 +6,18 @@
   <title>Permanenties ICT Labo</title>
   <style>
     :root{
-      --bg:#0b1220;
-      --panel:#0f172a;
-      --text:#e9edf7;
-      --muted:#a9b1c7;
-      --line:rgba(255,255,255,.08);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:rgba(15, 23, 42, .10);
+      --shadow: 0 10px 30px rgba(15, 23, 42, .08);
       --radius: 16px;
 
-      --accent:#4ea1ff;
-      --ok:#22c55e;
+      --accent:#2563eb;   /* blauw */
+      --soft:#eef2ff;
+
+      --ok:#16a34a;
       --warn:#f59e0b;
       --danger:#ef4444;
 
@@ -27,29 +29,28 @@
     body{
       margin:0;
       font-family:var(--sans);
+      background: linear-gradient(180deg, #ffffff, var(--bg));
       color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 15% 0%, rgba(78,161,255,.16), transparent 58%),
-        radial-gradient(900px 600px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
-        var(--bg);
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px 14px 26px;
     }
 
     header{
-      max-width:1100px;
-      margin:0 auto;
-      padding:22px 18px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
     }
 
-    .top{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
     h1{
       margin:0;
-      font-size:26px;
+      font-size:22px;
       letter-spacing:.2px;
     }
     .sub{
@@ -62,63 +63,47 @@
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding:7px 10px;
+      padding:8px 10px;
       border-radius:999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color:#dbe6ff;
+      background: #fff;
+      box-shadow: 0 6px 16px rgba(15,23,42,.06);
       font-size:12px;
       white-space:nowrap;
     }
-
-    main{
-      max-width:1100px;
-      margin:0 auto;
-      padding:12px 18px 28px;
-      display:grid;
-      gap:14px;
-    }
+    .pill.ok{ border-color: rgba(22,163,74,.25); background: rgba(22,163,74,.08); color: #0f3d1f; }
+    .pill.warn{ border-color: rgba(245,158,11,.28); background: rgba(245,158,11,.10); color: #4a2b00; }
+    .pill.err{ border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.10); color: #4a0b0b; }
 
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+      background:var(--card);
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       overflow:hidden;
     }
 
-    .card-header{
-      padding:14px 14px 10px;
+    .section{
+      padding:14px;
       border-bottom:1px solid var(--line);
+    }
+    .section:last-child{border-bottom:none}
+
+    .row{
       display:flex;
-      justify-content:space-between;
       gap:10px;
       flex-wrap:wrap;
-      align-items:center;
-    }
-    .card-header h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.2px;
-      color:#f0f3ff;
-    }
-
-    .grid{
-      padding:14px;
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:10px;
       align-items:end;
     }
 
     .field{
-      grid-column: span 4;
       display:flex;
       flex-direction:column;
       gap:6px;
-      min-width:200px;
+      min-width:220px;
+      flex: 1;
     }
-    .field label{
+    label{
       font-size:12px;
       color:var(--muted);
     }
@@ -127,11 +112,12 @@
       font-family:inherit;
       border-radius:12px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
+      background:#fff;
+      color:var(--text);
       padding:10px 10px;
       outline:none;
     }
+    input::placeholder{color: rgba(100,116,139,.85)}
 
     button{
       cursor:pointer;
@@ -140,85 +126,72 @@
       justify-content:center;
       gap:8px;
       white-space:nowrap;
-      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      background: var(--soft);
+      border-color: rgba(37,99,235,.22);
+      color: #1e3a8a;
+      padding:10px 12px;
+      transition: transform .05s ease, filter .15s ease;
+      flex: 0 0 auto;
     }
     button:active{transform:translateY(1px)}
-    .btn{
-      background: rgba(78,161,255,.14);
-      border-color: rgba(78,161,255,.30);
-    }
-    .btn:hover{background: rgba(78,161,255,.22)}
+    button:hover{filter:brightness(.98)}
 
-    .status{
-      font-family:var(--mono);
-      font-size:12px;
-      color:#cfe6ff;
-    }
-
-    /* Today list */
-    .today-wrap{
-      padding:14px;
-      display:grid;
-      gap:10px;
-    }
-    .today-item{
+    .meta{
       display:flex;
+      flex-wrap:wrap;
+      gap:10px;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(34,197,94,.06);
     }
-    .today-left{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-    .name{
-      font-size:16px;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    .when{
-      font-size:12px;
+    .meta-left{
       color:var(--muted);
+      font-size:12px;
     }
-    .badges{
+    .meta-right{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
+      align-items:center;
       justify-content:flex-end;
     }
+
+    .legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
     .badge{
       display:inline-flex;
       align-items:center;
-      padding:6px 10px;
+      gap:8px;
+      padding:7px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      background:#fff;
       font-size:12px;
       font-weight:700;
-      letter-spacing:.2px;
     }
-    .badge-strong{
-      border-color: rgba(78,161,255,.35);
-      background: rgba(78,161,255,.14);
-      color:#d8ebff;
+    .badge strong{
+      font-family:var(--mono);
+      font-size:12px;
+      font-weight:800;
     }
-    .badge-warn{
-      border-color: rgba(245,158,11,.35);
-      background: rgba(245,158,11,.12);
-      color:#ffe7c0;
+    .badge.special{
+      border-color: rgba(245,158,11,.28);
+      background: rgba(245,158,11,.10);
+      color:#4a2b00;
+    }
+    .badge.norm{
+      border-color: rgba(37,99,235,.18);
+      background: rgba(37,99,235,.07);
+      color:#1e3a8a;
     }
 
-    /* Table */
-    .table-wrap{overflow:auto}
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:740px;
     }
     thead th{
       text-align:left;
@@ -226,125 +199,122 @@
       color:var(--muted);
       padding:12px 14px;
       border-bottom:1px solid var(--line);
-      background: rgba(255,255,255,.02);
-      position:sticky; top:0;
+      background: #fbfcff;
+      position:sticky;
+      top:0;
+      z-index:1;
     }
     tbody td{
       padding:12px 14px;
-      border-bottom:1px solid rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(15,23,42,.06);
       font-size:13px;
       vertical-align:middle;
     }
-    tbody tr:hover{ background: rgba(255,255,255,.03); }
+    tbody tr:hover{
+      background: rgba(37,99,235,.04);
+    }
 
-    .person-cell{
+    .person{
+      font-weight:900;
       font-size:14px;
-      font-weight:800;
-      letter-spacing:.2px;
+    }
+
+    .where{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
     }
 
     .muted{color:var(--muted)}
+    .small{font-size:12px}
+
     .notice{
-      padding:10px 14px;
-      border-top:1px solid var(--line);
+      margin-top:10px;
       color:var(--muted);
       font-size:12px;
-    }
-
-    @media (max-width: 860px){
-      .field{grid-column: span 6}
-      table{min-width: 640px}
-    }
-    @media (max-width: 520px){
-      .field{grid-column: span 12}
-      table{min-width: 560px}
+      line-height:1.35;
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="top">
+  <div class="wrap">
+    <header>
       <div>
         <h1>Permanenties ICT Labo</h1>
-        <div class="sub">Snelle lookup — wie zit waar?</div>
+        <div class="sub">Zoek snel op datum & persoon — en zie meteen <b>wie waar zit</b>.</div>
       </div>
       <div class="pill" id="pillStatus">⏳ Laden…</div>
+    </header>
+
+    <div class="card">
+      <div class="section">
+        <div class="row">
+          <div class="field">
+            <label>Datum</label>
+            <input type="date" id="datePicker" />
+          </div>
+
+          <div class="field">
+            <label>Persoon</label>
+            <select id="personSelect">
+              <option value="">(Alles)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Zoeken</label>
+            <input type="text" id="globalSearch" placeholder="bv. youri, mi, hotline, wacht…" />
+          </div>
+
+          <button id="btnToday">📅 Vandaag</button>
+          <button id="btnReset">🧹 Reset</button>
+        </div>
+
+        <div class="meta" style="margin-top:10px;">
+          <div class="meta-left" id="metaInfo"></div>
+          <div class="meta-right">
+            <span class="pill" id="diagPill">🔎 Codes: —</span>
+          </div>
+        </div>
+
+        <!-- Legende wordt dynamisch gevuld uit de mapping -->
+        <div class="legend" id="legend"></div>
+
+        <div class="notice" id="diagText"></div>
+      </div>
+
+      <div class="section" style="padding:0;">
+        <div style="max-height:70vh; overflow:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:160px">Datum</th>
+                <th style="width:260px">Naam</th>
+                <th>Waar</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr><td colspan="3" class="muted" style="padding:14px;">Laden…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section" style="border-top:1px solid var(--line); border-bottom:none;">
+          <div class="muted small" id="countInfo">—</div>
+        </div>
+      </div>
     </div>
-  </header>
-
-  <main>
-    <section class="card">
-      <div class="card-header">
-        <h2>Vandaag</h2>
-        <div class="status" id="metaInfo"></div>
-      </div>
-      <div class="today-wrap" id="todayList">
-        <div class="muted">Laden…</div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-header">
-        <h2>Zoeken</h2>
-        <div class="status" id="countInfo">—</div>
-      </div>
-
-      <div class="grid">
-        <div class="field">
-          <label>Datum</label>
-          <input type="date" id="datePicker" />
-        </div>
-
-        <div class="field">
-          <label>Persoon</label>
-          <select id="personSelect">
-            <option value="">(Alles)</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Vrij zoeken</label>
-          <input type="text" id="globalSearch" placeholder="bv. debby, mi, hotline, wacht…" />
-        </div>
-
-        <div class="field" style="grid-column: span 12; display:flex; flex-direction:row; gap:10px; align-items:center;">
-          <button class="btn" id="btnToday">📅 Vandaag</button>
-          <div class="muted" style="font-size:12px;">Tip: klik op vandaag om snel terug te keren.</div>
-        </div>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:170px">Datum</th>
-              <th style="width:260px">Persoon</th>
-              <th>Waar</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-            <tr><td colspan="3" class="muted">Laden…</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="notice">
-        Codes: <span class="badge badge-warn">WACHT</span> (w/w1/w2) • <span class="badge badge-warn">HOTLINE</span> (H)
-      </div>
-    </section>
-  </main>
+  </div>
 
 <script>
   // ------------------------------
   // Config
   // ------------------------------
-  const DATA_URL = "permanentie.json"; // in dezelfde folder
+  const DATA_URL = "permanentie.json";
 
   // ------------------------------
   // State
   // ------------------------------
-  let rawLoaded = null;
   let payload = null;
   let records = [];
   let allPeople = [];
@@ -352,30 +322,14 @@
   // ------------------------------
   // Helpers
   // ------------------------------
+  function safeText(v){ return (v === null || v === undefined) ? "" : String(v); }
+
   function isoTodayLocal(){
     const d = new Date();
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth()+1).padStart(2,'0');
     const dd = String(d.getDate()).padStart(2,'0');
     return `${yyyy}-${mm}-${dd}`;
-  }
-
-  function setPill(text, ok=null){
-    const pill = document.getElementById("pillStatus");
-    pill.textContent = text;
-    if(ok === true){
-      pill.style.background = "rgba(34,197,94,.16)";
-      pill.style.borderColor = "rgba(34,197,94,.32)";
-      pill.style.color = "#d9ffe9";
-    } else if(ok === false){
-      pill.style.background = "rgba(239,68,68,.14)";
-      pill.style.borderColor = "rgba(239,68,68,.35)";
-      pill.style.color = "#ffd3d3";
-    } else {
-      pill.style.background = "rgba(255,255,255,.03)";
-      pill.style.borderColor = "rgba(255,255,255,.10)";
-      pill.style.color = "#dbe6ff";
-    }
   }
 
   function normalizePayload(data){
@@ -387,61 +341,81 @@
     return data;
   }
 
-  function safeText(v){
-    return (v === null || v === undefined) ? "" : String(v);
-  }
-
   function uniqueSorted(arr){
     return Array.from(new Set(arr)).sort((a,b)=> a.localeCompare(b, "nl", {sensitivity:"base"}));
   }
 
-  // ---- Code mapping
-  function mapSingleCode(code){
-    const c = safeText(code).trim();
-    const low = c.toLowerCase();
-
-    // WACHT: w / w1 / w2 (case-insensitive)
-    if(low === "w" || low === "w1" || low === "w2") return "WACHT";
-
-    // HOTLINE: ALLEEN exact "H" (case-sensitive)
-    if(c === "H") return "HOTLINE";
-
-    // default: duidelijk tonen
-    return c.toUpperCase();
+  function setPill(text, kind){
+    const el = document.getElementById("pillStatus");
+    el.className = "pill" + (kind ? (" " + kind) : "");
+    el.textContent = text;
   }
 
-  function splitAndMapCodes(codeField){
-    // bv "mi/sa" => ["MI","SA"]
+  // ------------------------------
+  // Mapping / vertaling
+  // ------------------------------
+  // Belangrijk: HOTLINE alleen exact "H" (case-sensitive)
+  // WACHT: w/w1/w2 (case-insensitive)
+  const CODE_RULES = [
+    { label: "HOTLINE", tokens: ["H"], kind: "special", match: (t) => t === "H" },
+    { label: "WACHT", tokens: ["w","w1","w2"], kind: "special", match: (t) => ["w","w1","w2"].includes(t.toLowerCase()) },
+  ];
+
+  function mapSingleToken(token){
+    const t = safeText(token).trim();
+    if(!t) return "";
+
+    for(const rule of CODE_RULES){
+      if(rule.match(t)) return rule.label;
+    }
+    // default (laat codes duidelijk zien)
+    return t.toUpperCase();
+  }
+
+  function splitTokens(codeField){
     const raw = safeText(codeField).trim();
     if(!raw) return [];
-    return raw.split("/").map(s => s.trim()).filter(Boolean).map(mapSingleCode);
+    return raw.split("/").map(s => s.trim()).filter(Boolean);
   }
 
-  // ---- Anomaly detection (zodat je fouten ziet)
-  function findCodeAnomalies(){
-    const issues = [];
+  function mapCodeField(codeField){
+    return splitTokens(codeField).map(mapSingleToken).filter(Boolean);
+  }
+
+  // ------------------------------
+  // Diagnostics: toon of H / w effectief in JSON voorkomt
+  // + toon verdachte dingen: "h" of tokens die "H" bevatten maar niet exact H
+  // ------------------------------
+  function diagnoseCodes(){
+    let countHotline = 0;  // exact "H"
+    let countWacht = 0;    // w/w1/w2 (any case)
+    const anomalies = [];
 
     for(const r of records){
-      const raw = safeText(r.code).trim();
-      if(!raw) continue;
-
-      const parts = raw.split("/").map(s => s.trim()).filter(Boolean);
+      const parts = splitTokens(r.code);
 
       for(const p of parts){
-        // lowercase 'h' is verdacht
+        if(p === "H") countHotline++;
+        if(["w","w1","w2"].includes(p.toLowerCase())) countWacht++;
+
+        // Verdacht: lowercase h (je wil enkel H)
         if(p === "h"){
-          issues.push({ type:"lowercase-h", date:r.date, person:r.person, code:r.code, part:p });
+          anomalies.push({type:"lowercase-h", date:r.date, person:r.person, code:r.code, token:p});
         }
-        // 'H' in een groter token is verdacht (bv "xH")
+
+        // Verdacht: "H" in een groter token (bv "xH")
         if(p.includes("H") && p !== "H"){
-          issues.push({ type:"H-in-token", date:r.date, person:r.person, code:r.code, part:p });
+          anomalies.push({type:"H-in-token", date:r.date, person:r.person, code:r.code, token:p});
         }
       }
     }
 
-    return issues;
+    return { countHotline, countWacht, anomalies };
   }
 
+  // ------------------------------
+  // UI rendering
+  // ------------------------------
   function fillPeople(){
     const sel = document.getElementById("personSelect");
     const current = sel.value;
@@ -452,56 +426,52 @@
     if(allPeople.includes(current)) sel.value = current;
   }
 
-  function updateMeta(){
-    const meta = document.getElementById("metaInfo");
-    if(!payload){ meta.textContent = ""; return; }
+  function renderLegend(){
+    const wrap = document.getElementById("legend");
+    wrap.innerHTML = CODE_RULES.map(r => {
+      const tokenText = r.tokens.map(t => `<strong>${t}</strong>`).join(" / ");
+      return `<span class="badge ${r.kind}">${tokenText} → ${r.label}</span>`;
+    }).join("");
+  }
 
+  function updateMeta(){
+    const el = document.getElementById("metaInfo");
+    if(!payload){ el.textContent = ""; return; }
     const gen = payload.generatedAt ? `generatedAt: ${payload.generatedAt}` : "";
     const sheet = payload.sheet ? `sheet: ${payload.sheet}` : "";
     const year = payload.year ? `year: ${payload.year}` : "";
-    const parts = [gen, sheet, year].filter(Boolean);
-
-    const issues = findCodeAnomalies();
-    if(issues.length){
-      const examples = issues.slice(0,5)
-        .map(x => `${x.date} • ${x.person} • "${x.code}" (token: "${x.part}")`)
-        .join(" | ");
-      meta.textContent = parts.join(" • ") + ` • ⚠️ ${issues.length} verdachte code(s): ${examples}`;
-    } else {
-      meta.textContent = parts.join(" • ");
-    }
+    el.textContent = [gen, sheet, year].filter(Boolean).join(" • ");
   }
 
-  function renderToday(){
-    const today = isoTodayLocal();
-    const wrap = document.getElementById("todayList");
+  function renderDiagnostics(){
+    const pill = document.getElementById("diagPill");
+    const text = document.getElementById("diagText");
 
-    const todays = records
-      .filter(r => safeText(r.date) === today)
-      .sort((a,b)=> safeText(a.person).localeCompare(safeText(b.person), "nl", {sensitivity:"base"}));
+    const d = diagnoseCodes();
 
-    if(todays.length === 0){
-      wrap.innerHTML = `<div class="muted">Geen items voor vandaag (${today}).</div>`;
-      return;
-    }
+    // pill
+    pill.className = "pill";
+    pill.textContent = `🔎 Codes gevonden: HOTLINE=${d.countHotline} • WACHT=${d.countWacht} • Verdacht=${d.anomalies.length}`;
 
-    wrap.innerHTML = todays.map(r => {
-      const codes = splitAndMapCodes(r.code);
-      const badges = codes.map(c => {
-        const isSpecial = (c === "WACHT" || c === "HOTLINE");
-        return `<span class="badge ${isSpecial ? "badge-warn" : "badge-strong"}">${c}</span>`;
-      }).join("");
-
-      return `
-        <div class="today-item">
-          <div class="today-left">
-            <div class="name">${safeText(r.person)}</div>
-            <div class="when">${today}</div>
-          </div>
-          <div class="badges">${badges || `<span class="badge">—</span>`}</div>
-        </div>
+    if(d.anomalies.length){
+      pill.className = "pill warn";
+      const examples = d.anomalies.slice(0,6).map(a =>
+        `${a.date} • ${a.person} • "${a.code}" (token: "${a.token}")`
+      ).join(" | ");
+      text.innerHTML = `
+        <b style="color:#7c2d12;">⚠️ Verdachte tokens gevonden</b><br>
+        <span class="small">${examples}${d.anomalies.length > 6 ? " | …" : ""}</span>
       `;
-    }).join("");
+    } else {
+      // Geen anomalies: maar toon ook als H/WACHT nergens voorkomt (dan weet je: staat niet in JSON)
+      if(d.countHotline === 0 && d.countWacht === 0){
+        pill.className = "pill";
+        text.innerHTML = `<span class="small">Geen <b>H</b> of <b>w/w1/w2</b> tokens aangetroffen in de JSON (dus niets te vertalen). Als je die verwacht, zit het probleem waarschijnlijk in de brondata.</span>`;
+      } else {
+        pill.className = "pill ok";
+        text.innerHTML = `<span class="small">Alles ok — vertalingen worden toegepast wanneer de tokens voorkomen (H → HOTLINE, w/w1/w2 → WACHT).</span>`;
+      }
+    }
   }
 
   function renderTable(){
@@ -509,22 +479,21 @@
 
     const dateVal = document.getElementById("datePicker").value;
     const personVal = document.getElementById("personSelect").value.trim();
-    const global = document.getElementById("globalSearch").value.trim().toLowerCase();
+    const q = document.getElementById("globalSearch").value.trim().toLowerCase();
 
     let filtered = records.slice();
 
     if(dateVal) filtered = filtered.filter(r => safeText(r.date) === dateVal);
     if(personVal) filtered = filtered.filter(r => safeText(r.person) === personVal);
 
-    if(global){
+    if(q){
       filtered = filtered.filter(r => {
-        const mappedCodes = splitAndMapCodes(r.code).join(" ");
-        const hay = `${safeText(r.date)} ${safeText(r.person)} ${safeText(r.code)} ${mappedCodes}`.toLowerCase();
-        return hay.includes(global);
+        const mapped = mapCodeField(r.code).join(" ");
+        const hay = `${safeText(r.date)} ${safeText(r.person)} ${safeText(r.code)} ${mapped}`.toLowerCase();
+        return hay.includes(q);
       });
     }
 
-    // sort op datum (nieuwste eerst) + naam
     filtered.sort((a,b) => {
       const d = safeText(b.date).localeCompare(safeText(a.date));
       if(d !== 0) return d;
@@ -532,61 +501,75 @@
     });
 
     if(filtered.length === 0){
-      tbody.innerHTML = `<tr><td colspan="3" class="muted">Geen resultaten.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:14px;">Geen resultaten.</td></tr>`;
     } else {
       tbody.innerHTML = filtered.map(r => {
-        const codes = splitAndMapCodes(r.code);
-        const badges = codes.map(c => {
-          const isSpecial = (c === "WACHT" || c === "HOTLINE");
-          return `<span class="badge ${isSpecial ? "badge-warn" : "badge-strong"}">${c}</span>`;
+        const mappedTokens = mapCodeField(r.code);
+
+        const badges = mappedTokens.map(t => {
+          const isSpecial = (t === "WACHT" || t === "HOTLINE");
+          return `<span class="badge ${isSpecial ? "special" : "norm"}">${t}</span>`;
         }).join("");
 
         return `
           <tr>
             <td>${safeText(r.date)}</td>
-            <td class="person-cell">${safeText(r.person)}</td>
-            <td>${badges || `<span class="badge">—</span>`}</td>
+            <td class="person">${safeText(r.person)}</td>
+            <td><div class="where">${badges || `<span class="muted">—</span>`}</div></td>
           </tr>
         `;
       }).join("");
     }
 
     document.getElementById("countInfo").textContent =
-      `${filtered.length} resultaat/resultaten` + (dateVal ? ` • ${dateVal}` : "") + (personVal ? ` • ${personVal}` : "");
+      `${filtered.length} resultaat/resultaten` + (dateVal ? ` • datum=${dateVal}` : "") + (personVal ? ` • persoon=${personVal}` : "");
   }
 
-  function render(){
-    renderToday();
+  function renderAll(){
+    updateMeta();
+    renderLegend();
+    renderDiagnostics();
     renderTable();
   }
 
+  // ------------------------------
+  // Load
+  // ------------------------------
   async function loadData(){
     setPill("⏳ Laden…");
     try{
-      const res = await fetch(`${DATA_URL}?v=${Date.now()}`, { cache: "reload" });
+      const res = await fetch(`${DATA_URL}?v=${Date.now()}`, { cache: "no-store" });
       if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      rawLoaded = await res.json();
 
-      payload = normalizePayload(rawLoaded);
-      if(!payload || !Array.isArray(payload.records)) throw new Error("Geen payload.records array gevonden");
+      const raw = await res.json();
+      payload = normalizePayload(raw);
+
+      if(!payload || !Array.isArray(payload.records)){
+        throw new Error("Geen payload.records array gevonden");
+      }
 
       records = payload.records;
       allPeople = uniqueSorted(records.map(r => safeText(r.person)).filter(Boolean));
 
       fillPeople();
-      updateMeta();
-      setPill("✅ Data geladen", true);
-      render();
+      setPill("✅ Data geladen", "ok");
+      renderAll();
     } catch(e){
       console.error(e);
-      setPill("❌ Fout bij laden", false);
-      document.getElementById("todayList").innerHTML = `<div class="muted">Fout: ${safeText(e.message)}</div>`;
-      document.getElementById("tbody").innerHTML = `<tr><td colspan="3" class="muted">Fout: ${safeText(e.message)}</td></tr>`;
-      document.getElementById("countInfo").textContent = "—";
+      setPill("❌ Fout bij laden", "err");
+      document.getElementById("tbody").innerHTML =
+        `<tr><td colspan="3" class="muted" style="padding:14px;">Fout: ${safeText(e.message)}</td></tr>`;
       document.getElementById("metaInfo").textContent = "";
+      document.getElementById("legend").innerHTML = "";
+      document.getElementById("diagPill").textContent = "🔎 Codes: —";
+      document.getElementById("diagText").textContent = "";
+      document.getElementById("countInfo").textContent = "—";
     }
   }
 
+  // ------------------------------
+  // Bind UI
+  // ------------------------------
   function bindUI(){
     const datePicker = document.getElementById("datePicker");
     const personSelect = document.getElementById("personSelect");
@@ -594,15 +577,22 @@
 
     datePicker.value = isoTodayLocal();
 
-    datePicker.addEventListener("change", renderTable);
-    personSelect.addEventListener("change", renderTable);
-    globalSearch.addEventListener("input", renderTable);
+    datePicker.addEventListener("change", renderAll);
+    personSelect.addEventListener("change", renderAll);
+    globalSearch.addEventListener("input", renderAll);
 
     document.getElementById("btnToday").addEventListener("click", () => {
       datePicker.value = isoTodayLocal();
       personSelect.value = "";
       globalSearch.value = "";
-      render();
+      renderAll();
+    });
+
+    document.getElementById("btnReset").addEventListener("click", () => {
+      datePicker.value = "";
+      personSelect.value = "";
+      globalSearch.value = "";
+      renderAll();
     });
   }
 
