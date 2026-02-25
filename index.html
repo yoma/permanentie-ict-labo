@@ -237,9 +237,15 @@
   async function loadData(){
     try{
       const res = await fetch(`${DATA_URL}?v=${Date.now()}`, { cache:"no-store" });
-      const raw = await res.json();
-      payload = raw;
-      records = payload.records || [];
+const raw = await res.json();
+
+if(raw.result && typeof raw.result === "string"){
+  payload = JSON.parse(raw.result);
+} else {
+  payload = raw;
+}
+
+records = payload.records || [];
       document.getElementById("pillStatus").textContent = "✅ Data geladen";
       renderTable();
     }catch(e){
