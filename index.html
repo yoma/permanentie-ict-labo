@@ -7,35 +7,40 @@
   <style>
     :root{
       --bg:#0b1220;
-      --panel:#111a2e;
-      --panel2:#0f172a;
-      --text:#e6e9f2;
+      --panel:#0f172a;
+      --text:#e9edf7;
       --muted:#a9b1c7;
       --line:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+
       --accent:#4ea1ff;
-      --accent2:#22c55e;
-      --danger:#ef4444;
+      --ok:#22c55e;
       --warn:#f59e0b;
-      --shadow: 0 8px 30px rgba(0,0,0,.35);
-      --radius: 14px;
+      --danger:#ef4444;
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:var(--sans);
-      background: radial-gradient(1200px 600px at 10% 0%, rgba(78,161,255,.18), transparent 55%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.16), transparent 55%),
-                  var(--bg);
       color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 0%, rgba(78,161,255,.16), transparent 58%),
+        radial-gradient(900px 600px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
+        var(--bg);
     }
+
     header{
-      padding:24px 18px 10px;
       max-width:1100px;
       margin:0 auto;
+      padding:22px 18px 10px;
     }
-    .title{
+
+    .top{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -44,29 +49,44 @@
     }
     h1{
       margin:0;
-      font-size:28px;
+      font-size:26px;
       letter-spacing:.2px;
     }
     .sub{
+      margin-top:6px;
       color:var(--muted);
       font-size:13px;
-      margin-top:6px;
     }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color:#dbe6ff;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
     main{
       max-width:1100px;
       margin:0 auto;
-      padding:14px 18px 30px;
+      padding:12px 18px 28px;
       display:grid;
-      grid-template-columns: 1fr;
       gap:14px;
     }
+
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       overflow:hidden;
     }
+
     .card-header{
       padding:14px 14px 10px;
       border-bottom:1px solid var(--line);
@@ -78,102 +98,127 @@
     }
     .card-header h2{
       margin:0;
-      font-size:15px;
+      font-size:14px;
       letter-spacing:.2px;
       color:#f0f3ff;
     }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(78,161,255,.12);
-      border:1px solid rgba(78,161,255,.25);
-      color:#cfe6ff;
-      font-size:12px;
-      white-space:nowrap;
-    }
+
     .grid{
       padding:14px;
       display:grid;
       grid-template-columns: repeat(12, 1fr);
       gap:10px;
+      align-items:end;
     }
+
     .field{
-      grid-column: span 3;
+      grid-column: span 4;
       display:flex;
       flex-direction:column;
       gap:6px;
-      min-width:180px;
+      min-width:200px;
     }
     .field label{
       font-size:12px;
       color:var(--muted);
     }
-    input, select, button, textarea{
+
+    input, select, button{
       font-family:inherit;
-      border-radius:10px;
+      border-radius:12px;
       border:1px solid var(--line);
       background: rgba(255,255,255,.03);
       color: var(--text);
       padding:10px 10px;
       outline:none;
     }
-    input::placeholder{color: rgba(230,233,242,.45)}
-    textarea{
-      min-height:160px;
-      font-family:var(--mono);
-      font-size:12px;
-      line-height:1.35;
-      resize:vertical;
-    }
+
     button{
       cursor:pointer;
-      transition: transform .05s ease, background .15s ease, border-color .15s ease;
       display:inline-flex;
-      gap:8px;
       align-items:center;
       justify-content:center;
+      gap:8px;
       white-space:nowrap;
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
     }
     button:active{transform:translateY(1px)}
-    .btn-primary{
-      background: rgba(78,161,255,.18);
-      border-color: rgba(78,161,255,.35);
+    .btn{
+      background: rgba(78,161,255,.14);
+      border-color: rgba(78,161,255,.30);
     }
-    .btn-primary:hover{background: rgba(78,161,255,.24)}
-    .btn-success{
-      background: rgba(34,197,94,.16);
-      border-color: rgba(34,197,94,.32);
-    }
-    .btn-success:hover{background: rgba(34,197,94,.22)}
-    .btn-ghost{
-      background: rgba(255,255,255,.02);
-    }
-    .btn-warn{
-      background: rgba(245,158,11,.16);
-      border-color: rgba(245,158,11,.35);
-    }
-    .btn-danger{
-      background: rgba(239,68,68,.14);
-      border-color: rgba(239,68,68,.35);
-    }
-    .actions{
-      grid-column: span 12;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-      justify-content:flex-start;
-      padding-top:2px;
+    .btn:hover{background: rgba(78,161,255,.22)}
+
+    .status{
+      font-family:var(--mono);
+      font-size:12px;
+      color:#cfe6ff;
     }
 
+    /* Today list */
+    .today-wrap{
+      padding:14px;
+      display:grid;
+      gap:10px;
+    }
+    .today-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(34,197,94,.06);
+    }
+    .today-left{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .name{
+      font-size:16px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .when{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .badge-strong{
+      border-color: rgba(78,161,255,.35);
+      background: rgba(78,161,255,.14);
+      color:#d8ebff;
+    }
+    .badge-warn{
+      border-color: rgba(245,158,11,.35);
+      background: rgba(245,158,11,.12);
+      color:#ffe7c0;
+    }
+
+    /* Table */
     .table-wrap{overflow:auto}
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:700px;
+      min-width:740px;
     }
     thead th{
       text-align:left;
@@ -188,39 +233,27 @@
       padding:12px 14px;
       border-bottom:1px solid rgba(255,255,255,.06);
       font-size:13px;
+      vertical-align:middle;
     }
-    tbody tr:hover{
-      background: rgba(255,255,255,.03);
+    tbody tr:hover{ background: rgba(255,255,255,.03); }
+
+    .person-cell{
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.2px;
     }
-    .code{
-      font-family:var(--mono);
-      font-size:12px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      display:inline-block;
-    }
+
     .muted{color:var(--muted)}
-    .right{margin-left:auto}
-    .split{
-      display:grid;
-      grid-template-columns: 1fr;
-    }
     .notice{
       padding:10px 14px;
       border-top:1px solid var(--line);
       color:var(--muted);
       font-size:12px;
     }
-    .status{
-      font-family:var(--mono);
-      font-size:12px;
-      color:#cfe6ff;
-    }
 
     @media (max-width: 860px){
       .field{grid-column: span 6}
+      table{min-width: 640px}
     }
     @media (max-width: 520px){
       .field{grid-column: span 12}
@@ -231,10 +264,10 @@
 
 <body>
   <header>
-    <div class="title">
+    <div class="top">
       <div>
         <h1>Permanenties ICT Labo</h1>
-        <div class="sub">Filter op datum & persoon — data komt uit <span class="code">permanentie.json</span></div>
+        <div class="sub">Snelle lookup — wie zit waar?</div>
       </div>
       <div class="pill" id="pillStatus">⏳ Laden…</div>
     </div>
@@ -243,8 +276,18 @@
   <main>
     <section class="card">
       <div class="card-header">
-        <h2>Filters</h2>
+        <h2>Vandaag</h2>
         <div class="status" id="metaInfo"></div>
+      </div>
+      <div class="today-wrap" id="todayList">
+        <div class="muted">Laden…</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>Zoeken</h2>
+        <div class="status" id="countInfo">—</div>
       </div>
 
       <div class="grid">
@@ -261,20 +304,13 @@
         </div>
 
         <div class="field">
-          <label>Code bevat</label>
-          <input type="text" id="codeFilter" placeholder="bv. mi, sa, kv, jp…" />
+          <label>Vrij zoeken</label>
+          <input type="text" id="globalSearch" placeholder="bv. debby, mi, hotline, wacht…" />
         </div>
 
-        <div class="field">
-          <label>Zoek (persoon/code/datum)</label>
-          <input type="text" id="globalSearch" placeholder="vrije zoekterm…" />
-        </div>
-
-        <div class="actions">
-          <button class="btn-primary" id="btnToday">📅 Vandaag</button>
-          <button class="btn-ghost" id="btnClear">🧹 Reset</button>
-          <button class="btn-success" id="btnReload">🔄 Herladen</button>
-          <button class="btn-warn right" id="btnToggleEditor">🛠️ Data aanpassen</button>
+        <div class="field" style="grid-column: span 12; display:flex; flex-direction:row; gap:10px; align-items:center;">
+          <button class="btn" id="btnToday">📅 Vandaag</button>
+          <div class="muted" style="font-size:12px;">Tip: klik op vandaag om snel terug te keren.</div>
         </div>
       </div>
 
@@ -284,7 +320,7 @@
             <tr>
               <th style="width:170px">Datum</th>
               <th style="width:260px">Persoon</th>
-              <th>Code</th>
+              <th>Waar</th>
             </tr>
           </thead>
           <tbody id="tbody">
@@ -293,36 +329,8 @@
         </table>
       </div>
 
-      <div class="notice" id="countInfo">—</div>
-    </section>
-
-    <section class="card" id="editorCard" style="display:none">
-      <div class="card-header">
-        <h2>Data aanpassen (lokaal)</h2>
-        <div class="pill" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.28);color:#ffe6bf">
-          ⚠️ Dit wijzigt je GitHub niet automatisch
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="field" style="grid-column: span 12;">
-          <label>Plak hier de “echte” payload JSON (met <span class="code">records</span>) of je huidige wrapper JSON (met <span class="code">result</span>)</label>
-          <textarea id="jsonEditor" spellcheck="false"></textarea>
-        </div>
-
-        <div class="actions">
-          <button class="btn-success" id="btnApplyJson">✅ Toepassen</button>
-          <button class="btn-primary" id="btnFillFromLoaded">📥 Vul met huidige data</button>
-          <button class="btn-ghost" id="btnDownload">⬇️ Download JSON</button>
-          <button class="btn-danger right" id="btnCloseEditor">✖ Sluiten</button>
-        </div>
-
-        <div class="field" style="grid-column: span 12;">
-          <div class="muted" id="editorHint">
-            Tip: je kan de wrapper wegdoen en gewoon opslaan als:
-            <span class="code">{ "generatedAt": "...", "sheet": "...", "year": 2026, "records": [ ... ] }</span>
-          </div>
-        </div>
+      <div class="notice">
+        Codes: <span class="badge badge-warn">WACHT</span> (w/w1/w2) • <span class="badge badge-warn">HOTLINE</span> (H)
       </div>
     </section>
   </main>
@@ -336,9 +344,9 @@
   // ------------------------------
   // State
   // ------------------------------
-  let rawLoaded = null;       // wat fetch returnt
-  let payload = null;         // echte object met records
-  let records = [];           // payload.records
+  let rawLoaded = null;
+  let payload = null;
+  let records = [];
   let allPeople = [];
 
   // ------------------------------
@@ -346,7 +354,6 @@
   // ------------------------------
   function isoTodayLocal(){
     const d = new Date();
-    // lokale datum naar YYYY-MM-DD (zonder timezone-shift issues)
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth()+1).padStart(2,'0');
     const dd = String(d.getDate()).padStart(2,'0');
@@ -365,19 +372,18 @@
       pill.style.borderColor = "rgba(239,68,68,.35)";
       pill.style.color = "#ffd3d3";
     } else {
-      pill.style.background = "rgba(78,161,255,.12)";
-      pill.style.borderColor = "rgba(78,161,255,.25)";
-      pill.style.color = "#cfe6ff";
+      pill.style.background = "rgba(255,255,255,.03)";
+      pill.style.borderColor = "rgba(255,255,255,.10)";
+      pill.style.color = "#dbe6ff";
     }
   }
 
   function normalizePayload(data){
-    // 1) wrapper met result als string JSON
+    // wrapper met result als string JSON
     if(data && typeof data === "object" && data.result && typeof data.result === "string"){
       try { return JSON.parse(data.result); }
       catch { throw new Error("Kon data.result niet parsen als JSON"); }
     }
-    // 2) payload is al direct de juiste JSON
     return data;
   }
 
@@ -389,66 +395,61 @@
     return Array.from(new Set(arr)).sort((a,b)=> a.localeCompare(b, "nl", {sensitivity:"base"}));
   }
 
-  // ------------------------------
-  // Rendering
-  // ------------------------------
+  // ---- Code mapping
+  function mapSingleCode(code){
+    const c = safeText(code).trim();
+    const low = c.toLowerCase();
+
+    // WACHT: w / w1 / w2 (case-insensitive)
+    if(low === "w" || low === "w1" || low === "w2") return "WACHT";
+
+    // HOTLINE: ALLEEN exact "H" (case-sensitive)
+    if(c === "H") return "HOTLINE";
+
+    // default: duidelijk tonen
+    return c.toUpperCase();
+  }
+
+  function splitAndMapCodes(codeField){
+    // bv "mi/sa" => ["MI","SA"]
+    const raw = safeText(codeField).trim();
+    if(!raw) return [];
+    return raw.split("/").map(s => s.trim()).filter(Boolean).map(mapSingleCode);
+  }
+
+  // ---- Anomaly detection (zodat je fouten ziet)
+  function findCodeAnomalies(){
+    const issues = [];
+
+    for(const r of records){
+      const raw = safeText(r.code).trim();
+      if(!raw) continue;
+
+      const parts = raw.split("/").map(s => s.trim()).filter(Boolean);
+
+      for(const p of parts){
+        // lowercase 'h' is verdacht
+        if(p === "h"){
+          issues.push({ type:"lowercase-h", date:r.date, person:r.person, code:r.code, part:p });
+        }
+        // 'H' in een groter token is verdacht (bv "xH")
+        if(p.includes("H") && p !== "H"){
+          issues.push({ type:"H-in-token", date:r.date, person:r.person, code:r.code, part:p });
+        }
+      }
+    }
+
+    return issues;
+  }
+
   function fillPeople(){
     const sel = document.getElementById("personSelect");
     const current = sel.value;
-    sel.innerHTML = `<option value="">(Alles)</option>` + allPeople.map(p => {
+    sel.innerHTML = `<option value="">(Alles) — ${allPeople.length}</option>` + allPeople.map(p => {
       const esc = p.replace(/"/g, "&quot;");
       return `<option value="${esc}">${p}</option>`;
     }).join("");
-    // restore selection if possible
     if(allPeople.includes(current)) sel.value = current;
-  }
-
-  function render(){
-    const tbody = document.getElementById("tbody");
-    if(!payload || !Array.isArray(records)){
-      tbody.innerHTML = `<tr><td colspan="3" class="muted">Geen geldige records gevonden.</td></tr>`;
-      document.getElementById("countInfo").textContent = "—";
-      return;
-    }
-
-    const dateVal = document.getElementById("datePicker").value;
-    const personVal = document.getElementById("personSelect").value.trim();
-    const codeVal = document.getElementById("codeFilter").value.trim().toLowerCase();
-    const global = document.getElementById("globalSearch").value.trim().toLowerCase();
-
-    let filtered = records.slice();
-
-    if(dateVal){
-      filtered = filtered.filter(r => safeText(r.date) === dateVal);
-    }
-    if(personVal){
-      filtered = filtered.filter(r => safeText(r.person) === personVal);
-    }
-    if(codeVal){
-      filtered = filtered.filter(r => safeText(r.code).toLowerCase().includes(codeVal));
-    }
-    if(global){
-      filtered = filtered.filter(r => {
-        const hay = `${safeText(r.date)} ${safeText(r.person)} ${safeText(r.code)}`.toLowerCase();
-        return hay.includes(global);
-      });
-    }
-
-    if(filtered.length === 0){
-      tbody.innerHTML = `<tr><td colspan="3" class="muted">Geen resultaten voor deze filters.</td></tr>`;
-    } else {
-      tbody.innerHTML = filtered.map(r => `
-        <tr>
-          <td>${safeText(r.date)}</td>
-          <td>${safeText(r.person)}</td>
-          <td><span class="code">${safeText(r.code)}</span></td>
-        </tr>
-      `).join("");
-    }
-
-    const total = records.length;
-    document.getElementById("countInfo").textContent =
-      `Toont ${filtered.length} van ${total} records` + (dateVal ? ` • Datum: ${dateVal}` : "") + (personVal ? ` • Persoon: ${personVal}` : "");
   }
 
   function updateMeta(){
@@ -460,150 +461,151 @@
     const year = payload.year ? `year: ${payload.year}` : "";
     const parts = [gen, sheet, year].filter(Boolean);
 
-    meta.textContent = parts.join(" • ");
+    const issues = findCodeAnomalies();
+    if(issues.length){
+      const examples = issues.slice(0,5)
+        .map(x => `${x.date} • ${x.person} • "${x.code}" (token: "${x.part}")`)
+        .join(" | ");
+      meta.textContent = parts.join(" • ") + ` • ⚠️ ${issues.length} verdachte code(s): ${examples}`;
+    } else {
+      meta.textContent = parts.join(" • ");
+    }
   }
 
-  // ------------------------------
-  // Load
-  // ------------------------------
+  function renderToday(){
+    const today = isoTodayLocal();
+    const wrap = document.getElementById("todayList");
+
+    const todays = records
+      .filter(r => safeText(r.date) === today)
+      .sort((a,b)=> safeText(a.person).localeCompare(safeText(b.person), "nl", {sensitivity:"base"}));
+
+    if(todays.length === 0){
+      wrap.innerHTML = `<div class="muted">Geen items voor vandaag (${today}).</div>`;
+      return;
+    }
+
+    wrap.innerHTML = todays.map(r => {
+      const codes = splitAndMapCodes(r.code);
+      const badges = codes.map(c => {
+        const isSpecial = (c === "WACHT" || c === "HOTLINE");
+        return `<span class="badge ${isSpecial ? "badge-warn" : "badge-strong"}">${c}</span>`;
+      }).join("");
+
+      return `
+        <div class="today-item">
+          <div class="today-left">
+            <div class="name">${safeText(r.person)}</div>
+            <div class="when">${today}</div>
+          </div>
+          <div class="badges">${badges || `<span class="badge">—</span>`}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderTable(){
+    const tbody = document.getElementById("tbody");
+
+    const dateVal = document.getElementById("datePicker").value;
+    const personVal = document.getElementById("personSelect").value.trim();
+    const global = document.getElementById("globalSearch").value.trim().toLowerCase();
+
+    let filtered = records.slice();
+
+    if(dateVal) filtered = filtered.filter(r => safeText(r.date) === dateVal);
+    if(personVal) filtered = filtered.filter(r => safeText(r.person) === personVal);
+
+    if(global){
+      filtered = filtered.filter(r => {
+        const mappedCodes = splitAndMapCodes(r.code).join(" ");
+        const hay = `${safeText(r.date)} ${safeText(r.person)} ${safeText(r.code)} ${mappedCodes}`.toLowerCase();
+        return hay.includes(global);
+      });
+    }
+
+    // sort op datum (nieuwste eerst) + naam
+    filtered.sort((a,b) => {
+      const d = safeText(b.date).localeCompare(safeText(a.date));
+      if(d !== 0) return d;
+      return safeText(a.person).localeCompare(safeText(b.person), "nl", {sensitivity:"base"});
+    });
+
+    if(filtered.length === 0){
+      tbody.innerHTML = `<tr><td colspan="3" class="muted">Geen resultaten.</td></tr>`;
+    } else {
+      tbody.innerHTML = filtered.map(r => {
+        const codes = splitAndMapCodes(r.code);
+        const badges = codes.map(c => {
+          const isSpecial = (c === "WACHT" || c === "HOTLINE");
+          return `<span class="badge ${isSpecial ? "badge-warn" : "badge-strong"}">${c}</span>`;
+        }).join("");
+
+        return `
+          <tr>
+            <td>${safeText(r.date)}</td>
+            <td class="person-cell">${safeText(r.person)}</td>
+            <td>${badges || `<span class="badge">—</span>`}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("countInfo").textContent =
+      `${filtered.length} resultaat/resultaten` + (dateVal ? ` • ${dateVal}` : "") + (personVal ? ` • ${personVal}` : "");
+  }
+
+  function render(){
+    renderToday();
+    renderTable();
+  }
+
   async function loadData(){
     setPill("⏳ Laden…");
     try{
-      const res = await fetch(DATA_URL + "?_=" + Date.now(), { cache: "no-store" });
+      const res = await fetch(`${DATA_URL}?v=${Date.now()}`, { cache: "reload" });
       if(!res.ok) throw new Error(`HTTP ${res.status}`);
       rawLoaded = await res.json();
 
       payload = normalizePayload(rawLoaded);
-      if(!payload || !Array.isArray(payload.records)) {
-        throw new Error("Geen payload.records array gevonden");
-      }
+      if(!payload || !Array.isArray(payload.records)) throw new Error("Geen payload.records array gevonden");
 
       records = payload.records;
-
       allPeople = uniqueSorted(records.map(r => safeText(r.person)).filter(Boolean));
+
       fillPeople();
       updateMeta();
-
       setPill("✅ Data geladen", true);
       render();
     } catch(e){
       console.error(e);
       setPill("❌ Fout bij laden", false);
+      document.getElementById("todayList").innerHTML = `<div class="muted">Fout: ${safeText(e.message)}</div>`;
       document.getElementById("tbody").innerHTML = `<tr><td colspan="3" class="muted">Fout: ${safeText(e.message)}</td></tr>`;
       document.getElementById("countInfo").textContent = "—";
       document.getElementById("metaInfo").textContent = "";
     }
   }
 
-  // ------------------------------
-  // Editor / Local edits
-  // ------------------------------
-  function openEditor(){
-    document.getElementById("editorCard").style.display = "";
-  }
-  function closeEditor(){
-    document.getElementById("editorCard").style.display = "none";
-  }
-
-  function applyEditorJson(){
-    const txt = document.getElementById("jsonEditor").value.trim();
-    if(!txt){
-      alert("Plak eerst JSON in het tekstvak.");
-      return;
-    }
-    try{
-      const obj = JSON.parse(txt);
-      const p = normalizePayload(obj);
-
-      if(!p || !Array.isArray(p.records)){
-        alert("Deze JSON bevat geen 'records' array (of result bevat geen parseerbare JSON).");
-        return;
-      }
-
-      rawLoaded = obj;
-      payload = p;
-      records = p.records;
-      allPeople = uniqueSorted(records.map(r => safeText(r.person)).filter(Boolean));
-      fillPeople();
-      updateMeta();
-      setPill("✅ Lokale data toegepast", true);
-      render();
-      alert("OK — data is lokaal toegepast (niet naar GitHub).");
-    }catch(err){
-      alert("JSON parse error: " + err.message);
-    }
-  }
-
-  function fillEditorFromCurrent(){
-    // Tip: geef de ‘mooie’ payload (zonder wrapper) mee om te editen
-    if(payload){
-      document.getElementById("jsonEditor").value = JSON.stringify(payload, null, 2);
-    } else if(rawLoaded){
-      document.getElementById("jsonEditor").value = JSON.stringify(rawLoaded, null, 2);
-    } else {
-      document.getElementById("jsonEditor").value = "";
-    }
-  }
-
-  function downloadJson(){
-    if(!payload){
-      alert("Geen data om te downloaden.");
-      return;
-    }
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "permanentie.json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-
-  // ------------------------------
-  // Wire up UI
-  // ------------------------------
   function bindUI(){
     const datePicker = document.getElementById("datePicker");
     const personSelect = document.getElementById("personSelect");
-    const codeFilter = document.getElementById("codeFilter");
     const globalSearch = document.getElementById("globalSearch");
 
-    // default = vandaag
     datePicker.value = isoTodayLocal();
 
-    datePicker.addEventListener("change", render);
-    personSelect.addEventListener("change", render);
-    codeFilter.addEventListener("input", render);
-    globalSearch.addEventListener("input", render);
+    datePicker.addEventListener("change", renderTable);
+    personSelect.addEventListener("change", renderTable);
+    globalSearch.addEventListener("input", renderTable);
 
     document.getElementById("btnToday").addEventListener("click", () => {
       datePicker.value = isoTodayLocal();
-      render();
-    });
-
-    document.getElementById("btnClear").addEventListener("click", () => {
-      datePicker.value = "";
       personSelect.value = "";
-      codeFilter.value = "";
       globalSearch.value = "";
       render();
     });
-
-    document.getElementById("btnReload").addEventListener("click", loadData);
-
-    document.getElementById("btnToggleEditor").addEventListener("click", () => {
-      const card = document.getElementById("editorCard");
-      if(card.style.display === "none") openEditor();
-      else closeEditor();
-    });
-
-    document.getElementById("btnCloseEditor").addEventListener("click", closeEditor);
-    document.getElementById("btnApplyJson").addEventListener("click", applyEditorJson);
-    document.getElementById("btnFillFromLoaded").addEventListener("click", fillEditorFromCurrent);
-    document.getElementById("btnDownload").addEventListener("click", downloadJson);
   }
 
-  // init
   bindUI();
   loadData();
 </script>
