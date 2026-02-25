@@ -358,14 +358,24 @@
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  function normalizePayload(raw){
-    // wrapper met result als string JSON
-    if(raw && typeof raw === "object" && typeof raw.result === "string"){
-      try { return JSON.parse(raw.result); }
-      catch { throw new Error("Kon raw.result niet parsen als JSON"); }
+function normalizePayload(raw){
+  if(raw && typeof raw === "object" && typeof raw.result === "string"){
+    try {
+      let parsed = JSON.parse(raw.result);
+
+      // Als het nog altijd string is (dubbel encoded), nog eens parsen
+      if(typeof parsed === "string"){
+        parsed = JSON.parse(parsed);
+      }
+
+      return parsed;
+    } catch(e){
+      console.error("Parse error:", e);
+      throw new Error("Kon raw.result niet correct parsen");
     }
-    return raw;
   }
+  return raw;
+}
 
   function uniqueSorted(arr){
     return Array.from(new Set(arr)).sort((a,b)=> a.localeCompare(b, "nl", {sensitivity:"base"}));
