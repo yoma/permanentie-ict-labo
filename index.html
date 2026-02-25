@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Permanenties ICT Labo</title>
+<style>
+body { font-family: Arial; padding:20px; }
+table { border-collapse: collapse; width:100%; }
+th, td { border:1px solid #ddd; padding:8px; }
+th { background:#f2f2f2; }
+tr:nth-child(even){ background:#fafafa; }
+</style>
+</head>
+<body>
 
+<h2>Permanenties ICT Labo</h2>
+
+<table id="table">
+<thead>
+<tr>
+<th>Datum</th>
+<th>Persoon</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<script>
+fetch("permanentie_data.json")
+.then(res => res.json())
+.then(data => {
+    const tbody = document.querySelector("#table tbody");
+    data.records.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.date}</td>
+            <td>${item.person}</td>
+            <td>${item.code}</td>
+        `;
+        tbody.appendChild(row);
+    });
+});
+</script>
+
+</body>
+</html>
