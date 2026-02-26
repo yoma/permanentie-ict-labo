@@ -646,116 +646,91 @@
     @media (max-width: 750px) {
       body { flex-direction: column; overflow: auto; }
 
+      /* Sidebar: enkel logo + status, compact bovenaan */
       .sidebar {
-        width: 100%;
-        min-width: unset;
-        height: auto;
-        position: static;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 16px;
-        flex-wrap: nowrap;
+        width: 100%; min-width: unset; height: auto;
+        position: static; flex-direction: row;
+        align-items: center; justify-content: space-between;
+        padding: 10px 14px; flex-wrap: nowrap;
       }
       .sidebar-logo { border-bottom: none; padding: 0; }
       .sidebar-logo .org { display: none; }
-      .sidebar-logo h1 { font-size: 15px; }
+      .sidebar-logo h1 { font-size: 14px; }
       .sidebar-status { margin: 0; }
       .sidebar-nav, .sidebar-people { display: none; }
 
-      .main { height: auto; overflow: visible; padding-bottom: 70px; }
-      .content { padding: 12px; }
-
-      /* Topbar compact */
-      .topbar { padding: 10px 12px; gap: 8px; flex-wrap: nowrap; }
-      .search-wrap { min-width: 0; flex: 1; }
-      .tb-date { display: none; }
+      /* Topbar: toon enkel zoekbalk + datumkiezer, verberg andere knoppen */
+      .main { height: auto; overflow: visible; padding-bottom: 68px; }
+      .topbar { padding: 8px 12px; gap: 6px; flex-wrap: nowrap; }
+      .search-wrap { display: none; }
+      .tb-date input[type=date] { font-size: 13px; padding: 8px 10px; flex: 1; }
       .btn.primary { display: none; }
       .btn:not(.primary) { display: none; }
 
-      /* Week grid smaller */
-      .week-grid { grid-template-columns: 70px repeat(5, 1fr); font-size: 10px; }
-      .wg-header.day-col .day-num { font-size: 13px; }
-      .wg-cell { padding: 4px 3px; min-height: 36px; }
+      /* Datum kiezen: volledige breedte in topbar */
+      .tb-date { display: none; }
+      #mobDateRow { display: flex !important; }
 
-      /* Kalender compacter */
-      .cal-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+      /* Content padding */
+      .content { padding: 10px 10px 16px; }
 
-      /* Team grid compacter */
-      .team-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+      /* VANDAAG: compactere kaarten in 2 kolommen */
+      .team-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .team-card { padding: 10px 10px; }
+      .tc-avatar { width: 28px; height: 28px; font-size: 10px; border-radius: 7px; }
+      .tc-name { font-size: 12px; }
+      .tag { font-size: 10px; padding: 3px 7px; }
+      .today-title { font-size: 16px; }
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .stat-card { padding: 10px 12px; }
+      .stat-label { font-size: 10px; }
+      .stat-value { font-size: 20px; }
+      .legend-row { display: none; }
 
-      /* Stats row */
-      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .stat-value { font-size: 22px; }
+      /* WEEK: vervang door dagkaarten gestapeld */
+      .week-grid { display: none; }
+      #weekMobileWrap { display: block; }
 
-      /* Mobile bottom nav */
+      /* MAAND: 2 kolommen */
+      .cal-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .cal-day { padding: 6px 7px; min-height: 54px; }
+      .cal-day-num { font-size: 13px; }
+      .cal-entry-name { font-size: 10px; min-width: 36px; }
+
+      /* Bottom nav */
       .mobile-nav {
         display: flex;
-        position: fixed;
-        bottom: 0; left: 0; right: 0;
+        position: fixed; bottom: 0; left: 0; right: 0;
         background: var(--navy);
         border-top: 1px solid var(--line);
-        z-index: 100;
-        padding: 0;
+        z-index: 100; padding: 0;
       }
       .mob-nav-item {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 4px;
-        gap: 3px;
-        color: rgba(255,255,255,.45);
-        cursor: pointer;
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: .3px;
-        border-top: 2px solid transparent;
-        transition: all .15s;
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 8px 4px; gap: 3px;
+        color: rgba(255,255,255,.45); cursor: pointer;
+        font-size: 10px; font-weight: 600; letter-spacing: .3px;
+        border-top: 2px solid transparent; transition: all .15s;
       }
-      .mob-nav-item.active {
-        color: #fff;
-        border-top-color: var(--blue);
-        background: rgba(46,124,246,.12);
-      }
-      .mob-nav-item .mob-icon { font-size: 18px; line-height: 1; }
+      .mob-nav-item.active { color: #fff; border-top-color: var(--blue); background: rgba(46,124,246,.12); }
+      .mob-icon { font-size: 17px; line-height: 1; }
 
-      /* People picker op mobiel: horizontaal scrollbaar bovenaan content */
+      /* Persoon popup */
       .mob-people-strip {
-        display: flex;
-        gap: 6px;
-        overflow-x: auto;
-        padding: 0 0 10px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        display: flex; gap: 6px; overflow-x: auto;
+        padding: 0 0 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
       }
       .mob-people-strip::-webkit-scrollbar { display: none; }
       .mob-person-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 5px 10px 5px 6px;
-        border-radius: 999px;
-        border: 1.5px solid var(--lineL);
-        background: #fff;
-        font-size: 12px;
-        font-weight: 600;
-        white-space: nowrap;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: all .12s;
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 5px 10px 5px 6px; border-radius: 999px;
+        border: 1.5px solid var(--lineL); background: #fff;
+        font-size: 12px; font-weight: 600; white-space: nowrap;
+        cursor: pointer; flex-shrink: 0; transition: all .12s;
       }
-      .mob-person-btn.active {
-        background: var(--navy);
-        border-color: var(--navy);
-        color: #fff;
-      }
-      .mob-person-btn .avatar {
-        width: 20px; height: 20px;
-        border-radius: 6px;
-        font-size: 9px;
-      }
+      .mob-person-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+      .mob-person-btn .avatar { width: 20px; height: 20px; border-radius: 6px; font-size: 9px; }
     }
   </style>
 </head>
@@ -833,6 +808,11 @@
     </div>
     <button class="btn primary" id="btnToday">Vandaag</button>
     <button class="btn" id="btnReset">Reset</button>
+    <!-- Mobiele datumrij: verborgen op desktop, zichtbaar op mobiel via JS -->
+    <div id="mobDateRow" style="display:none; width:100%; align-items:center; gap:6px; flex-wrap:nowrap;">
+      <input type="date" id="datePickerMob" style="flex:1; padding:8px 10px; border:1.5px solid var(--mist); border-radius:10px; font-family:var(--sans); font-size:13px; color:var(--ink); background:var(--snow); outline:none;"/>
+      <button id="btnTodayMob" style="padding:8px 14px; border-radius:10px; border:none; background:var(--blue); color:#fff; font-family:var(--sans); font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;">Vandaag</button>
+    </div>
   </div>
 
   <!-- CONTENT -->
@@ -859,6 +839,7 @@
         <button class="btn" id="btnNextWeek">Volgende →</button>
       </div>
       <div id="weekGridWrap"></div>
+      <div id="weekMobileWrap" style="display:none;"></div>
     </div>
 
     <!-- LIST VIEW -->
@@ -1195,7 +1176,6 @@ function renderWeek() {
   const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
   const todayIso = isoToday();
 
-  // Week label
   const startDate = new Date(...days[0].split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
   const endDate   = new Date(...days[4].split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
   document.getElementById("weekLabel").textContent =
@@ -1210,31 +1190,73 @@ function renderWeek() {
     return { iso: d, name: DAYS_NL[dt.getDay()], num: dt.getDate(), isToday: d === todayIso };
   });
 
-  let html = `<div class="week-grid">`;
-  // Header row
-  html += `<div class="wg-header">Medewerker</div>`;
-  dayNames.forEach(d => {
-    html += `<div class="wg-header day-col${d.isToday?" today-col":""}">
-      <span class="day-name">${d.name}</span>
-      <span class="day-num">${d.num}</span>
-    </div>`;
-  });
+  const isMobile = window.innerWidth <= 750;
 
-  // Person rows
-  people.forEach(person => {
-    html += `<div class="wg-person">
-      <div class="avatar" style="background:${avatarColor(person)};width:22px;height:22px;font-size:9px;border-radius:6px;flex-shrink:0;">${personInitials(person)}</div>
-      ${person}
-    </div>`;
-    days.forEach((d, di) => {
-      const row = records.find(r => r.date === d && r.person === person);
-      const tags = row ? renderTags(row.code) : "";
-      html += `<div class="wg-cell${dayNames[di].isToday?" today-col":""}">${tags}</div>`;
+  if (isMobile) {
+    // Mobiele versie: gestapelde dagkaarten
+    document.getElementById("weekGridWrap").style.display = "none";
+    const mwrap = document.getElementById("weekMobileWrap");
+    mwrap.style.display = "block";
+
+    let html = "";
+    for (const day of dayNames) {
+      const isToday = day.iso === todayIso;
+      const dayRecords = people.map(person => {
+        const row = records.find(r => r.date === day.iso && r.person === person);
+        return row ? { person, code: row.code } : null;
+      }).filter(Boolean);
+
+      html += `<div style="margin-bottom:10px; background:#fff; border-radius:12px; border:1.5px solid ${isToday ? 'var(--blue)' : 'var(--lineL)'}; overflow:hidden;">
+        <div style="padding:10px 14px; background:${isToday ? 'var(--blue)' : 'var(--navy)'}; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:20px; font-weight:800; color:#fff; line-height:1;">${day.num}</span>
+          <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:rgba(255,255,255,.65);">${day.name}</span>
+          ${isToday ? '<span style="margin-left:auto;font-size:10px;font-weight:700;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:999px;">Vandaag</span>' : ''}
+        </div>`;
+
+      if (!dayRecords.length) {
+        html += `<div style="padding:10px 14px; color:#94a3b8; font-size:13px; font-style:italic;">Geen data</div>`;
+      } else {
+        html += `<div style="padding:6px 10px;">`;
+        for (const r of dayRecords) {
+          html += `<div style="display:flex; align-items:center; gap:8px; padding:6px 4px; border-bottom:1px solid rgba(13,27,42,.05);">
+            <span style="width:24px;height:24px;border-radius:7px;background:${avatarColor(r.person)};color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">${personInitials(r.person)}</span>
+            <span style="font-size:13px;font-weight:700;min-width:70px;">${r.person}</span>
+            <span style="display:flex;flex-wrap:wrap;gap:3px;">${renderTags(r.code)}</span>
+          </div>`;
+        }
+        html += `</div>`;
+      }
+      html += `</div>`;
+    }
+    mwrap.innerHTML = html;
+
+  } else {
+    // Desktop versie: raster
+    document.getElementById("weekMobileWrap").style.display = "none";
+    document.getElementById("weekGridWrap").style.display = "block";
+
+    let html = `<div class="week-grid">`;
+    html += `<div class="wg-header">Medewerker</div>`;
+    dayNames.forEach(d => {
+      html += `<div class="wg-header day-col${d.isToday?" today-col":""}">
+        <span class="day-name">${d.name}</span>
+        <span class="day-num">${d.num}</span>
+      </div>`;
     });
-  });
-  html += `</div>`;
-
-  document.getElementById("weekGridWrap").innerHTML = html;
+    people.forEach(person => {
+      html += `<div class="wg-person">
+        <div class="avatar" style="background:${avatarColor(person)};width:22px;height:22px;font-size:9px;border-radius:6px;flex-shrink:0;">${personInitials(person)}</div>
+        ${person}
+      </div>`;
+      days.forEach((d, di) => {
+        const row = records.find(r => r.date === d && r.person === person);
+        const tags = row ? renderTags(row.code) : "";
+        html += `<div class="wg-cell${dayNames[di].isToday?" today-col":""}">${tags}</div>`;
+      });
+    });
+    html += `</div>`;
+    document.getElementById("weekGridWrap").innerHTML = html;
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -1487,6 +1509,30 @@ document.addEventListener("click", (e) => {
 // START
 // ─────────────────────────────────────────────
 currentWeekStart = getMonday(isoToday());
+
+// Mobiele datumkiezer sync
+const datePickerMob = document.getElementById("datePickerMob");
+datePickerMob.value = isoToday();
+datePickerMob.addEventListener("change", () => {
+  datePicker.value = datePickerMob.value;
+  currentWeekStart = getMonday(datePickerMob.value || isoToday());
+  renderAll();
+});
+// Sync desktop -> mobiel ook
+datePicker.addEventListener("change", () => {
+  datePickerMob.value = datePicker.value;
+});
+
+document.getElementById("btnTodayMob").addEventListener("click", () => {
+  const realToday = isoToday();
+  datePicker.value = realToday;
+  datePickerMob.value = realToday;
+  currentWeekStart = getMonday(realToday);
+  document.getElementById("globalSearch").value = "";
+  switchView("today");
+  renderAll();
+});
+
 loadData();
 }); // end DOMContentLoaded
 </script>
