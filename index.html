@@ -284,20 +284,6 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* ── GROEPSHEADER IN TEAM GRID ───────────── */
-    .group-header {
-      grid-column: 1 / -1;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: var(--sub);
-      padding: 10px 4px 4px;
-      border-bottom: 1.5px solid var(--lineL);
-      margin-bottom: 2px;
-    }
-    .group-header:first-child { padding-top: 0; }
-
     /* ── TODAY CARD ───────────────────────────── */
     .today-header {
       display: flex;
@@ -324,16 +310,21 @@
     .team-card {
       background: #fff;
       border: 1.5px solid var(--lineL);
+      border-left: 4px solid var(--lineL);
       border-radius: var(--radius);
       padding: 18px 16px;
       transition: all .18s;
       animation: fadeUp .3s ease both;
     }
     .team-card:hover {
-      border-color: var(--blue);
       box-shadow: 0 8px 24px rgba(46,124,246,.1);
       transform: translateY(-2px);
     }
+    .team-card.grp-hotline { border-left-color: var(--red); background: rgba(232,64,64,.03); }
+    .team-card.grp-wacht   { border-left-color: var(--amber); background: rgba(240,165,0,.03); }
+    .team-card.grp-norm    { border-left-color: var(--blue); }
+    .team-card.grp-afwezig { border-left-color: #cbd5e1; background: #fafbfc; opacity: .85; }
+    .team-card.grp-geen    { border-left-color: #e2e8f0; opacity: .6; }
     @keyframes fadeUp {
       from { opacity:0; transform: translateY(10px); }
       to   { opacity:1; transform: translateY(0); }
@@ -1138,13 +1129,12 @@ function renderToday() {
 
   document.getElementById("todayTitle").innerHTML =
     `Permanenties — <span>${formatDateNL(dateStr)}</span>`;
-
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
 
   let people = filterPerson ? [filterPerson] : allPeople;
 
-  // Bouw kaarten per persoon
+  // Bouw kaarten met groepsinfo
   const cards = [];
   for (const person of people) {
     const row = records.find(r => r.date === dateStr && r.person === person);
@@ -1156,70 +1146,43 @@ function renderToday() {
     }
 
     const tokens = code ? splitTokens(code) : [];
-    // Bepaal groep op basis van eerste "locatie" token
-    let group = "zzz_geen"; // sorteert achteraan
+    let grpCls = "grp-geen";
+    let sortKey = "zzz_geen";
+
     for (const t of tokens) {
       const cls = (CODE_MAP[t]||{}).cls || CODE_CLASSES[t] || "norm";
-      if (cls === "afwezig") { group = "zzz_afwezig"; break; }
-      if (cls === "hotline") { group = "aaa_hotline"; break; }
-      if (cls === "wacht")   { group = "aab_wacht"; break; }
-      if (cls === "norm")    { group = "b_" + t; break; } // groepeer per locatiecode
+      if (cls === "hotline") { grpCls = "grp-hotline"; sortKey = "1_hotline"; break; }
+      if (cls === "wacht")   { grpCls = "grp-wacht";   sortKey = "2_wacht";   break; }
+      if (cls === "norm")    { grpCls = "grp-norm";     sortKey = "3_" + t;   break; }
+      if (cls === "afwezig") { grpCls = "grp-afwezig";  sortKey = "8_afwezig"; break; }
     }
-    if (!code) group = "zzz_geen";
+    if (!code) { grpCls = "grp-geen"; sortKey = "9_geen"; }
 
-    cards.push({ person, code, tokens, group });
+    cards.push({ person, code, grpCls, sortKey });
   }
 
-  // Sorteer: hotline > wacht > locaties (alfabetisch op code) > afwezig > geen data
-  cards.sort((a, b) => a.group.localeCompare(b.group) || a.person.localeCompare(b.person, "nl"));
+  cards.sort((a, b) => a.sortKey.localeCompare(b.sortKey) || a.person.localeCompare(b.person, "nl"));
 
-  // Render met groepshoofden
   const grid = document.getElementById("teamGrid");
   if (!cards.length) {
     grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten.</p></div>`;
     return;
   }
 
-  let lastGroup = null;
-  let html = "";
-  let cardIdx = 0;
-
-  for (const card of cards) {
-    // Groepslabel
-    const groupLabel = getGroupLabel(card.group, card.tokens);
-    if (card.group !== lastGroup) {
-      html += `<div class="group-header">${groupLabel}</div>`;
-      lastGroup = card.group;
-    }
-
-    const tags = card.code ? renderTags(card.code)
-      : `<span class="tag empty">Geen data</span>`;
-
-    html += `
-      <div class="team-card" style="animation-delay:${cardIdx*0.04}s">
+  grid.innerHTML = cards.map((card, i) => {
+    const tags = card.code ? renderTags(card.code) : `<span class="tag empty">Geen data</span>`;
+    return `
+      <div class="team-card ${card.grpCls}" style="animation-delay:${i*0.04}s">
         <div class="tc-top">
           <div class="tc-avatar" style="background:${avatarColor(card.person)}">${personInitials(card.person)}</div>
           <div class="tc-name">${card.person}</div>
         </div>
         <div class="tc-codes">${tags}</div>
-      </div>
-    `;
-    cardIdx++;
-  }
-
-  grid.innerHTML = html;
+      </div>`;
+  }).join("");
 }
 
-function getGroupLabel(group, tokens) {
-  if (group === "aaa_hotline") return "🔴 Hotline";
-  if (group === "aab_wacht")   return "🟡 Wachtdienst";
-  if (group === "zzz_afwezig") return "⚪ Afwezig";
-  if (group === "zzz_geen")    return "— Geen data";
-  // Locatiegroep: haal label uit CODE_MAP
-  const code = group.replace("b_", "");
-  const def = CODE_MAP[code];
-  return "📍 " + (def ? def.label : code.toUpperCase());
-}
+
 
 // ─────────────────────────────────────────────
 // WEEK VIEW
