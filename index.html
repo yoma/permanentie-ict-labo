@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:32
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:36
 -->
 <html lang="nl">
 <head>
@@ -489,15 +489,15 @@
       .cal-day { padding: 6px 8px; min-height: 54px; }
 
       #filterPanel {
-        position: fixed !important;
-        bottom: 60px !important;
+        position: static !important;
+        bottom: auto !important;
         top: auto !important;
-        left: 0; right: 0;
-        border-bottom: none !important;
-        border-top: 1.5px solid var(--line) !important;
-        box-shadow: 0 -4px 20px rgba(59,91,219,.1);
-        max-height: 50vh;
-        overflow-y: auto;
+        border: 1.5px solid var(--line) !important;
+        border-radius: 12px;
+        margin: 0 0 12px 0;
+        box-shadow: var(--shadow);
+        max-height: none;
+        padding: 10px 12px !important;
       }
 
       .mobile-nav {
@@ -544,7 +544,7 @@
   <div class="mob-nav-item active" data-mob-view="today"><span class="mob-icon">📅</span><span>Vandaag</span></div>
   <div class="mob-nav-item" data-mob-view="week"><span class="mob-icon">📆</span><span>Week</span></div>
   <div class="mob-nav-item" data-mob-view="list"><span class="mob-icon">🗓️</span><span>Maand</span></div>
-  <div class="mob-nav-item" id="mobFilterBtn"><span class="mob-icon">⚗️</span><span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span></div>
+  <div class="mob-nav-item" id="mobFilterBtn"><span class="mob-icon" style="font-size:16px;">⊟</span><span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span></div>
   <div class="mob-nav-item" id="mobPeopleBtn"><span class="mob-icon">👤</span><span>Persoon</span></div>
 </nav>
 
@@ -603,11 +603,12 @@
 
   <!-- ── FILTER PANEL ── -->
   <div id="filterPanel" style="display:none; background:rgba(255,255,255,.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1.5px solid var(--line); padding:12px 16px; position:sticky; top:57px; z-index:9;">
-    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-      <span style="font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub2);flex-shrink:0;">Code filter:</span>
-      <div id="filterBtns" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;"></div>
-      <span id="filterClearAll" style="display:none; cursor:pointer; font-size:11px; font-weight:600; color:var(--sub); padding:5px 10px; border:1.5px solid var(--line); border-radius:8px; background:#fff; white-space:nowrap;" onclick="if(typeof clearCodeFilter!=='undefined') clearCodeFilter()">✕ Wis filter</span>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+      <span style="font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub2);flex:1;">Code filter:</span>
+      <span id="filterClearAll" style="display:none; cursor:pointer; font-size:11px; font-weight:600; color:var(--sub); padding:4px 9px; border:1.5px solid var(--line); border-radius:8px; background:#fff; white-space:nowrap;" onclick="if(typeof clearCodeFilter!=='undefined') clearCodeFilter()">✕ Wis filter</span>
+      <span onclick="document.getElementById('filterPanel').style.display='none'" style="cursor:pointer;width:26px;height:26px;border-radius:8px;background:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-size:14px;color:var(--sub);flex-shrink:0;">✕</span>
     </div>
+    <div id="filterBtns" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
   </div>
 
   <div class="content">
