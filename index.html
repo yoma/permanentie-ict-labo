@@ -621,14 +621,124 @@
     .table-scroll::-webkit-scrollbar-thumb { background: rgba(13,27,42,.12); border-radius: 4px; }
 
     /* ── RESPONSIVE ───────────────────────────── */
-    @media (max-width: 700px) {
+    /* ── MOBILE BOTTOM NAV ───────────────────── */
+    .mobile-nav {
+      display: none;
+    }
+
+    @media (max-width: 750px) {
       body { flex-direction: column; overflow: auto; }
-      .sidebar { width: 100%; min-width: unset; height: auto; position: static; flex-direction: row; flex-wrap: wrap; padding-bottom: 10px; }
-      .sidebar-logo { border-bottom: none; padding: 16px 16px 8px; }
+
+      .sidebar {
+        width: 100%;
+        min-width: unset;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        flex-wrap: nowrap;
+      }
+      .sidebar-logo { border-bottom: none; padding: 0; }
+      .sidebar-logo .org { display: none; }
+      .sidebar-logo h1 { font-size: 15px; }
+      .sidebar-status { margin: 0; }
       .sidebar-nav, .sidebar-people { display: none; }
-      .main { height: auto; overflow: visible; }
-      .content { padding: 16px; }
-      .week-grid { grid-template-columns: 90px repeat(5, 1fr); font-size: 11px; }
+
+      .main { height: auto; overflow: visible; padding-bottom: 70px; }
+      .content { padding: 12px; }
+
+      /* Topbar compact */
+      .topbar { padding: 10px 12px; gap: 8px; flex-wrap: nowrap; }
+      .search-wrap { min-width: 0; flex: 1; }
+      .tb-date { display: none; }
+      .btn.primary { display: none; }
+      .btn:not(.primary) { display: none; }
+
+      /* Week grid smaller */
+      .week-grid { grid-template-columns: 70px repeat(5, 1fr); font-size: 10px; }
+      .wg-header.day-col .day-num { font-size: 13px; }
+      .wg-cell { padding: 4px 3px; min-height: 36px; }
+
+      /* Kalender compacter */
+      .cal-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+
+      /* Team grid compacter */
+      .team-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+
+      /* Stats row */
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stat-value { font-size: 22px; }
+
+      /* Mobile bottom nav */
+      .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: var(--navy);
+        border-top: 1px solid var(--line);
+        z-index: 100;
+        padding: 0;
+      }
+      .mob-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 4px;
+        gap: 3px;
+        color: rgba(255,255,255,.45);
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .3px;
+        border-top: 2px solid transparent;
+        transition: all .15s;
+      }
+      .mob-nav-item.active {
+        color: #fff;
+        border-top-color: var(--blue);
+        background: rgba(46,124,246,.12);
+      }
+      .mob-nav-item .mob-icon { font-size: 18px; line-height: 1; }
+
+      /* People picker op mobiel: horizontaal scrollbaar bovenaan content */
+      .mob-people-strip {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 0 0 10px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .mob-people-strip::-webkit-scrollbar { display: none; }
+      .mob-person-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px 5px 6px;
+        border-radius: 999px;
+        border: 1.5px solid var(--lineL);
+        background: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all .12s;
+      }
+      .mob-person-btn.active {
+        background: var(--navy);
+        border-color: var(--navy);
+        color: #fff;
+      }
+      .mob-person-btn .avatar {
+        width: 20px; height: 20px;
+        border-radius: 6px;
+        font-size: 9px;
+      }
     }
   </style>
 </head>
@@ -1191,6 +1301,10 @@ function switchView(viewName) {
   document.querySelector(`.nav-item[data-view="${viewName}"]`).classList.add("active");
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
   document.getElementById("view-" + viewName).classList.add("active");
+  // Sync mobile nav ook
+  document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
+    el.classList.toggle("active", el.dataset.mobView === viewName);
+  });
 }
 
 datePicker.addEventListener("change", () => {
@@ -1203,10 +1317,10 @@ datePicker.addEventListener("change", () => {
 document.getElementById("globalSearch").addEventListener("input", renderAll);
 
 document.getElementById("btnToday").addEventListener("click", () => {
-  datePicker.value = isoToday();
-  currentWeekStart = getMonday(isoToday());
+  const realToday = isoToday(); // altijd de echte datum, ongeacht wat in datepicker staat
+  datePicker.value = realToday;
+  currentWeekStart = getMonday(realToday);
   document.getElementById("globalSearch").value = "";
-  // Vandaag-knop navigeert altijd naar Vandaag-view
   switchView("today");
   renderAll();
 });
@@ -1235,10 +1349,98 @@ document.getElementById("btnNextWeek").addEventListener("click", () => {
 });
 
 // ─────────────────────────────────────────────
+// MOBILE NAV
+// ─────────────────────────────────────────────
+function syncMobileNav() {
+  document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
+    el.classList.toggle("active", el.dataset.mobView === activeView);
+  });
+}
+
+document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
+  el.addEventListener("click", () => {
+    switchView(el.dataset.mobView);
+    closeMobPeople();
+    syncMobileNav();
+    renderAll();
+  });
+});
+
+// Persoon popup op mobiel
+let mobPeopleOpen = false;
+function closeMobPeople() {
+  mobPeopleOpen = false;
+  document.getElementById("mobPeoplePopup").style.display = "none";
+}
+
+document.getElementById("mobPeopleBtn").addEventListener("click", () => {
+  mobPeopleOpen = !mobPeopleOpen;
+  document.getElementById("mobPeoplePopup").style.display = mobPeopleOpen ? "block" : "none";
+  if (mobPeopleOpen) buildMobPeopleStrip();
+});
+
+function buildMobPeopleStrip() {
+  const strip = document.getElementById("mobPeopleStrip");
+  const people = ["", ...allPeople];
+  strip.innerHTML = people.map(p => {
+    const label = p || "Iedereen";
+    const av = p ? `<span class="avatar" style="background:${avatarColor(p)};display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">${personInitials(p)}</span>` : `<span class="avatar" style="background:rgba(13,27,42,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">👥</span>`;
+    return `<div class="mob-person-btn ${filterPerson===p?'active':''}" data-person="${p}">${av}${label}</div>`;
+  }).join("");
+
+  strip.querySelectorAll(".mob-person-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterPerson = btn.dataset.person;
+      // Sync sidebar ook
+      document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
+      document.querySelector(`.person-chip[data-person="${filterPerson}"]`)?.classList.add("active");
+      buildMobPeopleStrip();
+      closeMobPeople();
+      renderAll();
+    });
+  });
+}
+
+// Sluit popup bij klik buiten
+document.addEventListener("click", (e) => {
+  if (mobPeopleOpen &&
+      !document.getElementById("mobPeoplePopup").contains(e.target) &&
+      !document.getElementById("mobPeopleBtn").contains(e.target)) {
+    closeMobPeople();
+  }
+});
+
+// ─────────────────────────────────────────────
 // START
 // ─────────────────────────────────────────────
 currentWeekStart = getMonday(isoToday());
 loadData();
 </script>
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav class="mobile-nav">
+  <div class="mob-nav-item active" data-mob-view="today">
+    <span class="mob-icon">📅</span>
+    <span>Vandaag</span>
+  </div>
+  <div class="mob-nav-item" data-mob-view="week">
+    <span class="mob-icon">📆</span>
+    <span>Week</span>
+  </div>
+  <div class="mob-nav-item" data-mob-view="list">
+    <span class="mob-icon">🗓️</span>
+    <span>Maand</span>
+  </div>
+  <div class="mob-nav-item" id="mobPeopleBtn">
+    <span class="mob-icon">👤</span>
+    <span>Persoon</span>
+  </div>
+</nav>
+
+<!-- ── MOBILE PEOPLE POPUP ── -->
+<div id="mobPeoplePopup" style="display:none; position:fixed; bottom:60px; left:0; right:0; background:#fff; border-top:1.5px solid var(--lineL); padding:14px 16px; z-index:99; box-shadow:0 -8px 24px rgba(13,27,42,.12);">
+  <div style="font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--sub); margin-bottom:10px;">Persoon kiezen</div>
+  <div class="mob-people-strip" id="mobPeopleStrip"></div>
+</div>
+
 </body>
 </html>
