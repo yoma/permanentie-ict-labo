@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:15
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:18
 -->
 <html lang="nl">
 <head>
@@ -798,10 +798,12 @@ function setStatus(text, kind) {
 }
 
 async function loadData() {
+  console.log("[Permanenties] loadData() gestart, URL:", DATA_URL);
   setStatus("Laden…","load");
   try {
     const res = await fetch(`${DATA_URL}?v=${Date.now()}`, {cache:"no-store"});
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    console.log("[Permanenties] fetch status:", res.status, res.ok);
+    if (!res.ok) throw new Error(`HTTP ${res.status} - Bestand niet gevonden: ${DATA_URL}`);
     let raw = await res.json();
 
     // Normaliseer alle mogelijke Power Automate wrapper-formaten
@@ -835,8 +837,8 @@ async function loadData() {
     buildMonthTabs();
     renderAll();
   } catch(e) {
-    console.error(e);
-    setStatus("Laadfouten (" + e.message + ")","err");
+    console.error("[Permanenties] FOUT:", e);
+    setStatus("⚠ " + e.message, "err");
     // Toon fout in actieve view
     const errHtml = `<div class="empty-state"><div class="icon">❌</div><p style="color:#e84040;">Fout bij laden: ${e.message}</p><p style="font-size:12px;color:var(--sub);margin-top:8px;">Controleer of permanentie.json bereikbaar is.</p></div>`;
     const teamGrid = document.getElementById("teamGrid");
