@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:25
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:32
 -->
 <html lang="nl">
 <head>
@@ -488,6 +488,18 @@
       .cal-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
       .cal-day { padding: 6px 8px; min-height: 54px; }
 
+      #filterPanel {
+        position: fixed !important;
+        bottom: 60px !important;
+        top: auto !important;
+        left: 0; right: 0;
+        border-bottom: none !important;
+        border-top: 1.5px solid var(--line) !important;
+        box-shadow: 0 -4px 20px rgba(59,91,219,.1);
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+
       .mobile-nav {
         display: flex; position: fixed; bottom: 0; left: 0; right: 0;
         background: rgba(255,255,255,.85);
@@ -532,6 +544,7 @@
   <div class="mob-nav-item active" data-mob-view="today"><span class="mob-icon">📅</span><span>Vandaag</span></div>
   <div class="mob-nav-item" data-mob-view="week"><span class="mob-icon">📆</span><span>Week</span></div>
   <div class="mob-nav-item" data-mob-view="list"><span class="mob-icon">🗓️</span><span>Maand</span></div>
+  <div class="mob-nav-item" id="mobFilterBtn"><span class="mob-icon">⚗️</span><span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span></div>
   <div class="mob-nav-item" id="mobPeopleBtn"><span class="mob-icon">👤</span><span>Persoon</span></div>
 </nav>
 
@@ -589,7 +602,7 @@
   </div>
 
   <!-- ── FILTER PANEL ── -->
-  <div id="filterPanel" style="display:none; background:rgba(255,255,255,.8); backdrop-filter:blur(12px); border-bottom:1.5px solid var(--line); padding:12px 24px; position:sticky; top:57px; z-index:9;">
+  <div id="filterPanel" style="display:none; background:rgba(255,255,255,.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1.5px solid var(--line); padding:12px 16px; position:sticky; top:57px; z-index:9;">
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <span style="font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub2);flex-shrink:0;">Code filter:</span>
       <div id="filterBtns" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;"></div>
@@ -1265,10 +1278,14 @@ function clearCodeFilter() {
 }
 
 function updateFilterBadge() {
-  const badge = document.getElementById("filterBadge");
-  const btn   = document.getElementById("btnFilter");
-  if (badge) { badge.style.display = filterCode ? "inline-block" : "none"; badge.textContent = filterCode ? "1" : ""; }
-  if (btn)   btn.classList.toggle("active", !!filterCode);
+  const badge    = document.getElementById("filterBadge");
+  const btn      = document.getElementById("btnFilter");
+  const mobDot   = document.getElementById("mobFilterDot");
+  const mobBtn   = document.getElementById("mobFilterBtn");
+  if (badge)  { badge.style.display = filterCode ? "inline-block" : "none"; badge.textContent = filterCode ? "1" : ""; }
+  if (btn)    btn.classList.toggle("active", !!filterCode);
+  if (mobDot) mobDot.style.display = filterCode ? "inline" : "none";
+  if (mobBtn) mobBtn.style.color = filterCode ? "var(--blue)" : "";
 }
 
 // ─────────────────────────────────────────────
@@ -1371,10 +1388,26 @@ function closeMobPeople() {
   document.getElementById("mobPeoplePopup").style.display = "none";
 }
 
+function closeMobFilter() {
+  const panel = document.getElementById("filterPanel");
+  if (panel) panel.style.display = "none";
+}
+
+// Mobiele filter knop
+document.getElementById("mobFilterBtn").addEventListener("click", () => {
+  const panel = document.getElementById("filterPanel");
+  if (!panel) return;
+  const isOpen = panel.style.display !== "none";
+  panel.style.display = isOpen ? "none" : "block";
+  if (!isOpen) buildFilterPanel();
+  // Sluit people popup
+  closeMobPeople();
+});
+
 document.getElementById("mobPeopleBtn").addEventListener("click", () => {
   mobPeopleOpen = !mobPeopleOpen;
   document.getElementById("mobPeoplePopup").style.display = mobPeopleOpen ? "block" : "none";
-  if (mobPeopleOpen) buildMobPeopleStrip();
+  if (mobPeopleOpen) { buildMobPeopleStrip(); closeMobFilter(); }
 });
 
 function buildMobPeopleStrip() {
