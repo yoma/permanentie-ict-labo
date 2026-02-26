@@ -1,638 +1,1140 @@
 <!doctype html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Permanenties ICT Labo</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ICT Labo — Permanenties</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
-    :root{
-      --bg:#f6f7fb;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:rgba(15, 23, 42, .10);
-      --shadow: 0 10px 30px rgba(15, 23, 42, .08);
-      --radius: 16px;
-
-      --accent:#2563eb;   /* blauw */
-      --soft:#eef2ff;
-
-      --ok:#16a34a;
-      --warn:#f59e0b;
-      --danger:#ef4444;
-
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    :root {
+      --navy:   #0d1b2a;
+      --navy2:  #142436;
+      --navy3:  #1c3248;
+      --blue:   #2e7cf6;
+      --blue2:  #5b9bf8;
+      --teal:   #0fb8a9;
+      --amber:  #f0a500;
+      --red:    #e84040;
+      --green:  #22c55e;
+      --snow:   #f2f6fc;
+      --mist:   #e2eaf5;
+      --ink:    #0d1b2a;
+      --sub:    #546e8a;
+      --line:   rgba(255,255,255,.08);
+      --lineL:  rgba(13,27,42,.09);
+      --radius: 14px;
+      --sans:   'DM Sans', sans-serif;
+      --mono:   'DM Mono', monospace;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      background: linear-gradient(180deg, #ffffff, var(--bg));
-      color:var(--text);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--snow);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      overflow: hidden;
     }
 
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:18px 14px 26px;
+    /* ── SIDEBAR ──────────────────────────────── */
+    .sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
     }
 
-    header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
+    .sidebar-logo {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .sidebar-logo .org {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--blue2);
+      margin-bottom: 4px;
+    }
+    .sidebar-logo h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.3px;
+      line-height: 1.25;
+    }
+    .sidebar-logo h1 span {
+      color: var(--teal);
     }
 
-    h1{
-      margin:0;
-      font-size:22px;
-      letter-spacing:.2px;
+    .sidebar-status {
+      margin: 16px 20px 0;
     }
-    .sub{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:13px;
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.6);
+      border: 1px solid var(--line);
     }
+    .status-pill.ok   { background: rgba(34,197,94,.15); color: #6ee7b7; border-color: rgba(34,197,94,.2); }
+    .status-pill.err  { background: rgba(232,64,64,.15); color: #fca5a5; border-color: rgba(232,64,64,.2); }
+    .status-pill.load { background: rgba(46,124,246,.12); color: #93c5fd; border-color: rgba(46,124,246,.2); }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: #fff;
-      box-shadow: 0 6px 16px rgba(15,23,42,.06);
-      font-size:12px;
-      white-space:nowrap;
-    }
-    .pill.ok{ border-color: rgba(22,163,74,.25); background: rgba(22,163,74,.08); color: #0f3d1f; }
-    .pill.warn{ border-color: rgba(245,158,11,.28); background: rgba(245,158,11,.10); color: #4a2b00; }
-    .pill.err{ border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.10); color: #4a0b0b; }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .section{
-      padding:14px;
-      border-bottom:1px solid var(--line);
-    }
-    .section:last-child{border-bottom:none}
-
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:end;
-    }
-
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-width:220px;
+    .sidebar-nav {
+      padding: 20px 0;
       flex: 1;
     }
-    label{
-      font-size:12px;
-      color:var(--muted);
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      padding: 0 20px 8px;
+      margin-top: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,.55);
+      cursor: pointer;
+      border-radius: 0;
+      transition: all .15s;
+      border-left: 3px solid transparent;
+      user-select: none;
+    }
+    .nav-item:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .nav-item.active { color: #fff; background: rgba(46,124,246,.18); border-left-color: var(--blue); }
+    .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+    .sidebar-people {
+      padding: 0 12px 20px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+    .people-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      padding: 0 8px 10px;
+    }
+    .person-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: rgba(255,255,255,.6);
+      cursor: pointer;
+      transition: all .12s;
+    }
+    .person-chip:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .person-chip.active { background: rgba(46,124,246,.2); color: #fff; }
+    .person-chip.active .avatar { background: var(--blue); }
+    .avatar {
+      width: 26px; height: 26px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
 
-    input, select, button{
-      font-family:inherit;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--text);
-      padding:10px 10px;
-      outline:none;
-    }
-    input::placeholder{color: rgba(100,116,139,.85)}
-
-    button{
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      white-space:nowrap;
-      background: var(--soft);
-      border-color: rgba(37,99,235,.22);
-      color: #1e3a8a;
-      padding:10px 12px;
-      transition: transform .05s ease, filter .15s ease;
-      flex: 0 0 auto;
-    }
-    button:active{transform:translateY(1px)}
-    button:hover{filter:brightness(.98)}
-
-    .meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .meta-left{
-      color:var(--muted);
-      font-size:12px;
-    }
-    .meta-right{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
+    /* ── MAIN ─────────────────────────────────── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    .legend{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:8px;
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--lineL);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:7px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:12px;
-      font-weight:800;
-      line-height:1;
+    .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
     }
-    .badge strong{
-      font-family:var(--mono);
-      font-size:12px;
-      font-weight:900;
+    .search-icon {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--sub);
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1.5px solid var(--mist);
+      border-radius: 10px;
+      font-family: var(--sans);
+      font-size: 13.5px;
+      color: var(--ink);
+      background: var(--snow);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .search-wrap input:focus { border-color: var(--blue); background: #fff; }
+    .search-wrap input::placeholder { color: #a0aec0; }
+
+    .tb-date {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tb-date input[type=date] {
+      padding: 9px 12px;
+      border: 1.5px solid var(--mist);
+      border-radius: 10px;
+      font-family: var(--sans);
+      font-size: 13.5px;
+      color: var(--ink);
+      background: var(--snow);
+      outline: none;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .tb-date input[type=date]:focus { border-color: var(--blue); background: #fff; }
+
+    .btn {
+      padding: 9px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--mist);
+      background: #fff;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all .12s;
+      white-space: nowrap;
+    }
+    .btn:hover { border-color: var(--blue); color: var(--blue); background: rgba(46,124,246,.05); }
+    .btn.primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+    .btn.primary:hover { background: #1c6ae4; }
+
+    /* ── CONTENT ──────────────────────────────── */
+    .content {
+      padding: 24px 28px 40px;
+      flex: 1;
     }
 
-    .badge.special{
-      border-color: rgba(245,158,11,.28);
-      background: rgba(245,158,11,.10);
-      color:#4a2b00;
+    /* view panels */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── TODAY CARD ───────────────────────────── */
+    .today-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .badge.norm{
-      border-color: rgba(37,99,235,.18);
-      background: rgba(37,99,235,.07);
-      color:#1e3a8a;
+    .today-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.4px;
+    }
+    .today-title span { color: var(--blue); }
+    .today-sub { font-size: 13px; color: var(--sub); margin-top: 2px; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
     }
 
-    /* Extra “vakjes” voor WACHT / HOTLINE */
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:7px 10px;
-      border-radius:10px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-weight:900;
-      font-size:12px;
-      letter-spacing:.2px;
+    .team-card {
+      background: #fff;
+      border: 1.5px solid var(--lineL);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      transition: all .18s;
+      animation: fadeUp .3s ease both;
     }
-    .tag.wait{
-      border-color: rgba(245,158,11,.35);
-      background: rgba(245,158,11,.12);
-      color:#4a2b00;
+    .team-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 24px rgba(46,124,246,.1);
+      transform: translateY(-2px);
     }
-    .tag.hotline{
-      border-color: rgba(239,68,68,.30);
-      background: rgba(239,68,68,.10);
-      color:#4a0b0b;
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
     }
 
-    table{
-      width:100%;
-      border-collapse:collapse;
+    .tc-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
     }
-    thead th{
-      text-align:left;
-      font-size:12px;
-      color:var(--muted);
-      padding:12px 14px;
-      border-bottom:1px solid var(--line);
-      background: #fbfcff;
-      position:sticky;
-      top:0;
-      z-index:1;
+    .tc-avatar {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: var(--navy);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
-    tbody td{
-      padding:12px 14px;
-      border-bottom:1px solid rgba(15,23,42,.06);
-      font-size:13px;
-      vertical-align:middle;
-    }
-    tbody tr:hover{
-      background: rgba(37,99,235,.04);
+    .tc-name { font-size: 14px; font-weight: 700; }
+    .tc-codes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
     }
 
-    .person{
-      font-weight:900;
-      font-size:14px;
+    /* ── TAGS ─────────────────────────────────── */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: var(--mono);
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    .tag.norm   { background: #edf3ff; color: #1a4ecc; border: 1px solid rgba(46,124,246,.2); }
+    .tag.hotline{ background: rgba(232,64,64,.1); color: #b91c1c; border: 1px solid rgba(232,64,64,.22); }
+    .tag.wacht  { background: rgba(240,165,0,.12); color: #92400e; border: 1px solid rgba(240,165,0,.28); }
+    .tag.afwezig{ background: rgba(100,116,139,.1); color: #475569; border: 1px solid rgba(100,116,139,.18); }
+    .tag.empty  { color: #94a3b8; font-family: var(--sans); font-weight: 400; font-size: 12px; font-style: italic; }
+
+    /* ── TABLE VIEW ───────────────────────────── */
+    .table-wrap {
+      background: #fff;
+      border: 1.5px solid var(--lineL);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; max-height: 72vh; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--sub);
+      padding: 12px 16px;
+      border-bottom: 1.5px solid var(--lineL);
+      background: var(--snow);
+      position: sticky; top: 0; z-index: 2;
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(13,27,42,.05);
+      font-size: 13.5px;
+      vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr { transition: background .1s; }
+    tbody tr:hover { background: rgba(46,124,246,.03); }
+
+    .td-date { font-family: var(--mono); font-size: 12.5px; color: var(--sub); white-space: nowrap; }
+    .td-person { font-weight: 700; font-size: 14px; }
+    .td-codes { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .tfoot-bar {
+      padding: 10px 16px;
+      border-top: 1.5px solid var(--lineL);
+      font-size: 12px;
+      color: var(--sub);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--snow);
     }
 
-    .where{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
+    /* ── WEEK VIEW ────────────────────────────── */
+    .week-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .week-label {
+      font-size: 16px;
+      font-weight: 700;
+      flex: 1;
+      text-align: center;
     }
 
-    .muted{color:var(--muted)}
-    .small{font-size:12px}
+    .week-grid {
+      display: grid;
+      grid-template-columns: 140px repeat(5, 1fr);
+      gap: 2px;
+      background: var(--lineL);
+      border: 1.5px solid var(--lineL);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .wg-header {
+      background: var(--navy);
+      color: rgba(255,255,255,.8);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .wg-header.day-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+    .wg-header.day-col .day-name { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; color: rgba(255,255,255,.5); }
+    .wg-header.day-col .day-num  { font-size: 16px; font-weight: 700; color: #fff; }
+    .wg-header.day-col.today-col { background: var(--blue); }
+    .wg-header.day-col.today-col .day-name { color: rgba(255,255,255,.75); }
 
-    .notice{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.35;
+    .wg-person {
+      background: var(--navy2);
+      color: rgba(255,255,255,.85);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wg-cell {
+      background: #fff;
+      padding: 8px 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      align-items: flex-start;
+      min-height: 46px;
+    }
+    .wg-cell.today-col { background: rgba(46,124,246,.04); }
+
+    /* ── EMPTY STATE ──────────────────────────── */
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--sub);
+    }
+    .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; }
+
+    /* ── MONTH SELECTOR ───────────────────────── */
+    .month-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .month-tab {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1.5px solid var(--lineL);
+      background: #fff;
+      cursor: pointer;
+      transition: all .12s;
+      color: var(--sub);
+    }
+    .month-tab:hover { border-color: var(--blue); color: var(--blue); }
+    .month-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    /* ── STATS ────────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1.5px solid var(--lineL);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      animation: fadeUp .3s ease both;
+    }
+    .stat-label { font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--sub); margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 700; letter-spacing: -1px; color: var(--ink); }
+    .stat-value.blue { color: var(--blue); }
+    .stat-value.amber { color: var(--amber); }
+    .stat-value.red   { color: var(--red); }
+    .stat-value.teal  { color: var(--teal); }
+
+    /* ── LEGEND ───────────────────────────────── */
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--snow);
+      border-radius: 10px;
+      border: 1.5px solid var(--lineL);
+      margin-bottom: 18px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--sub);
+    }
+
+    /* ── SCROLL ───────────────────────────────── */
+    .sidebar::-webkit-scrollbar,
+    .main::-webkit-scrollbar,
+    .table-scroll::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+    .main::-webkit-scrollbar-track,
+    .table-scroll::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb,
+    .table-scroll::-webkit-scrollbar-thumb { background: rgba(13,27,42,.12); border-radius: 4px; }
+
+    /* ── RESPONSIVE ───────────────────────────── */
+    @media (max-width: 700px) {
+      body { flex-direction: column; overflow: auto; }
+      .sidebar { width: 100%; min-width: unset; height: auto; position: static; flex-direction: row; flex-wrap: wrap; padding-bottom: 10px; }
+      .sidebar-logo { border-bottom: none; padding: 16px 16px 8px; }
+      .sidebar-nav, .sidebar-people { display: none; }
+      .main { height: auto; overflow: visible; }
+      .content { padding: 16px; }
+      .week-grid { grid-template-columns: 90px repeat(5, 1fr); font-size: 11px; }
     }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Permanenties ICT Labo</h1>
-        <div class="sub">Zoek snel op datum & persoon — en zie meteen <b>wie waar zit</b>.</div>
-      </div>
-      <div class="pill" id="pillStatus">⏳ Laden…</div>
-    </header>
 
-    <div class="card">
-      <div class="section">
-        <div class="row">
-          <div class="field">
-            <label>Datum</label>
-            <input type="date" id="datePicker" />
-          </div>
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="org">Klinisch Labo</div>
+    <h1>ICT <span>Permanenties</span></h1>
+  </div>
+  <div class="sidebar-status">
+    <div class="status-pill load" id="statusPill">
+      <div class="status-dot"></div>
+      <span id="statusText">Laden…</span>
+    </div>
+    <div style="font-size:11px; color:rgba(255,255,255,.3); margin-top:8px; padding:0 2px;" id="genAt"></div>
+  </div>
 
-          <div class="field">
-            <label>Persoon</label>
-            <select id="personSelect">
-              <option value="">(Alles)</option>
-            </select>
-          </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">Weergave</div>
+    <div class="nav-item active" data-view="today">
+      <span class="icon">📅</span> Vandaag
+    </div>
+    <div class="nav-item" data-view="week">
+      <span class="icon">📆</span> Week
+    </div>
+    <div class="nav-item" data-view="list">
+      <span class="icon">🗂️</span> Lijst
+    </div>
+  </nav>
 
-          <div class="field">
-            <label>Zoeken</label>
-            <input type="text" id="globalSearch" placeholder="bv. youri, mi, hotline, wacht…" />
-          </div>
+  <div class="sidebar-people">
+    <div class="people-label">Team</div>
+    <div id="peopleList"></div>
+  </div>
+</aside>
 
-          <button id="btnToday">📅 Vandaag</button>
-          <button id="btnReset">🧹 Reset</button>
+<!-- ── MAIN ── -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="globalSearch" placeholder="Zoek op naam, code, datum…"/>
+    </div>
+    <div class="tb-date">
+      <input type="date" id="datePicker"/>
+    </div>
+    <button class="btn primary" id="btnToday">Vandaag</button>
+    <button class="btn" id="btnReset">Reset</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- TODAY VIEW -->
+    <div class="view active" id="view-today">
+      <div class="today-header">
+        <div>
+          <div class="today-title" id="todayTitle">—</div>
+          <div class="today-sub" id="todaySub">Wie is er aanwezig vandaag?</div>
         </div>
-
-        <div class="meta" style="margin-top:10px;">
-          <div class="meta-left" id="metaInfo"></div>
-          <div class="meta-right">
-            <span class="pill" id="diagPill">🔎 Codes: —</span>
-          </div>
-        </div>
-
-        <div class="legend" id="legend"></div>
-        <div class="notice" id="diagText"></div>
       </div>
+      <div class="legend-row" id="legendRow"></div>
+      <div class="stats-row" id="statsRow"></div>
+      <div class="team-grid" id="teamGrid"></div>
+    </div>
 
-      <div class="section" style="padding:0;">
-        <div style="max-height:70vh; overflow:auto;">
+    <!-- WEEK VIEW -->
+    <div class="view" id="view-week">
+      <div class="week-nav">
+        <button class="btn" id="btnPrevWeek">← Vorige</button>
+        <div class="week-label" id="weekLabel">—</div>
+        <button class="btn" id="btnNextWeek">Volgende →</button>
+      </div>
+      <div id="weekGridWrap"></div>
+    </div>
+
+    <!-- LIST VIEW -->
+    <div class="view" id="view-list">
+      <div class="month-tabs" id="monthTabs"></div>
+      <div class="table-wrap">
+        <div class="table-scroll">
           <table>
             <thead>
               <tr>
-                <th style="width:160px">Datum</th>
-                <th style="width:260px">Naam</th>
-                <th>Waar</th>
+                <th style="width:130px">Datum</th>
+                <th style="width:60px">Dag</th>
+                <th style="width:200px">Naam</th>
+                <th>Code(s)</th>
               </tr>
             </thead>
-            <tbody id="tbody">
-              <tr><td colspan="3" class="muted" style="padding:14px;">Laden…</td></tr>
+            <tbody id="listTbody">
+              <tr><td colspan="4" style="padding:20px; color:#94a3b8;">Laden…</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="section" style="border-top:1px solid var(--line); border-bottom:none;">
-          <div class="muted small" id="countInfo">—</div>
+        <div class="tfoot-bar">
+          <span id="listCount">—</span>
+          <span id="listMeta" style="font-family:var(--mono); font-size:11px;"></span>
         </div>
       </div>
     </div>
+
   </div>
+</div>
 
 <script>
-  // ------------------------------
-  // Config
-  // ------------------------------
-  // Zet dit exact gelijk aan je JSON-bestandsnaam in GitHub
-  const DATA_URL = "permanentie.json";
+// ─────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────
+const DATA_URL = "permanentie.json";
 
-  // ------------------------------
-  // State
-  // ------------------------------
-  let payload = null;
-  let records = [];
-  let allPeople = [];
+// Code-definities
+const CODE_MAP = {
+  mi:    { label:"Middag",    cls:"norm" },
+  sa:    { label:"Stand-by", cls:"norm" },
+  th:    { label:"Thuis",    cls:"norm" },
+  sv:    { label:"Stafverg.", cls:"norm" },
+  ca:    { label:"Calamiteit",cls:"norm" },
+  jp:    { label:"Jaarplan",  cls:"norm" },
+  opl:   { label:"Opleiding", cls:"norm" },
+  adv:   { label:"ADV",       cls:"afwezig" },
+  v:     { label:"Verlof",    cls:"afwezig" },
+  vV:    { label:"Verlof(V)", cls:"afwezig" },
+  z:     { label:"Ziek",      cls:"afwezig" },
+  x:     { label:"Vrij",      cls:"afwezig" },
+  xg:    { label:"Vrij(G)",   cls:"afwezig" },
+  kv:    { label:"Kortv.",    cls:"afwezig" },
+  b:     { label:"Brug",      cls:"afwezig" },
+  vbst:  { label:"Vbst.",     cls:"afwezig" },
+  syvor: { label:"SyVor",     cls:"norm" },
+  H:     { label:"Hotline",   cls:"hotline" },
+  w:     { label:"Wacht",     cls:"wacht" },
+  w1:    { label:"Wacht W1",  cls:"wacht" },
+  w2:    { label:"Wacht W2",  cls:"wacht" },
+  w3:    { label:"Wacht W3",  cls:"wacht" },
+};
 
-  // ------------------------------
-  // Helpers
-  // ------------------------------
-  function safeText(v){ return (v === null || v === undefined) ? "" : String(v); }
+const DAYS_NL = ["zo","ma","di","wo","do","vr","za"];
+const DAYS_FULL = ["zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag"];
+const MONTHS_NL = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 
-  function isoTodayLocal(){
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const dd = String(d.getDate()).padStart(2,'0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let records    = [];
+let allPeople  = [];
+let payload    = null;
+let activeView = "today";
+let filterPerson = "";
+let currentWeekStart = null; // Monday of displayed week
 
-function normalizePayload(raw){
-  if(raw && typeof raw === "object" && typeof raw.result === "string"){
-    try {
-      let parsed = JSON.parse(raw.result);
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function isoToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function pad(n){ return n < 10 ? "0"+n : ""+n; }
 
-      // Als het nog altijd string is (dubbel encoded), nog eens parsen
-      if(typeof parsed === "string"){
-        parsed = JSON.parse(parsed);
-      }
-
-      return parsed;
-    } catch(e){
-      console.error("Parse error:", e);
-      throw new Error("Kon raw.result niet correct parsen");
-    }
-  }
-  return raw;
+function formatDateNL(iso) {
+  const [y,m,d] = iso.split("-").map(Number);
+  const dt = new Date(y, m-1, d);
+  return `${DAYS_NL[dt.getDay()]} ${d} ${MONTHS_NL[m-1]} ${y}`;
 }
 
-  function uniqueSorted(arr){
-    return Array.from(new Set(arr)).sort((a,b)=> a.localeCompare(b, "nl", {sensitivity:"base"}));
-  }
+function isoFromDate(d) {
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
 
-  function setPill(text, kind){
-    const el = document.getElementById("pillStatus");
-    el.className = "pill" + (kind ? (" " + kind) : "");
-    el.textContent = text;
-  }
+function addDays(isoOrDate, n) {
+  const d = typeof isoOrDate === "string"
+    ? new Date(...isoOrDate.split("-").map((v,i) => i===1?Number(v)-1:Number(v)))
+    : new Date(isoOrDate);
+  d.setDate(d.getDate() + n);
+  return d;
+}
 
-  // ------------------------------
-  // Mapping / vertaling
-  // ------------------------------
-  // HOTLINE: enkel exact "H" (case-sensitive)
-  // WACHT: w/w1/w2 (case-insensitive)
-  const CODE_RULES = [
-    { label: "HOTLINE", tokens: ["H"], kind: "special", match: (t) => t === "H" },
-    { label: "WACHT", tokens: ["w","w1","w2"], kind: "special", match: (t) => ["w","w1","w2"].includes(t.toLowerCase()) },
+function getMonday(dateStr) {
+  const [y,m,d] = dateStr.split("-").map(Number);
+  const dt = new Date(y, m-1, d);
+  const day = dt.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  dt.setDate(dt.getDate() + diff);
+  return isoFromDate(dt);
+}
+
+function splitTokens(code) {
+  return (code||"").split("/").map(s=>s.trim()).filter(Boolean);
+}
+
+function renderTags(code) {
+  return splitTokens(code).map(t => {
+    const def = CODE_MAP[t] || CODE_MAP[t.toLowerCase()];
+    if (def) return `<span class="tag ${def.cls}">${def.label}</span>`;
+    return `<span class="tag norm">${t.toUpperCase()}</span>`;
+  }).join("");
+}
+
+function getTagClass(token) {
+  const def = CODE_MAP[token] || CODE_MAP[token.toLowerCase()];
+  return def ? def.cls : "norm";
+}
+
+function personInitials(name) {
+  return name.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase();
+}
+
+function avatarColor(name) {
+  const colors = ["#1a4ecc","#0d7c70","#b45309","#9333ea","#0891b2","#be123c","#166534"];
+  let h = 0;
+  for(let i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) % colors.length;
+  return colors[h];
+}
+
+// ─────────────────────────────────────────────
+// LOAD DATA
+// ─────────────────────────────────────────────
+function setStatus(text, kind) {
+  const pill = document.getElementById("statusPill");
+  const span = document.getElementById("statusText");
+  pill.className = "status-pill " + (kind||"");
+  span.textContent = text;
+}
+
+async function loadData() {
+  setStatus("Laden…","load");
+  try {
+    const res = await fetch(`${DATA_URL}?v=${Date.now()}`, {cache:"no-store"});
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    let raw = await res.json();
+
+    // Normaliseer geneste JSON (Power Automate wrapping)
+    if (raw && typeof raw.result === "string") raw = JSON.parse(raw.result);
+    if (typeof raw === "string") raw = JSON.parse(raw);
+
+    payload = raw;
+    records = (payload.records || []).filter(r =>
+      r.person && r.person.toLowerCase() !== "legende"
+    );
+
+    allPeople = [...new Set(records.map(r=>r.person))].sort((a,b)=>a.localeCompare(b,"nl"));
+
+    if (payload.generatedAt) {
+      const d = new Date(payload.generatedAt);
+      document.getElementById("genAt").textContent =
+        `Bijgewerkt: ${d.toLocaleDateString("nl-BE")} ${d.toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"})}`;
+    }
+
+    setStatus("Gesynchroniseerd","ok");
+    buildPeopleList();
+    buildMonthTabs();
+    renderAll();
+  } catch(e) {
+    console.error(e);
+    setStatus("Laadfouten","err");
+    document.getElementById("listTbody").innerHTML =
+      `<tr><td colspan="4" style="padding:20px;color:#e84040;">Fout: ${e.message}</td></tr>`;
+  }
+}
+
+// ─────────────────────────────────────────────
+// SIDEBAR – PEOPLE
+// ─────────────────────────────────────────────
+function buildPeopleList() {
+  const wrap = document.getElementById("peopleList");
+  wrap.innerHTML = `
+    <div class="person-chip ${filterPerson===''?'active':''}" data-person="">
+      <div class="avatar" style="background:rgba(255,255,255,.15)">👥</div>
+      <span>Iedereen</span>
+    </div>
+  ` + allPeople.map(p => `
+    <div class="person-chip ${filterPerson===p?'active':''}" data-person="${p}">
+      <div class="avatar" style="background:${avatarColor(p)}">${personInitials(p)}</div>
+      <span>${p}</span>
+    </div>
+  `).join("");
+
+  wrap.querySelectorAll(".person-chip").forEach(el => {
+    el.addEventListener("click", () => {
+      filterPerson = el.dataset.person;
+      wrap.querySelectorAll(".person-chip").forEach(c=>c.classList.remove("active"));
+      el.classList.add("active");
+      renderAll();
+    });
+  });
+}
+
+// ─────────────────────────────────────────────
+// LEGEND ROW
+// ─────────────────────────────────────────────
+function buildLegend() {
+  const items = [
+    {cls:"hotline", label:"H = Hotline"},
+    {cls:"wacht",   label:"W/W1/W2 = Wachtdienst"},
+    {cls:"afwezig", label:"V/ADV/Z = Afwezig"},
+    {cls:"norm",    label:"Mi/Sa/Th = Aanwezig"},
   ];
+  return items.map(i =>
+    `<div class="legend-item"><span class="tag ${i.cls}" style="font-family:var(--sans);font-weight:600;">${i.label}</span></div>`
+  ).join("");
+}
 
-  function splitTokens(codeField){
-    const raw = safeText(codeField).trim();
-    if(!raw) return [];
-    return raw.split("/").map(s => s.trim()).filter(Boolean);
-  }
+// ─────────────────────────────────────────────
+// STATS
+// ─────────────────────────────────────────────
+function buildStats(dateStr) {
+  const day = records.filter(r => r.date === dateStr);
+  const total   = allPeople.length;
+  const aanwezig = day.filter(r => !splitTokens(r.code).every(t =>
+    ["afwezig"].includes(getTagClass(t))
+  )).length;
+  const hotline = day.filter(r => splitTokens(r.code).includes("H")).length;
+  const wacht   = day.filter(r => splitTokens(r.code).some(t=>["w","w1","w2","w3"].includes(t.toLowerCase()))).length;
+  const afwezig = day.filter(r => splitTokens(r.code).every(t => getTagClass(t)==="afwezig")).length;
 
-  function mapSingleToken(token){
-    const t = safeText(token).trim();
-    if(!t) return "";
+  return `
+    <div class="stat-card" style="animation-delay:.0s">
+      <div class="stat-label">Totaal team</div>
+      <div class="stat-value">${total}</div>
+    </div>
+    <div class="stat-card" style="animation-delay:.05s">
+      <div class="stat-label">Aanwezig</div>
+      <div class="stat-value blue">${aanwezig}</div>
+    </div>
+    <div class="stat-card" style="animation-delay:.1s">
+      <div class="stat-label">Hotline</div>
+      <div class="stat-value red">${hotline}</div>
+    </div>
+    <div class="stat-card" style="animation-delay:.15s">
+      <div class="stat-label">Wachtdienst</div>
+      <div class="stat-value amber">${wacht}</div>
+    </div>
+    <div class="stat-card" style="animation-delay:.2s">
+      <div class="stat-label">Afwezig</div>
+      <div class="stat-value" style="color:var(--sub)">${afwezig}</div>
+    </div>
+  `;
+}
 
-    for(const rule of CODE_RULES){
-      if(rule.match(t)) return rule.label;
-    }
-    // default: toon code zoals ze is (upper)
-    return t.toUpperCase();
-  }
+// ─────────────────────────────────────────────
+// TODAY VIEW
+// ─────────────────────────────────────────────
+function renderToday() {
+  const dateStr = document.getElementById("datePicker").value || isoToday();
+  const q = document.getElementById("globalSearch").value.trim().toLowerCase();
 
-  function mapCodeField(codeField){
-    return splitTokens(codeField).map(mapSingleToken).filter(Boolean);
-  }
+  document.getElementById("todayTitle").innerHTML =
+    `Permanenties — <span>${formatDateNL(dateStr)}</span>`;
 
-  // ------------------------------
-  // Diagnostics
-  // ------------------------------
-  function diagnoseCodes(){
-    let countHotline = 0;  // exact "H"
-    let countWacht = 0;    // w/w1/w2
-    const anomalies = [];
+  document.getElementById("legendRow").innerHTML = buildLegend();
+  document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
 
-    for(const r of records){
-      const parts = splitTokens(r.code);
+  let people = filterPerson ? [filterPerson] : allPeople;
 
-      for(const p of parts){
-        if(p === "H") countHotline++;
-        if(["w","w1","w2"].includes(p.toLowerCase())) countWacht++;
+  const grid = document.getElementById("teamGrid");
 
-        if(p === "h"){
-          anomalies.push({type:"lowercase-h", date:r.date, person:r.person, code:r.code, token:p});
-        }
-        if(p.includes("H") && p !== "H"){
-          anomalies.push({type:"H-in-token", date:r.date, person:r.person, code:r.code, token:p});
-        }
-      }
-    }
-    return { countHotline, countWacht, anomalies };
-  }
+  const cards = people.map((person, i) => {
+    const row = records.find(r => r.date === dateStr && r.person === person);
+    const code = row ? row.code : null;
 
-  // ------------------------------
-  // UI rendering
-  // ------------------------------
-  function fillPeople(){
-    const sel = document.getElementById("personSelect");
-    const current = sel.value;
-    sel.innerHTML =
-      `<option value="">(Alles) — ${allPeople.length}</option>` +
-      allPeople.map(p => `<option value="${p.replace(/"/g, "&quot;")}">${p}</option>`).join("");
-    if(allPeople.includes(current)) sel.value = current;
-  }
-
-  function renderLegend(){
-    const wrap = document.getElementById("legend");
-    wrap.innerHTML = CODE_RULES.map(r => {
-      const tokenText = r.tokens.map(t => `<strong>${t}</strong>`).join(" / ");
-      return `<span class="badge ${r.kind}">${tokenText} → ${r.label}</span>`;
-    }).join("");
-  }
-
-  function updateMeta(){
-    const el = document.getElementById("metaInfo");
-    if(!payload){ el.textContent = ""; return; }
-    const gen = payload.generatedAt ? `generatedAt: ${payload.generatedAt}` : "";
-    const sheet = payload.sheet ? `sheet: ${payload.sheet}` : "";
-    const year = payload.year ? `year: ${payload.year}` : "";
-    el.textContent = [gen, sheet, year].filter(Boolean).join(" • ");
-  }
-
-  function renderDiagnostics(){
-    const pill = document.getElementById("diagPill");
-    const text = document.getElementById("diagText");
-
-    const d = diagnoseCodes();
-    pill.className = "pill";
-    pill.textContent = `🔎 Codes gevonden: HOTLINE=${d.countHotline} • WACHT=${d.countWacht} • Verdacht=${d.anomalies.length}`;
-
-    if(d.anomalies.length){
-      pill.className = "pill warn";
-      const examples = d.anomalies.slice(0,6).map(a =>
-        `${a.date} • ${a.person} • "${a.code}" (token: "${a.token}")`
-      ).join(" | ");
-      text.innerHTML = `
-        <b style="color:#7c2d12;">⚠️ Verdachte tokens gevonden</b><br>
-        <span class="small">${examples}${d.anomalies.length > 6 ? " | …" : ""}</span>
-      `;
-    } else {
-      if(d.countHotline === 0 && d.countWacht === 0){
-        pill.className = "pill";
-        text.innerHTML = `<span class="small">Geen <b>H</b> of <b>w/w1/w2</b> tokens aangetroffen in de JSON (dus niets te vertalen). Als je die verwacht, zit het probleem waarschijnlijk in de brondata.</span>`;
-      } else {
-        pill.className = "pill ok";
-        text.innerHTML = `<span class="small">Alles ok — vertalingen worden toegepast wanneer de tokens voorkomen (H → HOTLINE, w/w1/w2 → WACHT).</span>`;
-      }
-    }
-  }
-
-  function renderTable(){
-    const tbody = document.getElementById("tbody");
-
-    const dateVal = document.getElementById("datePicker").value;
-    const personVal = document.getElementById("personSelect").value.trim();
-    const q = document.getElementById("globalSearch").value.trim().toLowerCase();
-
-    let filtered = records.slice();
-
-    if(dateVal) filtered = filtered.filter(r => safeText(r.date) === dateVal);
-    if(personVal) filtered = filtered.filter(r => safeText(r.person) === personVal);
-
-    if(q){
-      filtered = filtered.filter(r => {
-        const mapped = mapCodeField(r.code).join(" ");
-        const hay = `${safeText(r.date)} ${safeText(r.person)} ${safeText(r.code)} ${mapped}`.toLowerCase();
-        return hay.includes(q);
-      });
+    if (q) {
+      const hay = `${person} ${code||""}`.toLowerCase();
+      if (!hay.includes(q)) return "";
     }
 
-    filtered.sort((a,b) => {
-      const d = safeText(b.date).localeCompare(safeText(a.date));
-      if(d !== 0) return d;
-      return safeText(a.person).localeCompare(safeText(b.person), "nl", {sensitivity:"base"});
+    const tags = code ? renderTags(code)
+      : `<span class="tag empty">Geen data</span>`;
+
+    return `
+      <div class="team-card" style="animation-delay:${i*0.04}s">
+        <div class="tc-top">
+          <div class="tc-avatar" style="background:${avatarColor(person)}">${personInitials(person)}</div>
+          <div class="tc-name">${person}</div>
+        </div>
+        <div class="tc-codes">${tags}</div>
+      </div>
+    `;
+  }).join("");
+
+  grid.innerHTML = cards || `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten.</p></div>`;
+}
+
+// ─────────────────────────────────────────────
+// WEEK VIEW
+// ─────────────────────────────────────────────
+function renderWeek() {
+  if (!currentWeekStart) {
+    currentWeekStart = getMonday(document.getElementById("datePicker").value || isoToday());
+  }
+
+  const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
+  const todayIso = isoToday();
+
+  // Week label
+  const startDate = new Date(...days[0].split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
+  const endDate   = new Date(...days[4].split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
+  document.getElementById("weekLabel").textContent =
+    `Week van ${startDate.getDate()} ${MONTHS_NL[startDate.getMonth()]} — ${endDate.getDate()} ${MONTHS_NL[endDate.getMonth()]} ${endDate.getFullYear()}`;
+
+  let people = filterPerson ? [filterPerson] : allPeople;
+  const q = document.getElementById("globalSearch").value.trim().toLowerCase();
+  if (q) people = people.filter(p => p.toLowerCase().includes(q));
+
+  const dayNames = days.map(d => {
+    const dt = new Date(...d.split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
+    return { iso: d, name: DAYS_NL[dt.getDay()], num: dt.getDate(), isToday: d === todayIso };
+  });
+
+  let html = `<div class="week-grid">`;
+  // Header row
+  html += `<div class="wg-header">Medewerker</div>`;
+  dayNames.forEach(d => {
+    html += `<div class="wg-header day-col${d.isToday?" today-col":""}">
+      <span class="day-name">${d.name}</span>
+      <span class="day-num">${d.num}</span>
+    </div>`;
+  });
+
+  // Person rows
+  people.forEach(person => {
+    html += `<div class="wg-person">
+      <div class="avatar" style="background:${avatarColor(person)};width:22px;height:22px;font-size:9px;border-radius:6px;flex-shrink:0;">${personInitials(person)}</div>
+      ${person}
+    </div>`;
+    days.forEach((d, di) => {
+      const row = records.find(r => r.date === d && r.person === person);
+      const tags = row ? renderTags(row.code) : "";
+      html += `<div class="wg-cell${dayNames[di].isToday?" today-col":""}">${tags}</div>`;
     });
+  });
+  html += `</div>`;
 
-    if(filtered.length === 0){
-      tbody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:14px;">Geen resultaten.</td></tr>`;
-    } else {
-      tbody.innerHTML = filtered.map(r => {
-        const mappedTokens = mapCodeField(r.code);
+  document.getElementById("weekGridWrap").innerHTML = html;
+}
 
-        // aparte vakjes voor WACHT / HOTLINE
-        const chips = mappedTokens.map(t => {
-          if(t === "WACHT") return `<span class="tag wait">WACHT</span>`;
-          if(t === "HOTLINE") return `<span class="tag hotline">HOTLINE</span>`;
-          return `<span class="badge norm">${t}</span>`;
-        }).join("");
+// ─────────────────────────────────────────────
+// LIST VIEW
+// ─────────────────────────────────────────────
+let activeMonth = null;
 
-        return `
-          <tr>
-            <td>${safeText(r.date)}</td>
-            <td class="person">${safeText(r.person)}</td>
-            <td><div class="where">${chips || `<span class="muted">—</span>`}</div></td>
-          </tr>
-        `;
-      }).join("");
-    }
+function buildMonthTabs() {
+  const months = [...new Set(records.map(r => r.date.slice(0,7)))].sort();
+  const todayMonth = isoToday().slice(0,7);
+  if (!activeMonth) activeMonth = months.includes(todayMonth) ? todayMonth : (months[0]||null);
 
-    document.getElementById("countInfo").textContent =
-      `${filtered.length} resultaat/resultaten` + (dateVal ? ` • datum=${dateVal}` : "") + (personVal ? ` • persoon=${personVal}` : "");
-  }
+  const wrap = document.getElementById("monthTabs");
+  wrap.innerHTML = months.map(m => {
+    const [y,mo] = m.split("-");
+    return `<div class="month-tab${m===activeMonth?" active":""}" data-month="${m}">
+      ${MONTHS_NL[Number(mo)-1].slice(0,3)} ${y}
+    </div>`;
+  }).join("");
 
-  function renderAll(){
-    updateMeta();
-    renderLegend();
-    renderDiagnostics();
-    renderTable();
-  }
-
-  // ------------------------------
-  // Load
-  // ------------------------------
-  async function loadData(){
-    setPill("⏳ Laden…");
-    try{
-      const res = await fetch(`${DATA_URL}?v=${Date.now()}`, { cache: "no-store" });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const raw = await res.json();
-      payload = normalizePayload(raw);
-
-      if(!payload || !Array.isArray(payload.records)){
-        console.log("RAW:", raw);
-        console.log("PAYLOAD:", payload);
-        throw new Error("Geen payload.records array gevonden");
-      }
-
-      records = payload.records;
-
-      // filter de legende-rij eruit (persoon = "Legende")
-      records = records.filter(r => safeText(r.person).toLowerCase() !== "legende");
-
-      allPeople = uniqueSorted(records.map(r => safeText(r.person)).filter(Boolean));
-
-      fillPeople();
-      setPill("✅ Data geladen", "ok");
-      renderAll();
-    } catch(e){
-      console.error(e);
-      setPill("❌ Fout bij laden", "err");
-      document.getElementById("tbody").innerHTML =
-        `<tr><td colspan="3" class="muted" style="padding:14px;">Fout: ${safeText(e.message)}</td></tr>`;
-      document.getElementById("metaInfo").textContent = "";
-      document.getElementById("legend").innerHTML = "";
-      document.getElementById("diagPill").textContent = "🔎 Codes: —";
-      document.getElementById("diagText").textContent = "";
-      document.getElementById("countInfo").textContent = "—";
-    }
-  }
-
-  // ------------------------------
-  // Bind UI
-  // ------------------------------
-  function bindUI(){
-    const datePicker = document.getElementById("datePicker");
-    const personSelect = document.getElementById("personSelect");
-    const globalSearch = document.getElementById("globalSearch");
-
-    datePicker.value = isoTodayLocal();
-
-    datePicker.addEventListener("change", renderAll);
-    personSelect.addEventListener("change", renderAll);
-    globalSearch.addEventListener("input", renderAll);
-
-    document.getElementById("btnToday").addEventListener("click", () => {
-      datePicker.value = isoTodayLocal();
-      personSelect.value = "";
-      globalSearch.value = "";
-      renderAll();
+  wrap.querySelectorAll(".month-tab").forEach(el => {
+    el.addEventListener("click", () => {
+      activeMonth = el.dataset.month;
+      wrap.querySelectorAll(".month-tab").forEach(t=>t.classList.remove("active"));
+      el.classList.add("active");
+      renderList();
     });
+  });
+}
 
-    document.getElementById("btnReset").addEventListener("click", () => {
-      datePicker.value = "";
-      personSelect.value = "";
-      globalSearch.value = "";
-      renderAll();
-    });
+function renderList() {
+  const q = document.getElementById("globalSearch").value.trim().toLowerCase();
+  const dateVal = document.getElementById("datePicker").value;
+
+  let filtered = records.slice();
+  if (activeMonth) filtered = filtered.filter(r => r.date.startsWith(activeMonth));
+  if (filterPerson) filtered = filtered.filter(r => r.person === filterPerson);
+  if (dateVal) filtered = filtered.filter(r => r.date === dateVal);
+  if (q) filtered = filtered.filter(r => {
+    const mapped = splitTokens(r.code).map(t => (CODE_MAP[t]||{}).label||t).join(" ");
+    return `${r.date} ${r.person} ${r.code} ${mapped}`.toLowerCase().includes(q);
+  });
+
+  filtered.sort((a,b) => {
+    const dd = a.date.localeCompare(b.date);
+    return dd !== 0 ? dd : a.person.localeCompare(b.person,"nl");
+  });
+
+  const tbody = document.getElementById("listTbody");
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><div class="icon">📭</div><p>Geen resultaten voor deze selectie.</p></div></td></tr>`;
+    document.getElementById("listCount").textContent = "0 resultaten";
+    return;
   }
 
-  bindUI();
-  loadData();
+  tbody.innerHTML = filtered.map(r => {
+    const dt = new Date(...r.date.split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
+    const dayName = DAYS_NL[dt.getDay()];
+    const isToday = r.date === isoToday();
+    return `<tr${isToday?" style='background:rgba(46,124,246,.04)'":" "}>
+      <td class="td-date">${r.date}${isToday?` <span class="tag norm" style="font-size:10px;padding:2px 6px;margin-left:4px;">Vandaag</span>`:""}</td>
+      <td><span style="font-size:12px;color:var(--sub);font-weight:600;text-transform:uppercase;">${dayName}</span></td>
+      <td class="td-person">
+        <span style="display:inline-flex;align-items:center;gap:7px;">
+          <span style="width:22px;height:22px;border-radius:6px;background:${avatarColor(r.person)};color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">${personInitials(r.person)}</span>
+          ${r.person}
+        </span>
+      </td>
+      <td class="td-codes">${renderTags(r.code)}</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("listCount").textContent = `${filtered.length} record${filtered.length!==1?"s":""}`;
+  document.getElementById("listMeta").textContent = activeMonth
+    ? `${MONTHS_NL[Number(activeMonth.split("-")[1])-1]} ${activeMonth.split("-")[0]}`
+    : "";
+}
+
+// ─────────────────────────────────────────────
+// RENDER ALL
+// ─────────────────────────────────────────────
+function renderAll() {
+  if (activeView === "today") renderToday();
+  else if (activeView === "week") renderWeek();
+  else if (activeView === "list") renderList();
+}
+
+// ─────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────
+document.querySelectorAll(".nav-item").forEach(el => {
+  el.addEventListener("click", () => {
+    activeView = el.dataset.view;
+    document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+    el.classList.add("active");
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    document.getElementById("view-"+activeView).classList.add("active");
+    renderAll();
+  });
+});
+
+// ─────────────────────────────────────────────
+// TOPBAR CONTROLS
+// ─────────────────────────────────────────────
+const datePicker = document.getElementById("datePicker");
+datePicker.value = isoToday();
+datePicker.addEventListener("change", () => {
+  currentWeekStart = getMonday(datePicker.value);
+  renderAll();
+});
+
+document.getElementById("globalSearch").addEventListener("input", renderAll);
+
+document.getElementById("btnToday").addEventListener("click", () => {
+  datePicker.value = isoToday();
+  currentWeekStart = getMonday(isoToday());
+  document.getElementById("globalSearch").value = "";
+  renderAll();
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  datePicker.value = "";
+  filterPerson = "";
+  document.getElementById("globalSearch").value = "";
+  document.querySelectorAll(".person-chip").forEach(c=>c.classList.remove("active"));
+  document.querySelector('.person-chip[data-person=""]')?.classList.add("active");
+  renderAll();
+});
+
+document.getElementById("btnPrevWeek").addEventListener("click", () => {
+  currentWeekStart = isoFromDate(addDays(currentWeekStart, -7));
+  renderAll();
+});
+document.getElementById("btnNextWeek").addEventListener("click", () => {
+  currentWeekStart = isoFromDate(addDays(currentWeekStart, 7));
+  renderAll();
+});
+
+// ─────────────────────────────────────────────
+// START
+// ─────────────────────────────────────────────
+currentWeekStart = getMonday(isoToday());
+loadData();
 </script>
 </body>
 </html>
