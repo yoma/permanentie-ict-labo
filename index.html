@@ -669,31 +669,32 @@
 // ─────────────────────────────────────────────
 const DATA_URL = "permanentie.json";
 
-// Code-definities
-const CODE_MAP = {
-  mi:    { label:"Middag",    cls:"norm" },
-  sa:    { label:"Stand-by", cls:"norm" },
-  th:    { label:"Thuis",    cls:"norm" },
-  sv:    { label:"Stafverg.", cls:"norm" },
-  ca:    { label:"Calamiteit",cls:"norm" },
-  jp:    { label:"Jaarplan",  cls:"norm" },
-  opl:   { label:"Opleiding", cls:"norm" },
-  adv:   { label:"ADV",       cls:"afwezig" },
-  v:     { label:"Verlof",    cls:"afwezig" },
-  vV:    { label:"Verlof(V)", cls:"afwezig" },
-  z:     { label:"Ziek",      cls:"afwezig" },
-  x:     { label:"Vrij",      cls:"afwezig" },
-  xg:    { label:"Vrij(G)",   cls:"afwezig" },
-  kv:    { label:"Kortv.",    cls:"afwezig" },
-  b:     { label:"Brug",      cls:"afwezig" },
-  vbst:  { label:"Vbst.",     cls:"afwezig" },
-  syvor: { label:"SyVor",     cls:"norm" },
-  H:     { label:"Hotline",   cls:"hotline" },
-  w:     { label:"Wacht",     cls:"wacht" },
-  w1:    { label:"Wacht W1",  cls:"wacht" },
-  w2:    { label:"Wacht W2",  cls:"wacht" },
-  w3:    { label:"Wacht W3",  cls:"wacht" },
+// Kleurklassen per code (afwezig/wacht/hotline/norm)
+// Labels worden dynamisch geladen vanuit de JSON legende
+const CODE_CLASSES = {
+  H: "hotline",
+  w: "wacht", w1: "wacht", w2: "wacht", w3: "wacht",
+  adv: "afwezig", gadv: "afwezig",
+  v: "afwezig", vV: "afwezig", gvV: "afwezig",
+  z: "afwezig",
+  x: "afwezig", xg: "afwezig", xh: "afwezig", gx: "afwezig",
+  kv: "afwezig", b: "afwezig", vbst: "afwezig",
 };
+
+// Wordt gevuld vanuit payload.legend na het laden
+let CODE_MAP = {};
+
+function buildCodeMapFromLegend(legendItems) {
+  const map = {};
+  for (const item of (legendItems || [])) {
+    const code = item.code;
+    const label = item.description;
+    // Klasse bepalen: kijk eerst in CODE_CLASSES, daarna "norm"
+    const cls = CODE_CLASSES[code] || "norm";
+    map[code] = { label, cls };
+  }
+  return map;
+}
 
 const DAYS_NL = ["zo","ma","di","wo","do","vr","za"];
 const DAYS_FULL = ["zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag"];
@@ -759,7 +760,9 @@ function renderTags(code) {
 
 function getTagClass(token) {
   const def = CODE_MAP[token] || CODE_MAP[token.toLowerCase()];
-  return def ? def.cls : "norm";
+  if (def) return def.cls;
+  // Fallback: check CODE_CLASSES direct
+  return CODE_CLASSES[token] || CODE_CLASSES[token.toLowerCase()] || "norm";
 }
 
 function personInitials(name) {
@@ -798,6 +801,9 @@ async function loadData() {
     records = (payload.records || []).filter(r =>
       r.person && r.person.toLowerCase() !== "legende"
     );
+
+    // Bouw CODE_MAP vanuit de legende in de JSON
+    CODE_MAP = buildCodeMapFromLegend(payload.legend || []);
 
     allPeople = [...new Set(records.map(r=>r.person))].sort((a,b)=>a.localeCompare(b,"nl"));
 
