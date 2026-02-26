@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:07
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:12
 -->
 <html lang="nl">
 <head>
@@ -593,7 +593,7 @@
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <span style="font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub2);flex-shrink:0;">Code filter:</span>
       <div id="filterBtns" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;"></div>
-      <span id="filterClearAll" style="display:none; cursor:pointer; font-size:11px; font-weight:600; color:var(--sub); padding:5px 10px; border:1.5px solid var(--line); border-radius:8px; background:#fff; white-space:nowrap;" onclick="clearCodeFilter()">✕ Wis filter</span>
+      <span id="filterClearAll" style="display:none; cursor:pointer; font-size:11px; font-weight:600; color:var(--sub); padding:5px 10px; border:1.5px solid var(--line); border-radius:8px; background:#fff; white-space:nowrap;" onclick="if(typeof clearCodeFilter!=='undefined') clearCodeFilter()">✕ Wis filter</span>
     </div>
   </div>
 
@@ -1402,12 +1402,16 @@ document.addEventListener("click", (e) => {
 currentWeekStart = getMonday(isoToday());
 
 // Filter panel toggle
-document.getElementById("btnFilter").addEventListener("click", () => {
-  const panel = document.getElementById("filterPanel");
-  const isOpen = panel.style.display !== "none";
-  panel.style.display = isOpen ? "none" : "block";
-  if (!isOpen) buildFilterPanel();
-});
+const btnFilterEl = document.getElementById("btnFilter");
+if (btnFilterEl) {
+  btnFilterEl.addEventListener("click", () => {
+    const panel = document.getElementById("filterPanel");
+    if (!panel) return;
+    const isOpen = panel.style.display !== "none";
+    panel.style.display = isOpen ? "none" : "block";
+    if (!isOpen) buildFilterPanel();
+  });
+}
 
 // Mobiele datumkiezer sync
 const datePickerMob = document.getElementById("datePickerMob");
