@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 14:52
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:03
 -->
 <html lang="nl">
 <head>
@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>ICT Labo — Permanenties</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --bg:      #eef0f8;
@@ -37,7 +37,7 @@
       --shadow2: 0 8px 32px rgba(59,91,219,.12), 0 2px 8px rgba(0,0,0,.06);
       --shadow3: 0 16px 48px rgba(59,91,219,.15), 0 4px 12px rgba(0,0,0,.08);
       --radius:  16px;
-      --sans:    'Plus Jakarta Sans', sans-serif;
+      --sans:    'Inter', sans-serif;
       --mono:    'DM Mono', monospace;
     }
 
@@ -230,22 +230,22 @@
 
     /* ── TITELS ── */
     .today-title {
-      font-size: 22px; font-weight: 800;
-      letter-spacing: -.4px; color: var(--ink); margin-bottom: 2px;
+      font-size: 18px; font-weight: 700;
+      letter-spacing: -.3px; color: var(--ink); margin-bottom: 2px;
     }
     .today-title span { color: var(--blue); }
-    .today-sub { font-size: 13px; color: var(--sub); margin-bottom: 18px; }
+    .today-sub { font-size: 12px; color: var(--sub); margin-bottom: 14px; }
 
     /* ── STATS ── */
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-      gap: 10px; margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px; margin-bottom: 14px;
     }
     .stat-card {
       background: var(--card);
-      border-radius: var(--radius);
-      padding: 16px 18px;
+      border-radius: 12px;
+      padding: 11px 14px;
       box-shadow: var(--shadow);
       border: 1.5px solid var(--line2);
       animation: fadeUp .4s ease both;
@@ -253,15 +253,15 @@
     }
     .stat-card::before {
       content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
       background: linear-gradient(90deg, var(--blue), var(--blue3));
     }
     .stat-label {
       font-family: var(--mono);
-      font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--sub); margin-bottom: 6px;
+      font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--sub); margin-bottom: 4px;
     }
-    .stat-value { font-size: 30px; font-weight: 800; letter-spacing: -1.5px; color: var(--ink); }
+    .stat-value { font-size: 24px; font-weight: 700; letter-spacing: -1px; color: var(--ink); }
     .stat-value.blue  { color: var(--blue); }
     .stat-value.amber { color: var(--amber); }
     .stat-value.red   { color: var(--red); }
@@ -311,15 +311,15 @@
     /* ── TEAM CARDS ── */
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
     }
     .team-card {
       background: var(--card);
       border: 1.5px solid var(--line2);
       border-left: 3px solid var(--line2);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 12px 13px;
       box-shadow: var(--shadow);
       transition: all .2s; animation: fadeUp .35s ease both;
     }
@@ -335,24 +335,24 @@
     .team-card.grp-afwezig { border-left-color: var(--sub2); opacity: .7; }
     .team-card.grp-geen    { border-left-color: var(--line2); opacity: .45; }
 
-    .tc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .tc-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
     .tc-avatar {
-      width: 38px; height: 38px; border-radius: 12px;
+      width: 32px; height: 32px; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; flex-shrink: 0; color: #fff;
+      font-size: 11px; font-weight: 600; flex-shrink: 0; color: #fff;
     }
-    .tc-name { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -.2px; }
+    .tc-name { font-size: 13px; font-weight: 600; color: var(--ink); }
     .tc-codes { display: flex; flex-wrap: wrap; gap: 5px; }
 
     /* ── TAGS ── */
     .tag {
       display: inline-flex; align-items: center;
-      padding: 4px 10px; border-radius: 8px;
-      font-size: 11px; font-weight: 700;
-      font-family: var(--mono); letter-spacing: .3px; white-space: nowrap;
+      padding: 3px 9px; border-radius: 7px;
+      font-size: 11px; font-weight: 500;
+      font-family: var(--sans); letter-spacing: 0; white-space: nowrap;
     }
     .tag.norm    { background: var(--blue5); color: var(--blue); border: 1.5px solid rgba(59,91,219,.2); }
-    .tag.hotline { background: var(--red); color: #fff; border: 1.5px solid var(--red); box-shadow: 0 2px 10px rgba(224,49,49,.3); font-weight: 900; }
+    .tag.hotline { background: var(--red); color: #fff; border: 1.5px solid var(--red); box-shadow: 0 2px 10px rgba(224,49,49,.25); font-weight: 700; }
     .tag.wacht   { background: var(--amber2); color: var(--amber); border: 1.5px solid #ffd43b; }
     .tag.afwezig { background: var(--bg); color: var(--sub); border: 1.5px solid var(--line); }
     .tag.empty   { color: var(--sub2); font-family: var(--sans); font-weight: 400; font-size: 12px; font-style: italic; }
@@ -429,6 +429,22 @@
     .cal-entry { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
     .cal-entry-name { font-size: 11px; font-weight: 700; white-space: nowrap; min-width: 42px; }
     .cal-entry-codes { display: flex; flex-wrap: wrap; gap: 3px; }
+
+    .btn#btnFilter.active {
+      background: var(--blue); border-color: var(--blue); color: #fff;
+      box-shadow: 0 4px 14px rgba(59,91,219,.3);
+    }
+    .cf-btn {
+      display: inline-flex; align-items: center;
+      padding: 5px 12px; border-radius: 8px;
+      font-size: 11px; font-weight: 700;
+      font-family: var(--mono); letter-spacing: .3px;
+      cursor: pointer; transition: all .15s;
+      border: 1.5px solid; white-space: nowrap;
+      user-select: none; box-shadow: var(--shadow);
+    }
+    .cf-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
+    .cf-btn.active { transform: translateY(-1px); box-shadow: var(--shadow2); outline: 2px solid var(--blue); outline-offset: 1px; }
 
     /* ── EMPTY STATE ── */
     .empty-state { padding: 60px 20px; text-align: center; color: var(--sub); }
@@ -561,10 +577,23 @@
       <input type="date" id="datePicker"/>
     </div>
     <button class="btn primary" id="btnToday">Vandaag</button>
+    <button class="btn" id="btnFilter" title="Filter op code">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      Filter <span id="filterBadge" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:1px 6px;font-size:10px;margin-left:2px;"></span>
+    </button>
     <button class="btn" id="btnReset">Reset</button>
     <div id="mobDateRow" style="display:none; width:100%; align-items:center; gap:6px; flex-wrap:nowrap;">
       <input type="date" id="datePickerMob" style="flex:1;padding:8px 10px;border:1.5px solid rgba(59,91,219,.1);border-radius:10px;font-family:var(--sans);font-size:13px;color:var(--ink);background:#fff;outline:none;box-shadow:0 2px 8px rgba(59,91,219,.06);"/>
       <button id="btnTodayMob" style="padding:8px 14px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 3px 12px rgba(59,91,219,.3);">Vandaag</button>
+    </div>
+  </div>
+
+  <!-- ── FILTER PANEL ── -->
+  <div id="filterPanel" style="display:none; background:rgba(255,255,255,.8); backdrop-filter:blur(12px); border-bottom:1.5px solid var(--line); padding:12px 24px; position:sticky; top:57px; z-index:9;">
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <span style="font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub2);flex-shrink:0;">Code filter:</span>
+      <div id="filterBtns" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;"></div>
+      <span id="filterClearAll" style="display:none; cursor:pointer; font-size:11px; font-weight:600; color:var(--sub); padding:5px 10px; border:1.5px solid var(--line); border-radius:8px; background:#fff; white-space:nowrap;" onclick="clearCodeFilter()">✕ Wis filter</span>
     </div>
   </div>
 
@@ -576,7 +605,6 @@
       </div></div>
       <div class="legend-row" id="legendRow"></div>
       <div class="stats-row" id="statsRow"></div>
-      <div class="code-filter-row" id="codeFilterRow"></div>
       <div class="team-grid" id="teamGrid"></div>
     </div>
 
@@ -643,7 +671,7 @@ let allPeople  = [];
 let payload    = null;
 let activeView = "today";
 let filterPerson = "";
-let filterCode = "";   // actieve code-filter op vandaag-view
+let filterCode = "";   // actieve code-filter (geldt voor alle views)
 let currentWeekStart = null; // Monday of displayed week
 
 // ─────────────────────────────────────────────
@@ -897,54 +925,8 @@ function renderToday() {
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
 
-  // Verzamel alle unieke codes die vandaag voorkomen
-  const todayRecords = records.filter(r => r.date === dateStr);
-  const codeCount = {};
-  for (const r of todayRecords) {
-    for (const t of splitTokens(r.code)) {
-      codeCount[t] = (codeCount[t] || 0) + 1;
-    }
-  }
-
-  // Bouw filterknopjes
-  const filterWrap = document.getElementById("codeFilterRow");
-  if (Object.keys(codeCount).length > 0) {
-    let html = `<span class="code-filter-label">Filter:</span>`;
-    for (const [token, count] of Object.entries(codeCount).sort()) {
-      const def = CODE_MAP[token] || {};
-      const cls  = def.cls || CODE_CLASSES[token] || "norm";
-      const label = def.label || (token === "H" ? "Hotline" : token.toUpperCase());
-      const colorStyle = cls === "norm" ? getCodeStyle(token) : "";
-      const tagCls = cls === "hotline" ? "background:var(--red);color:#fff;border-color:var(--red);"
-                   : cls === "wacht"   ? "background:var(--amber2);color:var(--amber);border-color:#fde68a;"
-                   : cls === "afwezig" ? "background:var(--mist);color:var(--sub);border-color:var(--line);"
-                   : "";
-      const styleStr = tagCls || (colorStyle ? colorStyle.replace('style="','').replace('"','') : "background:var(--blue4);color:var(--blue);border-color:#bfdbfe;");
-      const isActive = filterCode === token;
-      html += `<span class="cf-btn${isActive?' active':''}" data-code="${token}" style="${styleStr}">
-        ${label} <span style="opacity:.6;margin-left:4px;font-weight:500;">${count}</span>
-      </span>`;
-    }
-    if (filterCode) {
-      html += `<span class="cf-clear" id="cfClear">✕ Toon iedereen</span>`;
-    }
-    filterWrap.innerHTML = html;
-
-    filterWrap.querySelectorAll(".cf-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        filterCode = filterCode === btn.dataset.code ? "" : btn.dataset.code;
-        renderToday();
-      });
-    });
-    document.getElementById("cfClear")?.addEventListener("click", () => {
-      filterCode = "";
-      renderToday();
-    });
-  } else {
-    filterWrap.innerHTML = "";
-  }
-
   // Bouw kaarten
+  const todayRecords = records.filter(r => r.date === dateStr);
   let people = filterPerson ? [filterPerson] : allPeople;
   const cards = [];
   for (const person of people) {
@@ -1013,6 +995,14 @@ function renderWeek() {
   let people = filterPerson ? [filterPerson] : allPeople;
   const q = document.getElementById("globalSearch").value.trim().toLowerCase();
   if (q) people = people.filter(p => p.toLowerCase().includes(q));
+  // Code filter: behoud alleen mensen die deze week de code hebben
+  if (filterCode) {
+    const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
+    people = people.filter(p => days.some(d => {
+      const r = records.find(rr => rr.date === d && rr.person === p);
+      return r && splitTokens(r.code).includes(filterCode);
+    }));
+  }
 
   const dayNames = days.map(d => {
     const dt = new Date(...d.split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
@@ -1123,6 +1113,7 @@ function renderList() {
   let filtered = records.slice();
   if (activeMonth) filtered = filtered.filter(r => r.date.startsWith(activeMonth));
   if (filterPerson) filtered = filtered.filter(r => r.person === filterPerson);
+  if (filterCode)   filtered = filtered.filter(r => splitTokens(r.code).includes(filterCode));
   if (q) filtered = filtered.filter(r => {
     const mapped = splitTokens(r.code).map(t => (CODE_MAP[t]||{}).label||t).join(" ");
     return `${r.date} ${r.person} ${r.code} ${mapped}`.toLowerCase().includes(q);
@@ -1195,9 +1186,74 @@ function renderList() {
 // RENDER ALL
 // ─────────────────────────────────────────────
 function renderAll() {
+  buildFilterPanel();
   if (activeView === "today") renderToday();
   else if (activeView === "week") renderWeek();
   else if (activeView === "list") renderList();
+}
+
+function buildFilterPanel() {
+  const panel = document.getElementById("filterPanel");
+  if (!panel || panel.style.display === "none") return; // panel is dicht, niet herbouwen
+  const dateStr = document.getElementById("datePicker").value || isoToday();
+  let relevantRecords = records;
+  if (activeView === "today") {
+    relevantRecords = records.filter(r => r.date === dateStr);
+  } else if (activeView === "week" && currentWeekStart) {
+    const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
+    relevantRecords = records.filter(r => days.includes(r.date));
+  } else if (activeView === "list" && activeMonth) {
+    relevantRecords = records.filter(r => r.date.startsWith(activeMonth));
+  }
+  if (filterPerson) relevantRecords = relevantRecords.filter(r => r.person === filterPerson);
+
+  const codeCount = {};
+  for (const r of relevantRecords) {
+    for (const t of splitTokens(r.code)) {
+      codeCount[t] = (codeCount[t] || 0) + 1;
+    }
+  }
+
+  const btnsWrap = document.getElementById("filterBtns");
+  const clearBtn = document.getElementById("filterClearAll");
+  if (!btnsWrap) return;
+
+  btnsWrap.innerHTML = Object.entries(codeCount).sort().map(([token, count]) => {
+    const def = CODE_MAP[token] || {};
+    const cls  = def.cls || CODE_CLASSES[token] || "norm";
+    const label = def.label || (token === "H" ? "Hotline" : token.toUpperCase());
+    const tagStyle = cls === "hotline" ? "background:var(--red);color:#fff;border-color:var(--red);"
+      : cls === "wacht"   ? "background:var(--amber2);color:var(--amber);border-color:#ffd43b;"
+      : cls === "afwezig" ? "background:var(--bg);color:var(--sub);border-color:var(--line);"
+      : (() => { const cs = getCodeStyle(token); return cs ? cs.replace(/style="|"/g,'') : "background:var(--blue5);color:var(--blue);border-color:rgba(59,91,219,.2);"; })();
+    const isActive = filterCode === token;
+    return `<span class="cf-btn${isActive?' active':''}" data-code="${token}" style="${tagStyle}">${label}<span style="opacity:.55;margin-left:4px;font-weight:500;">${count}</span></span>`;
+  }).join("");
+
+  btnsWrap.querySelectorAll(".cf-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterCode = filterCode === btn.dataset.code ? "" : btn.dataset.code;
+      updateFilterBadge();
+      if (clearBtn) clearBtn.style.display = filterCode ? "inline-flex" : "none";
+      renderAll();
+    });
+  });
+
+  if (clearBtn) clearBtn.style.display = filterCode ? "inline-flex" : "none";
+  updateFilterBadge();
+}
+
+function clearCodeFilter() {
+  filterCode = "";
+  updateFilterBadge();
+  renderAll();
+}
+
+function updateFilterBadge() {
+  const badge = document.getElementById("filterBadge");
+  const btn   = document.getElementById("btnFilter");
+  if (badge) { badge.style.display = filterCode ? "inline-block" : "none"; badge.textContent = filterCode ? "1" : ""; }
+  if (btn)   btn.classList.toggle("active", !!filterCode);
 }
 
 // ─────────────────────────────────────────────
@@ -1252,6 +1308,9 @@ document.getElementById("btnToday").addEventListener("click", () => {
 document.getElementById("btnReset").addEventListener("click", () => {
   datePicker.value = "";
   filterPerson = "";
+  filterCode = "";
+  updateFilterBadge();
+  document.getElementById("filterPanel").style.display = "none";
   document.getElementById("globalSearch").value = "";
   document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
   document.querySelector('.person-chip[data-person=""]')?.classList.add("active");
@@ -1338,6 +1397,14 @@ document.addEventListener("click", (e) => {
 // START
 // ─────────────────────────────────────────────
 currentWeekStart = getMonday(isoToday());
+
+// Filter panel toggle
+document.getElementById("btnFilter").addEventListener("click", () => {
+  const panel = document.getElementById("filterPanel");
+  const isOpen = panel.style.display !== "none";
+  panel.style.display = isOpen ? "none" : "block";
+  if (!isOpen) buildFilterPanel();
+});
 
 // Mobiele datumkiezer sync
 const datePickerMob = document.getElementById("datePickerMob");
