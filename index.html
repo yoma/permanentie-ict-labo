@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:03
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:07
 -->
 <html lang="nl">
 <head>
@@ -934,8 +934,11 @@ function renderToday() {
     const code = row ? row.code : null;
     const tokens = code ? splitTokens(code) : [];
 
-    // Code-filter
-    if (filterCode && !tokens.includes(filterCode)) continue;
+    // Code-filter: exacte token match OF code bevat de filterwaarde (case-insensitive)
+    if (filterCode) {
+      const codeMatch = tokens.some(t => t.toLowerCase() === filterCode.toLowerCase());
+      if (!codeMatch) continue;
+    }
 
     if (q) {
       const hay = `${person} ${code||""}`.toLowerCase();
@@ -1000,7 +1003,7 @@ function renderWeek() {
     const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
     people = people.filter(p => days.some(d => {
       const r = records.find(rr => rr.date === d && rr.person === p);
-      return r && splitTokens(r.code).includes(filterCode);
+      return r && splitTokens(r.code).some(t => t.toLowerCase() === filterCode.toLowerCase());
     }));
   }
 
@@ -1113,7 +1116,7 @@ function renderList() {
   let filtered = records.slice();
   if (activeMonth) filtered = filtered.filter(r => r.date.startsWith(activeMonth));
   if (filterPerson) filtered = filtered.filter(r => r.person === filterPerson);
-  if (filterCode)   filtered = filtered.filter(r => splitTokens(r.code).includes(filterCode));
+  if (filterCode)   filtered = filtered.filter(r => splitTokens(r.code).some(t => t.toLowerCase() === filterCode.toLowerCase()));
   if (q) filtered = filtered.filter(r => {
     const mapped = splitTokens(r.code).map(t => (CODE_MAP[t]||{}).label||t).join(" ");
     return `${r.date} ${r.person} ${r.code} ${mapped}`.toLowerCase().includes(q);
@@ -1431,6 +1434,6 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
 
 loadData();
 }); // end DOMContentLoaded
-</script>
+
 </body>
 </html>
