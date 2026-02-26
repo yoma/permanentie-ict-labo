@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:18
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:25
 -->
 <html lang="nl">
 <head>
@@ -637,7 +637,6 @@ window.onerror = function(msg, src, line, col, err) {
   return false;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────
 // CONFIG
 // ─────────────────────────────────────────────
@@ -1449,8 +1448,13 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
   renderAll();
 });
 
-loadData();
-}); // end DOMContentLoaded
+// Start zodra DOM klaar is — werkt ook als DOMContentLoaded al voorbij is
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadData);
+} else {
+  loadData(); // DOM is al klaar
+}
 
+</script>
 </body>
 </html>
