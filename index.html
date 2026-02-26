@@ -1035,7 +1035,7 @@ function renderList() {
   let filtered = records.slice();
   if (activeMonth) filtered = filtered.filter(r => r.date.startsWith(activeMonth));
   if (filterPerson) filtered = filtered.filter(r => r.person === filterPerson);
-  if (dateVal) filtered = filtered.filter(r => r.date === dateVal);
+  // Lijst-view gebruikt GEEN datumfilter — die is enkel voor "Vandaag" view
   if (q) filtered = filtered.filter(r => {
     const mapped = splitTokens(r.code).map(t => (CODE_MAP[t]||{}).label||t).join(" ");
     return `${r.date} ${r.person} ${r.code} ${mapped}`.toLowerCase().includes(q);
@@ -1104,8 +1104,18 @@ document.querySelectorAll(".nav-item").forEach(el => {
 // ─────────────────────────────────────────────
 const datePicker = document.getElementById("datePicker");
 datePicker.value = isoToday();
+function switchView(viewName) {
+  activeView = viewName;
+  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+  document.querySelector(`.nav-item[data-view="${viewName}"]`).classList.add("active");
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.getElementById("view-" + viewName).classList.add("active");
+}
+
 datePicker.addEventListener("change", () => {
-  currentWeekStart = getMonday(datePicker.value);
+  currentWeekStart = getMonday(datePicker.value || isoToday());
+  // Datum kiezen heeft alleen zin in Vandaag/Week view — stuur door als in Lijst
+  if (activeView === "list") switchView("today");
   renderAll();
 });
 
@@ -1115,6 +1125,8 @@ document.getElementById("btnToday").addEventListener("click", () => {
   datePicker.value = isoToday();
   currentWeekStart = getMonday(isoToday());
   document.getElementById("globalSearch").value = "";
+  // Vandaag-knop navigeert altijd naar Vandaag-view
+  switchView("today");
   renderAll();
 });
 
@@ -1122,8 +1134,13 @@ document.getElementById("btnReset").addEventListener("click", () => {
   datePicker.value = "";
   filterPerson = "";
   document.getElementById("globalSearch").value = "";
-  document.querySelectorAll(".person-chip").forEach(c=>c.classList.remove("active"));
+  document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
   document.querySelector('.person-chip[data-person=""]')?.classList.add("active");
+  // Reset maandtab naar huidige maand
+  const todayMonth = isoToday().slice(0, 7);
+  const months = [...new Set(records.map(r => r.date.slice(0, 7)))].sort();
+  activeMonth = months.includes(todayMonth) ? todayMonth : (months[0] || null);
+  buildMonthTabs();
   renderAll();
 });
 
