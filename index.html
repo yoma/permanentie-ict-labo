@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>ICT Labo — Permanenties</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --blue:    #2563eb;
@@ -32,7 +32,7 @@
       --shadow2: 0 8px 40px rgba(15,23,42,.12);
       --radius:  16px;
       --sans:    'Outfit', sans-serif;
-      --display: 'Syne', sans-serif;
+      --display: 'Plus Jakarta Sans', sans-serif;
       --mono:    'DM Mono', monospace;
     }
 
@@ -63,11 +63,8 @@
     /* ── SIDEBAR ── */
     .sidebar {
       width: 255px; min-width: 255px;
-      background: var(--glass2);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-right: 1px solid var(--line);
-      box-shadow: 2px 0 20px rgba(15,23,42,.04);
+      background: #0f172a;
+      border-right: none;
       display: flex; flex-direction: column;
       height: 100vh; overflow-y: auto;
       position: sticky; top: 0;
@@ -75,7 +72,7 @@
 
     .sidebar-logo {
       padding: 26px 22px 18px;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .sidebar-logo .org {
       font-family: var(--mono);
@@ -93,7 +90,7 @@
       font-family: var(--display);
       font-size: 21px; font-weight: 800;
       letter-spacing: -.5px; line-height: 1.2;
-      color: var(--ink);
+      color: #fff;
     }
     .sidebar-logo h1 span {
       background: linear-gradient(120deg, var(--blue), var(--teal));
@@ -121,45 +118,45 @@
     .nav-label {
       font-family: var(--mono);
       font-size: 9px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--sub2); padding: 0 22px 10px;
+      color: rgba(255,255,255,.25); padding: 0 22px 10px;
     }
     .nav-item {
       display: flex; align-items: center; gap: 10px;
       padding: 11px 22px; font-size: 13.5px; font-weight: 500;
-      color: var(--sub); cursor: pointer;
+      color: rgba(255,255,255,.5); cursor: pointer;
       border-left: 2px solid transparent;
       transition: all .15s; user-select: none;
     }
-    .nav-item:hover { color: var(--ink); background: rgba(37,99,235,.05); }
+    .nav-item:hover { color: #fff; background: rgba(255,255,255,.07); }
     .nav-item.active {
-      color: var(--blue); background: var(--blue4);
+      color: #fff; background: rgba(59,130,246,.2);
       border-left-color: var(--blue); font-weight: 600;
     }
     .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
 
     .sidebar-people {
       padding: 14px 14px 20px;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid rgba(255,255,255,.08);
     }
     .people-label {
       font-family: var(--mono);
       font-size: 9px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--sub2); padding: 0 8px 10px;
+      color: rgba(255,255,255,.25); padding: 0 8px 10px;
     }
     .person-chip {
       display: flex; align-items: center; gap: 9px;
       padding: 7px 10px; border-radius: 10px;
-      font-size: 13px; color: var(--sub);
+      font-size: 13px; color: rgba(255,255,255,.55);
       cursor: pointer; transition: all .12s;
       border: 1px solid transparent;
     }
-    .person-chip:hover { background: var(--mist); color: var(--ink); }
+    .person-chip:hover { background: rgba(255,255,255,.08); color: #fff; }
     .person-chip.active {
-      background: var(--blue4);
-      border-color: #bfdbfe;
-      color: var(--blue); font-weight: 600;
+      background: rgba(59,130,246,.2);
+      border-color: rgba(59,130,246,.35);
+      color: #fff; font-weight: 600;
     }
-    .person-chip.active::after { content: "✓"; margin-left: auto; font-size: 11px; color: var(--blue); font-weight: 700; }
+    .person-chip.active::after { content: "✓"; margin-left: auto; font-size: 11px; color: var(--blue2); font-weight: 700; }
     .avatar {
       width: 26px; height: 26px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
@@ -275,6 +272,38 @@
     .legend-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
 
+    /* ── CODE FILTER ROW ── */
+    .code-filter-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 16px; align-items: center;
+    }
+    .code-filter-label {
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--sub2); margin-right: 4px; white-space: nowrap;
+    }
+    .cf-btn {
+      display: inline-flex; align-items: center;
+      padding: 5px 11px; border-radius: 8px;
+      font-size: 11px; font-weight: 700;
+      font-family: var(--mono); letter-spacing: .3px;
+      cursor: pointer; transition: all .15s;
+      border: 1.5px solid; white-space: nowrap;
+      user-select: none;
+    }
+    .cf-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,.1); }
+    .cf-btn.active { box-shadow: 0 3px 12px rgba(0,0,0,.15); transform: translateY(-1px); filter: brightness(.92); }
+    .cf-clear {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 11px; border-radius: 8px;
+      font-size: 11px; font-weight: 600; font-family: var(--sans);
+      cursor: pointer; transition: all .15s;
+      border: 1.5px solid var(--line);
+      background: var(--mist); color: var(--sub);
+      white-space: nowrap; user-select: none;
+    }
+    .cf-clear:hover { border-color: var(--blue2); color: var(--blue); background: var(--blue4); }
+
     /* ── TEAM CARDS ── */
     .team-grid {
       display: grid;
@@ -321,11 +350,13 @@
       font-size: 11px; font-weight: 700;
       font-family: var(--mono); letter-spacing: .3px; white-space: nowrap;
     }
-    .tag.norm    { background: var(--blue4); color: var(--blue); border: 1.5px solid #bfdbfe; }
+    /* Speciale tags */
     .tag.hotline { background: var(--red); color: #fff; border: 1.5px solid var(--red); box-shadow: 0 2px 10px rgba(225,29,72,.3); font-weight: 900; }
     .tag.wacht   { background: var(--amber2); color: var(--amber); border: 1.5px solid #fde68a; }
     .tag.afwezig { background: var(--mist); color: var(--sub); border: 1.5px solid var(--line); }
     .tag.empty   { color: var(--sub2); font-family: var(--sans); font-weight: 400; font-size: 12px; font-style: italic; }
+    /* norm = fallback blauw, individuele codes krijgen kleur via JS inline style */
+    .tag.norm    { background: var(--blue4); color: var(--blue); border: 1.5px solid #bfdbfe; }
 
     /* ── WEEK VIEW ── */
     .week-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
@@ -412,7 +443,7 @@
 
     /* ── SCROLLBARS ── */
     .sidebar::-webkit-scrollbar, .main::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 4px; }
     .main::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 
     /* ── MOBILE ── */
@@ -423,7 +454,7 @@
       .sidebar {
         width: 100%; min-width: unset; height: auto; position: static;
         flex-direction: row; align-items: center; justify-content: space-between;
-        padding: 10px 14px; flex-wrap: nowrap;
+        padding: 10px 14px; flex-wrap: nowrap; background: #0f172a;
       }
       .sidebar-logo { border-bottom: none; padding: 0; }
       .sidebar-logo .org { display: none; }
@@ -515,7 +546,7 @@
       <div class="status-dot"></div>
       <span id="statusText">Laden…</span>
     </div>
-    <div id="genAt"></div>
+    <div id="genAt" style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.25);margin-top:7px;padding:0 2px;"></div>
   </div>
 
   <nav class="sidebar-nav">
@@ -557,6 +588,7 @@
       </div></div>
       <div class="legend-row" id="legendRow"></div>
       <div class="stats-row" id="statsRow"></div>
+      <div class="code-filter-row" id="codeFilterRow"></div>
       <div class="team-grid" id="teamGrid"></div>
     </div>
 
@@ -623,6 +655,7 @@ let allPeople  = [];
 let payload    = null;
 let activeView = "today";
 let filterPerson = "";
+let filterCode = "";   // actieve code-filter op vandaag-view
 let currentWeekStart = null; // Monday of displayed week
 
 // ─────────────────────────────────────────────
@@ -665,19 +698,47 @@ function splitTokens(code) {
   return (code||"").split("/").map(s=>s.trim()).filter(Boolean);
 }
 
+// Vaste kleurenpalet per code — elke code krijgt een unieke kleur
+const CODE_COLORS = {
+  // Locaties — elk een eigen kleur
+  mi:    { bg:"#dcfce7", color:"#166534", border:"#bbf7d0" }, // groen  – Middelheim
+  sa:    { bg:"#fce7f3", color:"#9d174d", border:"#fbcfe8" }, // roze   – Sint-Augustinus
+  sv:    { bg:"#ede9fe", color:"#5b21b6", border:"#ddd6fe" }, // paars  – Sint-Vincentius
+  ca:    { bg:"#fff7ed", color:"#9a3412", border:"#fed7aa" }, // oranje – Cadix
+  jp:    { bg:"#cffafe", color:"#155e75", border:"#a5f3fc" }, // cyaan  – Jan Palfijn
+  pl:    { bg:"#fefce8", color:"#854d0e", border:"#fef08a" }, // geel   – Plantin
+  // Werk
+  th:    { bg:"#f0fdf4", color:"#14532d", border:"#bbf7d0" }, // lichtgroen – Thuiswerk
+  opl:   { bg:"#f0f9ff", color:"#0c4a6e", border:"#bae6fd" }, // lichtblauw – Opleiding
+  vp:    { bg:"#fdf4ff", color:"#6b21a8", border:"#e9d5ff" }, // lila  – Verplaatsing
+  syvor: { bg:"#fff1f2", color:"#881337", border:"#fecdd3" }, // zalm  – Syndicale vorming
+  soc:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" }, // limoen – Sociaal verlof
+  sov:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" }, // limoen – Sociaal overleg
+  bh:    { bg:"#fffbeb", color:"#78350f", border:"#fde68a" }, // amber – Boekhoudersdag
+  gbh:   { bg:"#fffbeb", color:"#78350f", border:"#fde68a" },
+  gso:   { bg:"#fdf2f8", color:"#831843", border:"#f9a8d4" },
+};
+
+function getCodeStyle(token) {
+  const c = CODE_COLORS[token] || CODE_COLORS[token.toLowerCase()];
+  if (c) return `style="background:${c.bg};color:${c.color};border-color:${c.border};"`;
+  return "";
+}
+
 function renderTags(code) {
   return splitTokens(code).map(t => {
     const def = CODE_MAP[t] || CODE_MAP[t.toLowerCase()];
-    if (def) return `<span class="tag ${def.cls}">${def.label}</span>`;
-    // Fallback voor H en wacht als CODE_MAP nog leeg is
-    const fallbackCls = CODE_CLASSES[t] || CODE_CLASSES[t.toLowerCase()] || "norm";
-    const fallbackLabel = t === "H" ? "Hotline"
+    const cls = def ? def.cls : (CODE_CLASSES[t] || CODE_CLASSES[t.toLowerCase()] || "norm");
+    const label = def ? def.label
+      : t === "H"  ? "Hotline"
       : t === "w"  ? "Weekdagwacht"
       : t === "w1" ? "Zaterdagwacht"
       : t === "w2" ? "Zondagwacht"
       : t === "w3" ? "Feestdagwacht"
       : t.toUpperCase();
-    return `<span class="tag ${fallbackCls}">${fallbackLabel}</span>`;
+    // Speciale klassen krijgen eigen CSS, norm-codes krijgen inline kleur
+    const extraStyle = cls === "norm" ? getCodeStyle(t) : "";
+    return `<span class="tag ${cls}" ${extraStyle}>${label}</span>`;
   }).join("");
 }
 
@@ -844,26 +905,74 @@ function renderToday() {
 
   document.getElementById("todayTitle").innerHTML =
     `Permanenties — <span>${formatDateNL(dateStr)}</span>`;
+  document.getElementById("todaySub").textContent = "Wie is er aanwezig vandaag?";
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
 
-  let people = filterPerson ? [filterPerson] : allPeople;
+  // Verzamel alle unieke codes die vandaag voorkomen
+  const todayRecords = records.filter(r => r.date === dateStr);
+  const codeCount = {};
+  for (const r of todayRecords) {
+    for (const t of splitTokens(r.code)) {
+      codeCount[t] = (codeCount[t] || 0) + 1;
+    }
+  }
 
-  // Bouw kaarten met groepsinfo
+  // Bouw filterknopjes
+  const filterWrap = document.getElementById("codeFilterRow");
+  if (Object.keys(codeCount).length > 0) {
+    let html = `<span class="code-filter-label">Filter:</span>`;
+    for (const [token, count] of Object.entries(codeCount).sort()) {
+      const def = CODE_MAP[token] || {};
+      const cls  = def.cls || CODE_CLASSES[token] || "norm";
+      const label = def.label || (token === "H" ? "Hotline" : token.toUpperCase());
+      const colorStyle = cls === "norm" ? getCodeStyle(token) : "";
+      const tagCls = cls === "hotline" ? "background:var(--red);color:#fff;border-color:var(--red);"
+                   : cls === "wacht"   ? "background:var(--amber2);color:var(--amber);border-color:#fde68a;"
+                   : cls === "afwezig" ? "background:var(--mist);color:var(--sub);border-color:var(--line);"
+                   : "";
+      const styleStr = tagCls || (colorStyle ? colorStyle.replace('style="','').replace('"','') : "background:var(--blue4);color:var(--blue);border-color:#bfdbfe;");
+      const isActive = filterCode === token;
+      html += `<span class="cf-btn${isActive?' active':''}" data-code="${token}" style="${styleStr}">
+        ${label} <span style="opacity:.6;margin-left:4px;font-weight:500;">${count}</span>
+      </span>`;
+    }
+    if (filterCode) {
+      html += `<span class="cf-clear" id="cfClear">✕ Toon iedereen</span>`;
+    }
+    filterWrap.innerHTML = html;
+
+    filterWrap.querySelectorAll(".cf-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterCode = filterCode === btn.dataset.code ? "" : btn.dataset.code;
+        renderToday();
+      });
+    });
+    document.getElementById("cfClear")?.addEventListener("click", () => {
+      filterCode = "";
+      renderToday();
+    });
+  } else {
+    filterWrap.innerHTML = "";
+  }
+
+  // Bouw kaarten
+  let people = filterPerson ? [filterPerson] : allPeople;
   const cards = [];
   for (const person of people) {
-    const row = records.find(r => r.date === dateStr && r.person === person);
+    const row = todayRecords.find(r => r.person === person);
     const code = row ? row.code : null;
+    const tokens = code ? splitTokens(code) : [];
+
+    // Code-filter
+    if (filterCode && !tokens.includes(filterCode)) continue;
 
     if (q) {
       const hay = `${person} ${code||""}`.toLowerCase();
       if (!hay.includes(q)) continue;
     }
 
-    const tokens = code ? splitTokens(code) : [];
-    let grpCls = "grp-geen";
-    let sortKey = "zzz_geen";
-
+    let grpCls = "grp-geen"; let sortKey = "9_geen";
     for (const t of tokens) {
       const cls = (CODE_MAP[t]||{}).cls || CODE_CLASSES[t] || "norm";
       if (cls === "hotline") { grpCls = "grp-hotline"; sortKey = "1_hotline"; break; }
@@ -872,7 +981,6 @@ function renderToday() {
       if (cls === "afwezig") { grpCls = "grp-afwezig";  sortKey = "8_afwezig"; break; }
     }
     if (!code) { grpCls = "grp-geen"; sortKey = "9_geen"; }
-
     cards.push({ person, code, grpCls, sortKey });
   }
 
@@ -880,20 +988,19 @@ function renderToday() {
 
   const grid = document.getElementById("teamGrid");
   if (!cards.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten.</p></div>`;
+    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten${filterCode ? ` voor code <b>${filterCode}</b>` : ""}.</p></div>`;
     return;
   }
 
   grid.innerHTML = cards.map((card, i) => {
     const tags = card.code ? renderTags(card.code) : `<span class="tag empty">Geen data</span>`;
-    return `
-      <div class="team-card ${card.grpCls}" style="animation-delay:${i*0.04}s">
-        <div class="tc-top">
-          <div class="tc-avatar" style="background:${avatarColor(card.person)}">${personInitials(card.person)}</div>
-          <div class="tc-name">${card.person}</div>
-        </div>
-        <div class="tc-codes">${tags}</div>
-      </div>`;
+    return `<div class="team-card ${card.grpCls}" style="animation-delay:${i*0.04}s">
+      <div class="tc-top">
+        <div class="tc-avatar" style="background:${avatarColor(card.person)}">${personInitials(card.person)}</div>
+        <div class="tc-name">${card.person}</div>
+      </div>
+      <div class="tc-codes">${tags}</div>
+    </div>`;
   }).join("");
 }
 
