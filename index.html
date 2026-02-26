@@ -366,7 +366,7 @@
       white-space: nowrap;
     }
     .tag.norm   { background: #edf3ff; color: #1a4ecc; border: 1px solid rgba(46,124,246,.2); }
-    .tag.hotline{ background: rgba(232,64,64,.1); color: #b91c1c; border: 1px solid rgba(232,64,64,.22); }
+    .tag.hotline{ background: var(--red); color: #fff; border: 1px solid var(--red); font-weight: 900; letter-spacing: .4px; }
     .tag.wacht  { background: rgba(240,165,0,.12); color: #92400e; border: 1px solid rgba(240,165,0,.28); }
     .tag.afwezig{ background: rgba(100,116,139,.1); color: #475569; border: 1px solid rgba(100,116,139,.18); }
     .tag.empty  { color: #94a3b8; font-family: var(--sans); font-weight: 400; font-size: 12px; font-style: italic; }
@@ -943,7 +943,15 @@ function renderTags(code) {
   return splitTokens(code).map(t => {
     const def = CODE_MAP[t] || CODE_MAP[t.toLowerCase()];
     if (def) return `<span class="tag ${def.cls}">${def.label}</span>`;
-    return `<span class="tag norm">${t.toUpperCase()}</span>`;
+    // Fallback voor H en wacht als CODE_MAP nog leeg is
+    const fallbackCls = CODE_CLASSES[t] || CODE_CLASSES[t.toLowerCase()] || "norm";
+    const fallbackLabel = t === "H" ? "Hotline"
+      : t === "w"  ? "Weekdagwacht"
+      : t === "w1" ? "Zaterdagwacht"
+      : t === "w2" ? "Zondagwacht"
+      : t === "w3" ? "Feestdagwacht"
+      : t.toUpperCase();
+    return `<span class="tag ${fallbackCls}">${fallbackLabel}</span>`;
   }).join("");
 }
 
