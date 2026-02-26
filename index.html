@@ -157,8 +157,20 @@
       transition: all .12s;
     }
     .person-chip:hover { background: rgba(255,255,255,.07); color: #fff; }
-    .person-chip.active { background: rgba(46,124,246,.2); color: #fff; }
+    .person-chip.active { 
+      background: rgba(46,124,246,.25); 
+      color: #fff; 
+      outline: 2px solid var(--blue);
+      outline-offset: -1px;
+    }
     .person-chip.active .avatar { background: var(--blue); }
+    .person-chip.active::after {
+      content: "✓";
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--blue2);
+      font-weight: 700;
+    }
     .avatar {
       width: 26px; height: 26px;
       border-radius: 8px;
@@ -271,6 +283,20 @@
     /* view panels */
     .view { display: none; }
     .view.active { display: block; }
+
+    /* ── GROEPSHEADER IN TEAM GRID ───────────── */
+    .group-header {
+      grid-column: 1 / -1;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--sub);
+      padding: 10px 4px 4px;
+      border-bottom: 1.5px solid var(--lineL);
+      margin-bottom: 2px;
+    }
+    .group-header:first-child { padding-top: 0; }
 
     /* ── TODAY CARD ───────────────────────────── */
     .today-header {
@@ -1118,32 +1144,81 @@ function renderToday() {
 
   let people = filterPerson ? [filterPerson] : allPeople;
 
-  const grid = document.getElementById("teamGrid");
-
-  const cards = people.map((person, i) => {
+  // Bouw kaarten per persoon
+  const cards = [];
+  for (const person of people) {
     const row = records.find(r => r.date === dateStr && r.person === person);
     const code = row ? row.code : null;
 
     if (q) {
       const hay = `${person} ${code||""}`.toLowerCase();
-      if (!hay.includes(q)) return "";
+      if (!hay.includes(q)) continue;
     }
 
-    const tags = code ? renderTags(code)
+    const tokens = code ? splitTokens(code) : [];
+    // Bepaal groep op basis van eerste "locatie" token
+    let group = "zzz_geen"; // sorteert achteraan
+    for (const t of tokens) {
+      const cls = (CODE_MAP[t]||{}).cls || CODE_CLASSES[t] || "norm";
+      if (cls === "afwezig") { group = "zzz_afwezig"; break; }
+      if (cls === "hotline") { group = "aaa_hotline"; break; }
+      if (cls === "wacht")   { group = "aab_wacht"; break; }
+      if (cls === "norm")    { group = "b_" + t; break; } // groepeer per locatiecode
+    }
+    if (!code) group = "zzz_geen";
+
+    cards.push({ person, code, tokens, group });
+  }
+
+  // Sorteer: hotline > wacht > locaties (alfabetisch op code) > afwezig > geen data
+  cards.sort((a, b) => a.group.localeCompare(b.group) || a.person.localeCompare(b.person, "nl"));
+
+  // Render met groepshoofden
+  const grid = document.getElementById("teamGrid");
+  if (!cards.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten.</p></div>`;
+    return;
+  }
+
+  let lastGroup = null;
+  let html = "";
+  let cardIdx = 0;
+
+  for (const card of cards) {
+    // Groepslabel
+    const groupLabel = getGroupLabel(card.group, card.tokens);
+    if (card.group !== lastGroup) {
+      html += `<div class="group-header">${groupLabel}</div>`;
+      lastGroup = card.group;
+    }
+
+    const tags = card.code ? renderTags(card.code)
       : `<span class="tag empty">Geen data</span>`;
 
-    return `
-      <div class="team-card" style="animation-delay:${i*0.04}s">
+    html += `
+      <div class="team-card" style="animation-delay:${cardIdx*0.04}s">
         <div class="tc-top">
-          <div class="tc-avatar" style="background:${avatarColor(person)}">${personInitials(person)}</div>
-          <div class="tc-name">${person}</div>
+          <div class="tc-avatar" style="background:${avatarColor(card.person)}">${personInitials(card.person)}</div>
+          <div class="tc-name">${card.person}</div>
         </div>
         <div class="tc-codes">${tags}</div>
       </div>
     `;
-  }).join("");
+    cardIdx++;
+  }
 
-  grid.innerHTML = cards || `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten.</p></div>`;
+  grid.innerHTML = html;
+}
+
+function getGroupLabel(group, tokens) {
+  if (group === "aaa_hotline") return "🔴 Hotline";
+  if (group === "aab_wacht")   return "🟡 Wachtdienst";
+  if (group === "zzz_afwezig") return "⚪ Afwezig";
+  if (group === "zzz_geen")    return "— Geen data";
+  // Locatiegroep: haal label uit CODE_MAP
+  const code = group.replace("b_", "");
+  const def = CODE_MAP[code];
+  return "📍 " + (def ? def.label : code.toUpperCase());
 }
 
 // ─────────────────────────────────────────────
