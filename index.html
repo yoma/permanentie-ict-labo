@@ -874,8 +874,8 @@ async function loadData() {
   } catch(e) {
     console.error(e);
     setStatus("Laadfouten","err");
-    document.getElementById("listTbody").innerHTML =
-      `<tr><td colspan="4" style="padding:20px;color:#e84040;">Fout: ${e.message}</td></tr>`;
+    document.getElementById("calendarWrap").innerHTML =
+      `<div class="empty-state"><div class="icon">❌</div><p style="color:#e84040;">Fout: ${e.message}</p></div>`;
   }
 }
 
