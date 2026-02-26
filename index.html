@@ -957,9 +957,15 @@ async function loadData() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     let raw = await res.json();
 
-    // Normaliseer geneste JSON (Power Automate wrapping)
-    if (raw && typeof raw.result === "string") raw = JSON.parse(raw.result);
+    // Normaliseer alle mogelijke Power Automate wrapper-formaten
+    // Formaat 1: { stdout: "..." }  (oud formaat)
+    if (raw && typeof raw.stdout === "string") raw = JSON.parse(raw.stdout);
+    // Formaat 2: { result: "..." }
+    else if (raw && typeof raw.result === "string") raw = JSON.parse(raw.result);
+    // Formaat 3: dubbel geëncoded string
     if (typeof raw === "string") raw = JSON.parse(raw);
+    // Formaat 4: { returncode, stdout } (shell output wrapper)
+    if (raw && typeof raw.stdout === "string") raw = JSON.parse(raw.stdout);
 
     payload = raw;
     records = (payload.records || []).filter(r =>
@@ -983,9 +989,11 @@ async function loadData() {
     renderAll();
   } catch(e) {
     console.error(e);
-    setStatus("Laadfouten","err");
-    document.getElementById("calendarWrap").innerHTML =
-      `<div class="empty-state"><div class="icon">❌</div><p style="color:#e84040;">Fout: ${e.message}</p></div>`;
+    setStatus("Laadfouten (" + e.message + ")","err");
+    // Toon fout in actieve view
+    const errHtml = `<div class="empty-state"><div class="icon">❌</div><p style="color:#e84040;">Fout bij laden: ${e.message}</p><p style="font-size:12px;color:var(--sub);margin-top:8px;">Controleer of permanentie.json bereikbaar is.</p></div>`;
+    const teamGrid = document.getElementById("teamGrid");
+    if (teamGrid) teamGrid.innerHTML = errHtml;
   }
 }
 
