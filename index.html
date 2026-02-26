@@ -744,6 +744,32 @@
 </head>
 <body>
 
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav class="mobile-nav">
+  <div class="mob-nav-item active" data-mob-view="today">
+    <span class="mob-icon">📅</span>
+    <span>Vandaag</span>
+  </div>
+  <div class="mob-nav-item" data-mob-view="week">
+    <span class="mob-icon">📆</span>
+    <span>Week</span>
+  </div>
+  <div class="mob-nav-item" data-mob-view="list">
+    <span class="mob-icon">🗓️</span>
+    <span>Maand</span>
+  </div>
+  <div class="mob-nav-item" id="mobPeopleBtn">
+    <span class="mob-icon">👤</span>
+    <span>Persoon</span>
+  </div>
+</nav>
+
+<!-- ── MOBILE PEOPLE POPUP ── -->
+<div id="mobPeoplePopup" style="display:none; position:fixed; bottom:60px; left:0; right:0; background:#fff; border-top:1.5px solid var(--lineL); padding:14px 16px; z-index:99; box-shadow:0 -8px 24px rgba(13,27,42,.12);">
+  <div style="font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--sub); margin-bottom:10px;">Persoon kiezen</div>
+  <div class="mob-people-strip" id="mobPeopleStrip"></div>
+</div>
+
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar">
   <div class="sidebar-logo">
@@ -828,6 +854,7 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────
 // CONFIG
 // ─────────────────────────────────────────────
@@ -1423,32 +1450,7 @@ document.addEventListener("click", (e) => {
 // ─────────────────────────────────────────────
 currentWeekStart = getMonday(isoToday());
 loadData();
+}); // end DOMContentLoaded
 </script>
-<!-- ── MOBILE BOTTOM NAV ── -->
-<nav class="mobile-nav">
-  <div class="mob-nav-item active" data-mob-view="today">
-    <span class="mob-icon">📅</span>
-    <span>Vandaag</span>
-  </div>
-  <div class="mob-nav-item" data-mob-view="week">
-    <span class="mob-icon">📆</span>
-    <span>Week</span>
-  </div>
-  <div class="mob-nav-item" data-mob-view="list">
-    <span class="mob-icon">🗓️</span>
-    <span>Maand</span>
-  </div>
-  <div class="mob-nav-item" id="mobPeopleBtn">
-    <span class="mob-icon">👤</span>
-    <span>Persoon</span>
-  </div>
-</nav>
-
-<!-- ── MOBILE PEOPLE POPUP ── -->
-<div id="mobPeoplePopup" style="display:none; position:fixed; bottom:60px; left:0; right:0; background:#fff; border-top:1.5px solid var(--lineL); padding:14px 16px; z-index:99; box-shadow:0 -8px 24px rgba(13,27,42,.12);">
-  <div style="font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--sub); margin-bottom:10px;">Persoon kiezen</div>
-  <div class="mob-people-strip" id="mobPeopleStrip"></div>
-</div>
-
 </body>
 </html>
