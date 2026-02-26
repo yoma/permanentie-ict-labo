@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:12
+  Laatste aanpassing: donderdag 26 februari 2026 om 15:15
 -->
 <html lang="nl">
 <head>
@@ -626,6 +626,17 @@
 </div>
 
 <script>
+// Globale foutopvang
+window.onerror = function(msg, src, line, col, err) {
+  const pill = document.getElementById("statusPill");
+  const span = document.getElementById("statusText");
+  if (pill) pill.className = "status-pill err";
+  if (span) span.textContent = "JS Fout: " + msg + " (regel " + line + ")";
+  const grid = document.getElementById("teamGrid");
+  if (grid) grid.innerHTML = `<div class="empty-state"><div class="icon">❌</div><p style="color:var(--red);">Fout: ${msg}<br><small>Regel ${line}</small></p></div>`;
+  return false;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
 // ─────────────────────────────────────────────
 // CONFIG
