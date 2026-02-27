@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 11:16
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:19
 -->
 <html lang="nl">
 <head>
@@ -582,8 +582,7 @@
       display: flex; align-items: center; justify-content: center; gap: 12px;
       background: linear-gradient(270deg, #3b5bdb, #748ffc, #2f9e44, #f59f00, #3b5bdb);
       background-size: 400% 400%;
-      animation: gradientShift 2s ease 5, bannerPop .6s cubic-bezier(.22,.68,0,1.35) both;
-      animation-fill-mode: forwards;
+      animation: bannerPop .6s cubic-bezier(.22,.68,0,1.35) both;
       color: #fff; border-radius: 16px;
       padding: 7px 16px; margin-bottom: 12px;
       font-size: 12px; font-weight: 600;
@@ -1160,7 +1159,20 @@ function checkTeamComplete(dateStr) {
     !splitTokens(r.code).every(t => getTagClass(t) === "afwezig")
   );
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
-    banner.innerHTML = `<div class="team-complete-banner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
+    banner.innerHTML = `<div class="team-complete-banner" id="teamCompleteBannerInner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
+    // Start gradient na pop animatie, stop na 10s
+    setTimeout(() => {
+      const el = document.getElementById("teamCompleteBannerInner");
+      if (el) {
+        el.style.animation = "bannerPop .6s cubic-bezier(.22,.68,0,1.35) forwards, gradientShift 2s ease 5 forwards";
+        setTimeout(() => {
+          if (el) {
+            el.style.backgroundPosition = "0% 50%";
+            el.style.animation = "none";
+          }
+        }, 10000);
+      }
+    }, 600);
     // Confetti enkel 1x per dag tonen
     if (lastConfettiDate !== dateStr) {
       lastConfettiDate = dateStr;
