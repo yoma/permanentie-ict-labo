@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 11:19
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:23
 -->
 <html lang="nl">
 <head>
@@ -580,8 +580,7 @@
     }
     .team-complete-banner {
       display: flex; align-items: center; justify-content: center; gap: 12px;
-      background: linear-gradient(270deg, #3b5bdb, #748ffc, #2f9e44, #f59f00, #3b5bdb);
-      background-size: 400% 400%;
+      background: #3b5bdb;
       animation: bannerPop .6s cubic-bezier(.22,.68,0,1.35) both;
       color: #fff; border-radius: 16px;
       padding: 7px 16px; margin-bottom: 12px;
@@ -590,11 +589,7 @@
       box-shadow: 0 8px 32px rgba(59,91,219,.4), 0 2px 8px rgba(0,0,0,.1);
       text-align: center;
     }
-    @keyframes gradientShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+
     @keyframes bannerPop {
       0%   { opacity: 0; transform: scale(.7) translateY(20px); }
       70%  { transform: scale(1.04) translateY(-4px); }
@@ -1160,18 +1155,23 @@ function checkTeamComplete(dateStr) {
   );
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
     banner.innerHTML = `<div class="team-complete-banner" id="teamCompleteBannerInner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
-    // Start gradient na pop animatie, stop na 10s
+    // Start gradient via JS na pop animatie
     setTimeout(() => {
       const el = document.getElementById("teamCompleteBannerInner");
-      if (el) {
-        el.style.animation = "bannerPop .6s cubic-bezier(.22,.68,0,1.35) forwards, gradientShift 2s ease 5 forwards";
-        setTimeout(() => {
-          if (el) {
-            el.style.backgroundPosition = "0% 50%";
-            el.style.animation = "none";
-          }
-        }, 10000);
-      }
+      if (!el) return;
+      el.style.background = "linear-gradient(270deg, #3b5bdb, #748ffc, #2f9e44, #f59f00, #3b5bdb)";
+      el.style.backgroundSize = "400% 400%";
+      let pos = 0;
+      const step = 2; // pixels per frame
+      const interval = setInterval(() => {
+        pos += step;
+        el.style.backgroundPosition = pos + "% 50%";
+      }, 30);
+      // Stop na 10 seconden
+      setTimeout(() => {
+        clearInterval(interval);
+        el.style.background = "#3b5bdb";
+      }, 5000);
     }, 600);
     // Confetti enkel 1x per dag tonen
     if (lastConfettiDate !== dateStr) {
