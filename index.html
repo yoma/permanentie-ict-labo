@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:53
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:56
 -->
 <html lang="nl">
 <head>
@@ -512,9 +512,12 @@
     .view.active {
       animation: viewFadeIn .25s ease both;
     }
+    .view.active {
+      animation: viewFadeIn .35s cubic-bezier(.22,.68,0,1.2) both;
+    }
     @keyframes viewFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(16px) scale(.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     /* ── SKELETON LOADING ── */
@@ -532,19 +535,19 @@
     }
     .skeleton-line {
       border-radius: 6px;
-      background: linear-gradient(90deg, #e8eaf5 25%, #f0f2ff 50%, #e8eaf5 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
+      background: linear-gradient(90deg, #dde0f0 25%, #eef0ff 50%, #dde0f0 75%);
+      background-size: 400% 100%;
+      animation: shimmer .9s ease-in-out infinite;
     }
     @keyframes shimmer {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0%   { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
     }
     .skeleton-avatar {
       width: 32px; height: 32px; border-radius: 9px;
-      background: linear-gradient(90deg, #e8eaf5 25%, #f0f2ff 50%, #e8eaf5 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
+      background: linear-gradient(90deg, #dde0f0 25%, #eef0ff 50%, #dde0f0 75%);
+      background-size: 400% 100%;
+      animation: shimmer .9s ease-in-out infinite;
       flex-shrink: 0;
     }
     .skeleton-stats {
@@ -1409,7 +1412,7 @@ function renderList() {
 // ─────────────────────────────────────────────
 // RENDER ALL
 // ─────────────────────────────────────────────
-function renderAll() {
+function renderAll(skipSkeleton) {
   buildFilterPanel();
   if (activeView === "today") renderToday();
   else if (activeView === "week") renderWeek();
@@ -1508,11 +1511,13 @@ function switchView(viewName) {
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   document.querySelector(`.nav-item[data-view="${viewName}"]`).classList.add("active");
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  // Re-trigger animatie door kort te verwijderen en terug toe te voegen
+  // Re-trigger animatie
   const target = document.getElementById("view-" + viewName);
+  target.style.opacity = "0";
   target.classList.remove("active");
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
+      target.style.opacity = "";
       target.classList.add("active");
     });
   });
