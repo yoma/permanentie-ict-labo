@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 11:02
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:06
 -->
 <html lang="nl">
 <head>
@@ -579,13 +579,26 @@
       100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
     .team-complete-banner {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      background: linear-gradient(120deg, #3b5bdb, #748ffc);
-      color: #fff; border-radius: 14px;
-      padding: 10px 20px; margin-bottom: 14px;
-      font-size: 15px; font-weight: 700;
-      box-shadow: 0 4px 20px rgba(59,91,219,.35);
-      animation: viewFadeIn .5s cubic-bezier(.22,.68,0,1.2) both;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      background: linear-gradient(120deg, #3b5bdb, #748ffc, #2f9e44);
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite, bannerPop .6s cubic-bezier(.22,.68,0,1.35) both;
+      color: #fff; border-radius: 16px;
+      padding: 18px 28px; margin-bottom: 16px;
+      font-size: 22px; font-weight: 800;
+      letter-spacing: -.3px;
+      box-shadow: 0 8px 32px rgba(59,91,219,.4), 0 2px 8px rgba(0,0,0,.1);
+      text-align: center;
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes bannerPop {
+      0%   { opacity: 0; transform: scale(.7) translateY(20px); }
+      70%  { transform: scale(1.04) translateY(-4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     /* ── EMPTY STATE ── */
@@ -1146,7 +1159,7 @@ function checkTeamComplete(dateStr) {
     !splitTokens(r.code).every(t => getTagClass(t) === "afwezig")
   );
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
-    banner.innerHTML = `<div class="team-complete-banner">🎉 Team Complete! Iedereen is aanwezig vandaag!</div>`;
+    banner.innerHTML = `<div class="team-complete-banner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
     // Confetti enkel 1x per dag tonen
     if (lastConfettiDate !== dateStr) {
       lastConfettiDate = dateStr;
