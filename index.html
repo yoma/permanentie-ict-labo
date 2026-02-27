@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 14:22
+  Laatste aanpassing: vrijdag 27 februari 2026 om 14:25
 -->
 <html lang="nl">
 <head>
@@ -258,11 +258,7 @@
       color: var(--sub2); margin-bottom: 6px;
     }
     .stat-value { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: var(--ink); }
-    .stat-card.accent-blue  .stat-value { color: var(--blue); }
-    .stat-card.accent-amber .stat-value { color: var(--amber); }
-    .stat-card.accent-red   .stat-value { color: var(--red); }
-
-    @keyframes fadeUp {
+    .stat-card.accent-blue  .stat-card.accent-amber .stat-card.accent-red   @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
@@ -660,7 +656,7 @@
       .today-title { font-size: 17px; }
       .stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
       .stat-card { padding: 10px 12px; }
-      .stat-value { font-size: 22px; }
+      
       .legend-row { display: none; }
       .week-grid { display: none; }
       #weekMobileWrap { display: block; }
