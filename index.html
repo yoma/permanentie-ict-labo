@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 13:48
+  Laatste aanpassing: vrijdag 27 februari 2026 om 14:22
 -->
 <html lang="nl">
 <head>
@@ -233,27 +233,34 @@
     }
     .stat-card {
       background: var(--card);
-      border-radius: 12px;
-      padding: 11px 14px;
+      border-radius: 16px;
+      padding: 14px 16px;
       box-shadow: var(--shadow);
       border: 1.5px solid var(--line2);
       animation: fadeUp .4s ease both;
       position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
     }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow2); }
     .stat-card::before {
       content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--blue), var(--blue3));
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 16px 16px 0 0;
+      background: var(--line2);
     }
+    .stat-card.accent-blue::before  { background: var(--blue); }
+    .stat-card.accent-red::before   { background: var(--red); }
+    .stat-card.accent-amber::before { background: var(--amber); }
+    .stat-card.accent-green::before { background: #2f9e44; }
     .stat-label {
       font-family: var(--mono);
-      font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--sub); margin-bottom: 4px;
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+      color: var(--sub2); margin-bottom: 6px;
     }
-    .stat-value { font-size: 24px; font-weight: 700; letter-spacing: -1px; color: var(--ink); }
-    .stat-value.blue  { color: var(--blue); }
-    .stat-value.amber { color: var(--amber); }
-    .stat-value.red   { color: var(--red); }
+    .stat-value { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: var(--ink); }
+    .stat-card.accent-blue  .stat-value { color: var(--blue); }
+    .stat-card.accent-amber .stat-value { color: var(--amber); }
+    .stat-card.accent-red   .stat-value { color: var(--red); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
@@ -306,12 +313,16 @@
     .team-card {
       background: var(--card);
       border: 1.5px solid var(--line2);
-      border-left: 3px solid var(--line2);
-      border-radius: var(--radius);
-      padding: 12px 13px;
-      box-shadow: var(--shadow);
+      border-left: 3.5px solid var(--line2);
+      border-radius: 14px;
+      padding: 14px 15px;
+      box-shadow: 0 2px 8px rgba(59,91,219,.06);
       transition: all .2s; animation: fadeUp .35s ease both;
       overflow: hidden; min-width: 0;
+    }
+    .team-card:hover {
+      box-shadow: 0 6px 24px rgba(59,91,219,.13);
+      transform: translateY(-2px);
     }
     .team-card:hover {
       border-color: rgba(59,91,219,.2);
