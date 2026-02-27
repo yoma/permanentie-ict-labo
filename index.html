@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 14:55
+  Laatste aanpassing: vrijdag 27 februari 2026 om 14:58
 -->
 <html lang="nl">
 <head>
@@ -264,6 +264,8 @@
       color: var(--sub2); margin-bottom: 6px;
     }
     .stat-card.accent-blue   .stat-value { color: var(--blue) !important; }
+    .stat-card.accent-green  .stat-value { color: #2f9e44 !important; }
+    .stat-card.accent-green::before { background: #2f9e44; }
     .stat-card.accent-red    .stat-value { color: var(--red) !important; }
     .stat-card.accent-amber  .stat-value { color: #f08c00 !important; }
     .stat-card.accent-orange .stat-value { color: #e8590c !important; }
@@ -1142,10 +1144,10 @@ function buildStats(dateStr) {
 
   const items = [
     { label: "Totaal team", value: total,    accent: "accent-sub",                              delay: ".0s"  },
-    { label: "Aanwezig",    value: aanwezig, accent: "accent-blue",                             delay: ".05s" },
+    { label: "Aanwezig",    value: aanwezig, accent: "accent-green",                             delay: ".05s" },
     { label: "Hotline",     value: hotline,  accent: "accent-red",                              delay: ".1s"  },
     { label: "Wachtdienst", value: wacht,    accent: "accent-amber",                           delay: ".15s" },
-    { label: "Afwezig",     value: afwezig,  accent: afwezig > 0 ? "accent-orange" : "",        delay: ".2s"  },
+    { label: "Afwezig",     value: afwezig,  accent: "accent-sub",        delay: ".2s"  },
   ];
   return items.map(it => `
     <div class="stat-card ${it.accent}" style="animation-delay:${it.delay}">
