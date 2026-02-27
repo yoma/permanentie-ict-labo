@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 14:49
+  Laatste aanpassing: vrijdag 27 februari 2026 om 14:55
 -->
 <html lang="nl">
 <head>
@@ -250,7 +250,7 @@
     }
     .stat-card.accent-blue::before  { background: var(--blue); }
     .stat-card.accent-red::before   { background: var(--red); }
-    .stat-card.accent-amber::before { background: var(--amber); }
+    .stat-card.accent-amber::before { background: #ffd43b; }
     .stat-card.accent-green::before { background: #2f9e44; }
     .stat-card.accent-sub::before    { background: var(--sub2); }
     .stat-card.accent-sub .stat-value { color: var(--ink2); }
@@ -263,6 +263,11 @@
       font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
       color: var(--sub2); margin-bottom: 6px;
     }
+    .stat-card.accent-blue   .stat-value { color: var(--blue) !important; }
+    .stat-card.accent-red    .stat-value { color: var(--red) !important; }
+    .stat-card.accent-amber  .stat-value { color: #f08c00 !important; }
+    .stat-card.accent-orange .stat-value { color: #e8590c !important; }
+    .stat-card.accent-sub    .stat-value { color: var(--sub) !important; }
     .stat-value { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: var(--ink); }
     .stat-card.accent-blue  .stat-card.accent-amber .stat-card.accent-red   @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
