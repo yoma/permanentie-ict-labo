@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 13:41
+  Laatste aanpassing: vrijdag 27 februari 2026 om 13:43
 -->
 <html lang="nl">
 <head>
@@ -1224,19 +1224,6 @@ function updateTopbarNotice(dateStr) {
   // Vrijdag?
   const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
   if (dateObj.getDay() === 5) msgs.push("✨ It's Friyay!");
-
-  // Volgende werkdag hotline/wacht
-  const [y,m,d] = dateStr.split("-").map(Number);
-  const volgende = new Date(y, m-1, d);
-  volgende.setDate(volgende.getDate() + 1);
-  while (volgende.getDay() === 0 || volgende.getDay() === 6) volgende.setDate(volgende.getDate() + 1);
-  const volgIso = isoFromDate(volgende);
-  const volgRecords = records.filter(r => r.date === volgIso);
-  const hotline = volgRecords.find(r => splitTokens(r.code).includes("H"));
-  const wacht = volgRecords.find(r => splitTokens(r.code).some(t => ["w","w1","w2","w3"].includes(t.toLowerCase())));
-  const dagNaam = volgende.getDate() === new Date(y,m-1,d+1).getDate() && volgende.getMonth() === new Date(y,m-1,d+1).getMonth() ? "morgen" : `${DAYS_NL[volgende.getDay()]} ${volgende.getDate()} ${MONTHS_NL[volgende.getMonth()]}`;
-  if (hotline) msgs.push(`🔴 Hotline ${dagNaam}: ${hotline.person}`);
-  if (wacht)   msgs.push(`🟡 Wacht ${dagNaam}: ${wacht.person}`);
 
   el.textContent = msgs.join("  ·  ");
 }
