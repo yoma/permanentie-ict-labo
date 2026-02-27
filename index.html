@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 14:25
+  Laatste aanpassing: vrijdag 27 februari 2026 om 14:40
 -->
 <html lang="nl">
 <head>
@@ -1123,38 +1123,25 @@ function buildLegend() {
 // ─────────────────────────────────────────────
 function buildStats(dateStr) {
   const day = records.filter(r => r.date === dateStr);
-  const total   = allPeople.length;
-  const aanwezig = day.filter(r => !splitTokens(r.code).every(t =>
-    ["afwezig"].includes(getTagClass(t))
-  )).length;
-  const hotline = day.filter(r => splitTokens(r.code).includes("H")).length;
-  const wacht   = day.filter(r => splitTokens(r.code).some(t=>["w","w1","w2","w3"].includes(t.toLowerCase()))).length;
-  const afwezig = day.filter(r => splitTokens(r.code).every(t => getTagClass(t)==="afwezig")).length;
+  const total    = allPeople.length;
+  const aanwezig = day.filter(r => !splitTokens(r.code).every(t => ["afwezig"].includes(getTagClass(t)))).length;
+  const hotline  = day.filter(r => splitTokens(r.code).includes("H")).length;
+  const wacht    = day.filter(r => splitTokens(r.code).some(t => ["w","w1","w2","w3"].includes(t.toLowerCase()))).length;
+  const afwezig  = day.filter(r => splitTokens(r.code).every(t => getTagClass(t)==="afwezig")).length;
 
-  return `
-    <div class="stat-card" style="animation-delay:.0s">
-      <div class="stat-label">Totaal team</div>
-      <div class="stat-value">${total}</div>
-    </div>
-    <div class="stat-card" style="animation-delay:.05s">
-      <div class="stat-label">Aanwezig</div>
-      <div class="stat-value blue">${aanwezig}</div>
-    </div>
-    <div class="stat-card" style="animation-delay:.1s">
-      <div class="stat-label">Hotline</div>
-      <div class="stat-value red">${hotline}</div>
-    </div>
-    <div class="stat-card" style="animation-delay:.15s">
-      <div class="stat-label">Wachtdienst</div>
-      <div class="stat-value amber">${wacht}</div>
-    </div>
-    <div class="stat-card" style="animation-delay:.2s">
-      <div class="stat-label">Afwezig</div>
-      <div class="stat-value" style="color:var(--sub)">${afwezig}</div>
-    </div>
-  `;
+  const items = [
+    { label: "Totaal team", value: total,    accent: "",             delay: ".0s"  },
+    { label: "Aanwezig",    value: aanwezig, accent: "accent-blue",  delay: ".05s" },
+    { label: "Hotline",     value: hotline,  accent: "accent-red",   delay: ".1s"  },
+    { label: "Wachtdienst", value: wacht,    accent: "accent-amber", delay: ".15s" },
+    { label: "Afwezig",     value: afwezig,  accent: "",             delay: ".2s"  },
+  ];
+  return items.map(it => `
+    <div class="stat-card ${it.accent}" style="animation-delay:${it.delay}">
+      <div class="stat-label">${it.label}</div>
+      <div class="stat-value">${it.value}</div>
+    </div>`).join("");
 }
-
 // ─────────────────────────────────────────────
 // MORGEN STRIP
 // ─────────────────────────────────────────────
@@ -1569,12 +1556,7 @@ function renderList() {
 
     for (const r of entries) {
       const tokens = splitTokens(r.code);
-      const chips = tokens.map(t => {
-        const def = CODE_MAP[t];
-        const label = def ? def.label : t.toUpperCase();
-        const cls2 = def ? def.cls : (CODE_CLASSES[t] || "norm");
-        return `<span class="tag ${cls2}" style="font-size:10px;padding:2px 6px;">${label}</span>`;
-      }).join("");
+      const chips = renderTags(tokens);
 
       html += `<div class="cal-entry">
         <span class="cal-entry-name" style="color:${avatarColor(r.person)}">${r.person}</span>
