@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:59
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:02
 -->
 <html lang="nl">
 <head>
@@ -562,6 +562,32 @@
       border: 1.5px solid var(--line2);
     }
 
+    /* ── CONFETTI ── */
+    .confetti-piece {
+      position: fixed;
+      width: 10px; height: 10px;
+      top: -10px;
+      border-radius: 2px;
+      opacity: 0;
+      animation: confettiFall linear forwards;
+      z-index: 999;
+      pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      80%  { opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    .team-complete-banner {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: linear-gradient(120deg, #3b5bdb, #748ffc);
+      color: #fff; border-radius: 14px;
+      padding: 10px 20px; margin-bottom: 14px;
+      font-size: 15px; font-weight: 700;
+      box-shadow: 0 4px 20px rgba(59,91,219,.35);
+      animation: viewFadeIn .5s cubic-bezier(.22,.68,0,1.2) both;
+    }
+
     /* ── EMPTY STATE ── */
     .empty-state { padding: 60px 20px; text-align: center; color: var(--sub); }
     .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
@@ -740,6 +766,7 @@
       <div class="legend-row" id="legendRow"></div>
       <div class="stats-row" id="statsRow"></div>
       <div class="morgen-strip" id="morgenStrip"></div>
+      <div id="teamCompleteBanner"></div>
       <div class="team-grid" id="teamGrid"></div>
     </div>
 
@@ -1090,6 +1117,46 @@ function buildStats(dateStr) {
 // ─────────────────────────────────────────────
 // MORGEN STRIP
 // ─────────────────────────────────────────────
+// ── CONFETTI ──
+function launchConfetti() {
+  const colors = ["#3b5bdb","#748ffc","#f59f00","#2f9e44","#e03131","#ae3ec9","#0c8599","#fff"];
+  const count = 80;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("div");
+    el.className = "confetti-piece";
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.width = (8 + Math.random() * 8) + "px";
+    el.style.height = (8 + Math.random() * 8) + "px";
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+    el.style.animationDuration = (2 + Math.random() * 2) + "s";
+    el.style.animationDelay = (Math.random() * 1.5) + "s";
+    document.body.appendChild(el);
+    el.addEventListener("animationend", () => el.remove());
+  }
+}
+
+let lastConfettiDate = null;
+
+function checkTeamComplete(dateStr) {
+  const banner = document.getElementById("teamCompleteBanner");
+  if (!banner) return;
+  const dayRecords = records.filter(r => r.date === dateStr);
+  const aanwezig = dayRecords.filter(r =>
+    !splitTokens(r.code).every(t => getTagClass(t) === "afwezig")
+  );
+  if (aanwezig.length === allPeople.length && allPeople.length > 0) {
+    banner.innerHTML = `<div class="team-complete-banner">🎉 Team Complete! Iedereen is aanwezig vandaag!</div>`;
+    // Confetti enkel 1x per dag tonen
+    if (lastConfettiDate !== dateStr) {
+      lastConfettiDate = dateStr;
+      launchConfetti();
+    }
+  } else {
+    banner.innerHTML = "";
+  }
+}
+
 function buildMorgenStrip(dateStr) {
   const wrap = document.getElementById("morgenStrip");
   if (!wrap) return;
@@ -1146,6 +1213,7 @@ function renderToday() {
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
   buildMorgenStrip(dateStr);
+  checkTeamComplete(dateStr);
 
   // Bouw kaarten
   const todayRecords = records.filter(r => r.date === dateStr);
