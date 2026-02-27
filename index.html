@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 11:29
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:32
 -->
 <html lang="nl">
 <head>
@@ -1230,13 +1230,37 @@ function renderToday() {
   const dateStr = document.getElementById("datePicker").value || isoToday();
   const q = document.getElementById("globalSearch").value.trim().toLowerCase();
 
+  const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
+  const isVrijdag = dateObj.getDay() === 5;
   document.getElementById("todayTitle").innerHTML =
-    `Permanenties — <span>${formatDateNL(dateStr)}</span>`;
-  document.getElementById("todaySub").textContent = "Wie is er aanwezig vandaag?";
+    `Permanenties — <span>${formatDateNL(dateStr)}</span>${isVrijdag ? ' <span style="font-size:18px;">🎉</span>' : ''}`;
+  document.getElementById("todaySub").textContent = isVrijdag
+    ? "🎵 It's Friday! Have a great weekend! 🎵"
+    : "Wie is er aanwezig vandaag?";
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
   buildMorgenStrip(dateStr);
   checkTeamComplete(dateStr);
+
+  // Vrijdag easter egg — confetti bij eerste load op vrijdag
+  if (isVrijdag && !window._vrijdagConfetti) {
+    window._vrijdagConfetti = true;
+    setTimeout(() => {
+      const colors = ["#f59f00","#ffd43b","#ff922b","#e03131","#3b5bdb","#2f9e44"];
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement("div");
+        el.className = "confetti-piece";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.width = el.style.height = (6 + Math.random() * 6) + "px";
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+        el.style.animationDuration = (2.5 + Math.random() * 2) + "s";
+        el.style.animationDelay = (Math.random() * 2) + "s";
+        document.body.appendChild(el);
+        el.addEventListener("animationend", () => el.remove());
+      }
+    }, 500);
+  }
 
   // Bouw kaarten
   const todayRecords = records.filter(r => r.date === dateStr);
