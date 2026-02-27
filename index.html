@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: donderdag 26 februari 2026 om 15:36
+  Laatste aanpassing: vrijdag 27 februari 2026 om 09:32
 -->
 <html lang="nl">
 <head>
@@ -335,6 +335,23 @@
     .team-card.grp-afwezig { border-left-color: var(--sub2); opacity: .7; }
     .team-card.grp-geen    { border-left-color: var(--line2); opacity: .45; }
 
+    /* Middelheim highlight */
+    .team-card.grp-middelheim {
+      border-left-color: #16a34a;
+      border: 2px solid #16a34a;
+      box-shadow: 0 0 0 0 rgba(22,163,74,.5), var(--shadow);
+      animation: fadeUp .35s ease both, middelheimPulse 2s ease-in-out infinite;
+    }
+    .team-card.grp-middelheim:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 4px rgba(22,163,74,.2), var(--shadow2);
+    }
+    @keyframes middelheimPulse {
+      0%   { box-shadow: 0 0 0 0   rgba(22,163,74,.45), var(--shadow); }
+      50%  { box-shadow: 0 0 0 6px rgba(22,163,74,.0),  var(--shadow); }
+      100% { box-shadow: 0 0 0 0   rgba(22,163,74,.45), var(--shadow); }
+    }
+
     .tc-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
     .tc-avatar {
       width: 32px; height: 32px; border-radius: 9px;
@@ -544,7 +561,7 @@
   <div class="mob-nav-item active" data-mob-view="today"><span class="mob-icon">📅</span><span>Vandaag</span></div>
   <div class="mob-nav-item" data-mob-view="week"><span class="mob-icon">📆</span><span>Week</span></div>
   <div class="mob-nav-item" data-mob-view="list"><span class="mob-icon">🗓️</span><span>Maand</span></div>
-  <div class="mob-nav-item" id="mobFilterBtn"><span class="mob-icon" style="font-size:16px;">⊟</span><span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span></div>
+  <div class="mob-nav-item" id="mobFilterBtn"><span class="mob-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span><span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span></div>
   <div class="mob-nav-item" id="mobPeopleBtn"><span class="mob-icon">👤</span><span>Persoon</span></div>
 </nav>
 
@@ -972,10 +989,13 @@ function renderToday() {
     }
 
     let grpCls = "grp-geen"; let sortKey = "9_geen";
+    // Middelheim krijgt prioriteit highlight (maar hotline gaat voor)
+    const hasMiddelheim = tokens.some(t => t.toLowerCase() === "mi");
     for (const t of tokens) {
       const cls = (CODE_MAP[t]||{}).cls || CODE_CLASSES[t] || "norm";
       if (cls === "hotline") { grpCls = "grp-hotline"; sortKey = "1_hotline"; break; }
       if (cls === "wacht")   { grpCls = "grp-wacht";   sortKey = "2_wacht";   break; }
+      if (hasMiddelheim)     { grpCls = "grp-middelheim"; sortKey = "2_middelheim"; break; }
       if (cls === "norm")    { grpCls = "grp-norm";     sortKey = "3_" + t;   break; }
       if (cls === "afwezig") { grpCls = "grp-afwezig";  sortKey = "8_afwezig"; break; }
     }
