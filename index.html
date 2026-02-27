@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:43
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:46
 -->
 <html lang="nl">
 <head>
@@ -368,8 +368,7 @@
       padding: 3px 9px; border-radius: 7px;
       font-size: 11px; font-weight: 500;
       font-family: var(--sans); letter-spacing: 0;
-      white-space: nowrap; overflow: hidden;
-      text-overflow: ellipsis; max-width: 160px;
+      white-space: nowrap;
     }
     .tag.norm    { background: var(--blue5); color: var(--blue); border: 1.5px solid rgba(59,91,219,.2); }
     .tag.hotline { background: var(--red); color: #fff; border: 1.5px solid var(--red); box-shadow: 0 2px 10px rgba(224,49,49,.25); font-weight: 700; }
@@ -537,7 +536,7 @@
       .team-card { padding: 11px; }
       .tc-avatar { width: 30px; height: 30px; font-size: 10px; border-radius: 9px; }
       .tc-name { font-size: 12px; }
-      .tag { font-size: 10px; padding: 3px 7px; max-width: 130px; }
+      .tag { font-size: 10px; padding: 3px 7px; }
       .today-title { font-size: 17px; }
       .stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
       .stat-card { padding: 10px 12px; }
@@ -843,7 +842,9 @@ function renderTags(code) {
       : t.toUpperCase();
     // Speciale klassen krijgen eigen CSS, norm-codes krijgen inline kleur
     const extraStyle = cls === "norm" ? getCodeStyle(t) : "";
-    return `<span class="tag ${cls}" ${extraStyle} title="${label}">${label}</span>`;
+    const maxLen = 22;
+    const display = label.length > maxLen ? label.slice(0, maxLen) + "…" : label;
+    return `<span class="tag ${cls}" ${extraStyle} title="${label}">${display}</span>`;
   }).join("");
 }
 
