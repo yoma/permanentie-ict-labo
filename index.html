@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 13:46
+  Laatste aanpassing: vrijdag 27 februari 2026 om 13:48
 -->
 <html lang="nl">
 <head>
@@ -1282,7 +1282,7 @@ function renderToday() {
   const isVrijdag = dateObj.getDay() === 5;
   document.getElementById("todayTitle").innerHTML =
     `Permanenties — <span>${formatDateNL(dateStr)}</span>${isVrijdag ? ' <span style="font-size:18px;">🎉</span>' : ''}`;
-  document.getElementById("todaySub").textContent = "Wie is er aanwezig vandaag?";
+  document.getElementById("todaySub").textContent = "";
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
   buildMorgenStrip(dateStr);
