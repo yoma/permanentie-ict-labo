@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 13:36
+  Laatste aanpassing: vrijdag 27 februari 2026 om 13:41
 -->
 <html lang="nl">
 <head>
@@ -1289,7 +1289,7 @@ function buildMorgenStrip(dateStr) {
 // ─────────────────────────────────────────────
 function renderToday() {
   const dateStr = document.getElementById("datePicker").value || isoToday();
-  const q = document.getElementById("globalSearch").value.trim().toLowerCase();
+  const q = "";
 
   const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
   const isVrijdag = dateObj.getDay() === 5;
@@ -1408,7 +1408,7 @@ function renderWeek() {
     `Week van ${startDate.getDate()} ${MONTHS_NL[startDate.getMonth()]} — ${endDate.getDate()} ${MONTHS_NL[endDate.getMonth()]} ${endDate.getFullYear()}`;
 
   let people = filterPerson ? [filterPerson] : allPeople;
-  const q = document.getElementById("globalSearch").value.trim().toLowerCase();
+  const q = "";
   if (q) people = people.filter(p => p.toLowerCase().includes(q));
   // Code filter: behoud alleen mensen die deze week de code hebben
   if (filterCode) {
@@ -1522,7 +1522,7 @@ function buildMonthTabs() {
 }
 
 function renderList() {
-  const q = document.getElementById("globalSearch").value.trim().toLowerCase();
+  const q = "";
   const wrap = document.getElementById("calendarWrap");
 
   let filtered = records.slice();
@@ -1722,13 +1722,13 @@ datePicker.addEventListener("change", () => {
   renderAll();
 });
 
-document.getElementById("globalSearch").addEventListener("input", renderAll);
+
 
 document.getElementById("btnToday").addEventListener("click", () => {
   const realToday = isoToday(); // altijd de echte datum, ongeacht wat in datepicker staat
   datePicker.value = realToday;
   currentWeekStart = getMonday(realToday);
-  document.getElementById("globalSearch").value = "";
+  
   switchView("today");
   renderAll();
 });
@@ -1739,7 +1739,7 @@ document.getElementById("btnReset").addEventListener("click", () => {
   filterCode = "";
   updateFilterBadge();
   document.getElementById("filterPanel").style.display = "none";
-  document.getElementById("globalSearch").value = "";
+  
   document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
   document.querySelector('.person-chip[data-person=""]')?.classList.add("active");
   // Reset maandtab naar huidige maand
@@ -1890,7 +1890,7 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
   datePicker.value = realToday;
   datePickerMob.value = realToday;
   currentWeekStart = getMonday(realToday);
-  document.getElementById("globalSearch").value = "";
+  
   switchView("today");
   renderAll();
 });
