@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 12:31
+  Laatste aanpassing: vrijdag 27 februari 2026 om 12:38
 -->
 <html lang="nl">
 <head>
@@ -1277,7 +1277,10 @@ function renderToday() {
       // Friyay overlay tekst
       const overlay = document.createElement("div");
       overlay.className = "friyay-overlay";
-      overlay.innerHTML = `<div class="friyay-text">✨ It's Friyay! ✨</div>`;
+      overlay.innerHTML = `<div style="text-align:center;">
+        <div class="friyay-text">✨ It's Friyay! ✨</div>
+        <div style="font-size:clamp(18px,3.5vw,36px); font-weight:700; color:rgba(255,255,255,.9); margin-top:8px; text-shadow: 0 2px 12px rgba(0,0,0,.3);">Have a great weekend! 🎊</div>
+      </div>`;
       document.body.appendChild(overlay);
       setTimeout(() => overlay.remove(), 3500);
 
