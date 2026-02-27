@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:56
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:59
 -->
 <html lang="nl">
 <head>
@@ -513,11 +513,11 @@
       animation: viewFadeIn .25s ease both;
     }
     .view.active {
-      animation: viewFadeIn .35s cubic-bezier(.22,.68,0,1.2) both;
+      animation: viewFadeIn .45s cubic-bezier(.22,.68,0,1.15) both;
     }
     @keyframes viewFadeIn {
-      from { opacity: 0; transform: translateY(16px) scale(.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translateY(30px) scale(.95); filter: blur(4px); }
+      to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
 
     /* ── SKELETON LOADING ── */
@@ -535,7 +535,7 @@
     }
     .skeleton-line {
       border-radius: 6px;
-      background: linear-gradient(90deg, #dde0f0 25%, #eef0ff 50%, #dde0f0 75%);
+      background: linear-gradient(90deg, #d0d4ed 20%, #eaecff 50%, #d0d4ed 80%);
       background-size: 400% 100%;
       animation: shimmer .9s ease-in-out infinite;
     }
@@ -545,7 +545,7 @@
     }
     .skeleton-avatar {
       width: 32px; height: 32px; border-radius: 9px;
-      background: linear-gradient(90deg, #dde0f0 25%, #eef0ff 50%, #dde0f0 75%);
+      background: linear-gradient(90deg, #d0d4ed 20%, #eaecff 50%, #d0d4ed 80%);
       background-size: 400% 100%;
       animation: shimmer .9s ease-in-out infinite;
       flex-shrink: 0;
@@ -945,13 +945,14 @@ function renderSkeleton() {
   const grid = document.getElementById("teamGrid");
   if (grid) {
     grid.innerHTML = `<div class="skeleton-grid" style="grid-column:1/-1;">` +
-      Array(8).fill(0).map((_, i) => `
+      Array(10).fill(0).map((_, i) => `
         <div class="skeleton-card" style="animation-delay:${i*0.05}s">
           <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
             <div class="skeleton-avatar" style="animation-delay:${i*0.05}s"></div>
             <div class="skeleton-line" style="height:13px;width:70%;animation-delay:${i*0.05}s"></div>
           </div>
-          <div class="skeleton-line" style="height:24px;width:85%;animation-delay:${i*0.05+0.1}s"></div>
+          <div class="skeleton-line" style="height:28px;width:85%;animation-delay:${i*0.05+0.1}s;border-radius:8px;"></div>
+          <div class="skeleton-line" style="height:10px;width:55%;margin-top:6px;animation-delay:${i*0.05+0.15}s;"></div>
         </div>`).join("") +
     `</div>`;
   }
