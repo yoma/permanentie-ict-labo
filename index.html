@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:40
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:43
 -->
 <html lang="nl">
 <head>
@@ -843,7 +843,7 @@ function renderTags(code) {
       : t.toUpperCase();
     // Speciale klassen krijgen eigen CSS, norm-codes krijgen inline kleur
     const extraStyle = cls === "norm" ? getCodeStyle(t) : "";
-    return `<span class="tag ${cls}" ${extraStyle}>${label}</span>`;
+    return `<span class="tag ${cls}" ${extraStyle} title="${label}">${label}</span>`;
   }).join("");
 }
 
