@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 14:40
+  Laatste aanpassing: vrijdag 27 februari 2026 om 14:43
 -->
 <html lang="nl">
 <head>
@@ -252,6 +252,8 @@
     .stat-card.accent-red::before   { background: var(--red); }
     .stat-card.accent-amber::before { background: var(--amber); }
     .stat-card.accent-green::before { background: #2f9e44; }
+    .stat-card.accent-sub::before   { background: var(--sub2); }
+    .stat-card.accent-sub .stat-value { color: var(--ink2); }
     .stat-label {
       font-family: var(--mono);
       font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
@@ -1130,11 +1132,11 @@ function buildStats(dateStr) {
   const afwezig  = day.filter(r => splitTokens(r.code).every(t => getTagClass(t)==="afwezig")).length;
 
   const items = [
-    { label: "Totaal team", value: total,    accent: "",             delay: ".0s"  },
-    { label: "Aanwezig",    value: aanwezig, accent: "accent-blue",  delay: ".05s" },
-    { label: "Hotline",     value: hotline,  accent: "accent-red",   delay: ".1s"  },
-    { label: "Wachtdienst", value: wacht,    accent: "accent-amber", delay: ".15s" },
-    { label: "Afwezig",     value: afwezig,  accent: "",             delay: ".2s"  },
+    { label: "Totaal team", value: total,    accent: "accent-sub",                        delay: ".0s"  },
+    { label: "Aanwezig",    value: aanwezig, accent: "accent-blue",                       delay: ".05s" },
+    { label: "Hotline",     value: hotline,  accent: "accent-red",                        delay: ".1s"  },
+    { label: "Wachtdienst", value: wacht,    accent: "accent-amber",                      delay: ".15s" },
+    { label: "Afwezig",     value: afwezig,  accent: afwezig > 0 ? "accent-red" : "",     delay: ".2s"  },
   ];
   return items.map(it => `
     <div class="stat-card ${it.accent}" style="animation-delay:${it.delay}">
@@ -1556,7 +1558,7 @@ function renderList() {
 
     for (const r of entries) {
       const tokens = splitTokens(r.code);
-      const chips = renderTags(tokens);
+      const chips = renderTags(tokens.join(","));
 
       html += `<div class="cal-entry">
         <span class="cal-entry-name" style="color:${avatarColor(r.person)}">${r.person}</span>
