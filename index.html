@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 12:38
+  Laatste aanpassing: vrijdag 27 februari 2026 om 13:36
 -->
 <html lang="nl">
 <head>
@@ -183,19 +183,8 @@
       flex-wrap: wrap; position: sticky; top: 0; z-index: 10;
     }
 
-    .search-wrap { flex: 1; min-width: 200px; position: relative; }
-    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--sub2); font-size: 14px; pointer-events: none; }
-    .search-wrap input {
-      width: 100%; padding: 10px 12px 10px 36px;
-      border: 1.5px solid var(--line);
-      border-radius: 12px;
-      font-family: var(--sans); font-size: 13.5px;
-      color: var(--ink); background: #fff;
-      outline: none; transition: all .15s;
-      box-shadow: var(--shadow);
-    }
-    .search-wrap input:focus { border-color: var(--blue2); box-shadow: 0 0 0 3px rgba(59,91,219,.12); }
-    .search-wrap input::placeholder { color: var(--sub2); }
+    
+    
 
     .tb-date input[type=date] {
       padding: 9px 12px; border: 1.5px solid var(--line);
@@ -761,9 +750,17 @@
 <!-- ── MAIN ── -->
 <div class="main">
   <div class="topbar">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="globalSearch" placeholder="Zoek op naam, code, datum…"/>
+    <div id="topbarNotice" style="
+      flex: 1;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--sub);
+      font-family: var(--sans);
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    ">
+      <span id="topbarNoticeText" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
     </div>
     <div class="tb-date">
       <input type="date" id="datePicker"/>
@@ -1208,6 +1205,42 @@ function checkTeamComplete(dateStr) {
   }
 }
 
+// ── TOPBAR MELDINGEN ──
+function updateTopbarNotice(dateStr) {
+  const el = document.getElementById("topbarNoticeText");
+  if (!el) return;
+
+  const msgs = [];
+
+  // Team complete?
+  const dayRecords = records.filter(r => r.date === dateStr);
+  const aanwezig = dayRecords.filter(r =>
+    !splitTokens(r.code).every(t => getTagClass(t) === "afwezig")
+  );
+  if (aanwezig.length === allPeople.length && allPeople.length > 0) {
+    msgs.push("🎉 Team Complete!");
+  }
+
+  // Vrijdag?
+  const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
+  if (dateObj.getDay() === 5) msgs.push("✨ It's Friyay!");
+
+  // Volgende werkdag hotline/wacht
+  const [y,m,d] = dateStr.split("-").map(Number);
+  const volgende = new Date(y, m-1, d);
+  volgende.setDate(volgende.getDate() + 1);
+  while (volgende.getDay() === 0 || volgende.getDay() === 6) volgende.setDate(volgende.getDate() + 1);
+  const volgIso = isoFromDate(volgende);
+  const volgRecords = records.filter(r => r.date === volgIso);
+  const hotline = volgRecords.find(r => splitTokens(r.code).includes("H"));
+  const wacht = volgRecords.find(r => splitTokens(r.code).some(t => ["w","w1","w2","w3"].includes(t.toLowerCase())));
+  const dagNaam = volgende.getDate() === new Date(y,m-1,d+1).getDate() && volgende.getMonth() === new Date(y,m-1,d+1).getMonth() ? "morgen" : `${DAYS_NL[volgende.getDay()]} ${volgende.getDate()} ${MONTHS_NL[volgende.getMonth()]}`;
+  if (hotline) msgs.push(`🔴 Hotline ${dagNaam}: ${hotline.person}`);
+  if (wacht)   msgs.push(`🟡 Wacht ${dagNaam}: ${wacht.person}`);
+
+  el.textContent = msgs.join("  ·  ");
+}
+
 function buildMorgenStrip(dateStr) {
   const wrap = document.getElementById("morgenStrip");
   if (!wrap) return;
@@ -1269,6 +1302,7 @@ function renderToday() {
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
   buildMorgenStrip(dateStr);
   checkTeamComplete(dateStr);
+  updateTopbarNotice(dateStr);
 
   // Vrijdag easter egg — confetti bij eerste load op vrijdag
   if (isVrijdag && !window._vrijdagConfetti) {
