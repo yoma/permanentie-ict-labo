@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:33
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:37
 -->
 <html lang="nl">
 <head>
@@ -463,6 +463,24 @@
     .cf-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
     .cf-btn.active { transform: translateY(-1px); box-shadow: var(--shadow2); outline: 2px solid var(--blue); outline-offset: 1px; }
 
+    /* ── DAG NAV PIJLTJES ── */
+    .day-nav-btn {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      color: var(--ink2);
+      font-size: 20px; line-height: 1;
+      cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow);
+      transition: all .15s;
+    }
+    .day-nav-btn:hover {
+      border-color: var(--blue2); color: var(--blue);
+      background: var(--blue5); box-shadow: var(--shadow2);
+    }
+
     /* ── MORGEN STRIP ── */
     .morgen-strip {
       display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
@@ -652,10 +670,14 @@
 
   <div class="content">
     <div class="view active" id="view-today">
-      <div class="today-header"><div>
-        <div class="today-title" id="todayTitle">—</div>
-        <div class="today-sub" id="todaySub">Wie is er aanwezig vandaag?</div>
-      </div></div>
+      <div class="today-header" style="display:flex; align-items:center; gap:10px; margin-bottom:2px;">
+        <button class="day-nav-btn" id="btnPrevDay" title="Vorige dag">‹</button>
+        <div style="flex:1;">
+          <div class="today-title" id="todayTitle">—</div>
+          <div class="today-sub" id="todaySub">Wie is er aanwezig vandaag?</div>
+        </div>
+        <button class="day-nav-btn" id="btnNextDay" title="Volgende dag">›</button>
+      </div>
       <div class="legend-row" id="legendRow"></div>
       <div class="stats-row" id="statsRow"></div>
       <div class="morgen-strip" id="morgenStrip"></div>
@@ -1442,6 +1464,24 @@ document.getElementById("btnReset").addEventListener("click", () => {
   const months = [...new Set(records.map(r => r.date.slice(0, 7)))].sort();
   activeMonth = months.includes(todayMonth) ? todayMonth : (months[0] || null);
   buildMonthTabs();
+  renderAll();
+});
+
+// Dag navigatie pijltjes
+document.getElementById("btnPrevDay").addEventListener("click", () => {
+  const cur = datePicker.value || isoToday();
+  const prev = isoFromDate(addDays(cur, -1));
+  datePicker.value = prev;
+  datePickerMob.value = prev;
+  currentWeekStart = getMonday(prev);
+  renderAll();
+});
+document.getElementById("btnNextDay").addEventListener("click", () => {
+  const cur = datePicker.value || isoToday();
+  const next = isoFromDate(addDays(cur, 1));
+  datePicker.value = next;
+  datePickerMob.value = next;
+  currentWeekStart = getMonday(next);
   renderAll();
 });
 
