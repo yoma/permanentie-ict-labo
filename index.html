@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 11:32
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:37
 -->
 <html lang="nl">
 <head>
@@ -1235,7 +1235,7 @@ function renderToday() {
   document.getElementById("todayTitle").innerHTML =
     `Permanenties — <span>${formatDateNL(dateStr)}</span>${isVrijdag ? ' <span style="font-size:18px;">🎉</span>' : ''}`;
   document.getElementById("todaySub").textContent = isVrijdag
-    ? "🎵 It's Friday! Have a great weekend! 🎵"
+    ? "✨ It's Friyay! Have a great weekend! ✨"
     : "Wie is er aanwezig vandaag?";
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
@@ -1246,8 +1246,8 @@ function renderToday() {
   if (isVrijdag && !window._vrijdagConfetti) {
     window._vrijdagConfetti = true;
     setTimeout(() => {
-      const colors = ["#f59f00","#ffd43b","#ff922b","#e03131","#3b5bdb","#2f9e44"];
-      for (let i = 0; i < 40; i++) {
+      const colors = ["#f59f00","#ffd43b","#ffe066","#fab005","#fd7e14","#ffec99"];
+      for (let i = 0; i < 80; i++) {
         const el = document.createElement("div");
         el.className = "confetti-piece";
         el.style.left = Math.random() * 100 + "vw";
