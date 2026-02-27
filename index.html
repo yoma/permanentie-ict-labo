@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 09:39
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:27
 -->
 <html lang="nl">
 <head>
@@ -463,6 +463,30 @@
     .cf-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
     .cf-btn.active { transform: translateY(-1px); box-shadow: var(--shadow2); outline: 2px solid var(--blue); outline-offset: 1px; }
 
+    /* ── MORGEN STRIP ── */
+    .morgen-strip {
+      display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .morgen-card {
+      background: var(--card);
+      border: 1.5px solid var(--line2);
+      border-radius: 12px;
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 10px;
+      flex: 1; min-width: 160px;
+    }
+    .morgen-card.hotline { border-left: 3px solid var(--red); }
+    .morgen-card.wacht   { border-left: 3px solid var(--amber); }
+    .morgen-icon { font-size: 18px; flex-shrink: 0; }
+    .morgen-info { display: flex; flex-direction: column; gap: 2px; }
+    .morgen-label {
+      font-family: var(--mono); font-size: 9px; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub);
+    }
+    .morgen-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+    .morgen-date { font-size: 11px; color: var(--sub2); }
+
     /* ── EMPTY STATE ── */
     .empty-state { padding: 60px 20px; text-align: center; color: var(--sub); }
     .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
@@ -636,6 +660,7 @@
       </div></div>
       <div class="legend-row" id="legendRow"></div>
       <div class="stats-row" id="statsRow"></div>
+      <div class="morgen-strip" id="morgenStrip"></div>
       <div class="team-grid" id="teamGrid"></div>
     </div>
 
@@ -956,6 +981,59 @@ function buildStats(dateStr) {
 }
 
 // ─────────────────────────────────────────────
+// MORGEN STRIP
+// ─────────────────────────────────────────────
+function buildMorgenStrip(dateStr) {
+  const wrap = document.getElementById("morgenStrip");
+  if (!wrap) return;
+
+  // Bereken morgen
+  const [y,m,d] = dateStr.split("-").map(Number);
+  const morgen = new Date(y, m-1, d);
+  morgen.setDate(morgen.getDate() + 1);
+  // Sla weekend over
+  while (morgen.getDay() === 0 || morgen.getDay() === 6) {
+    morgen.setDate(morgen.getDate() + 1);
+  }
+  const morgenIso = isoFromDate(morgen);
+  const morgenLabel = `${DAYS_NL[morgen.getDay()]} ${morgen.getDate()} ${MONTHS_NL[morgen.getMonth()]}`;
+
+  const morgenRecords = records.filter(r => r.date === morgenIso);
+
+  // Zoek hotline en wacht voor morgen
+  const hotlinePerson = morgenRecords.find(r => splitTokens(r.code).includes("H"));
+  const wachtPerson   = morgenRecords.find(r => splitTokens(r.code).some(t => ["w","w1","w2","w3"].includes(t.toLowerCase())));
+
+  let html = "";
+
+  if (hotlinePerson) {
+    html += `<div class="morgen-card hotline">
+      <div class="morgen-icon">🔴</div>
+      <div class="morgen-info">
+        <span class="morgen-label">Morgen Hotline</span>
+        <span class="morgen-name">${hotlinePerson.person}</span>
+        <span class="morgen-date">${morgenLabel}</span>
+      </div>
+    </div>`;
+  }
+
+  if (wachtPerson) {
+    const wachtCode = splitTokens(wachtPerson.code).find(t => ["w","w1","w2","w3"].includes(t.toLowerCase()));
+    const wachtLabel = wachtCode === "w" ? "Weekdagwacht" : wachtCode === "w1" ? "Zaterdagwacht" : wachtCode === "w2" ? "Zondagwacht" : "Feestdagwacht";
+    html += `<div class="morgen-card wacht">
+      <div class="morgen-icon">🟡</div>
+      <div class="morgen-info">
+        <span class="morgen-label">Morgen ${wachtLabel}</span>
+        <span class="morgen-name">${wachtPerson.person}</span>
+        <span class="morgen-date">${morgenLabel}</span>
+      </div>
+    </div>`;
+  }
+
+  wrap.innerHTML = html;
+}
+
+// ─────────────────────────────────────────────
 // TODAY VIEW
 // ─────────────────────────────────────────────
 function renderToday() {
@@ -967,6 +1045,7 @@ function renderToday() {
   document.getElementById("todaySub").textContent = "Wie is er aanwezig vandaag?";
   document.getElementById("legendRow").innerHTML = buildLegend();
   document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
+  buildMorgenStrip(dateStr);
 
   // Bouw kaarten
   const todayRecords = records.filter(r => r.date === dateStr);
