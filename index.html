@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 10:48
+  Laatste aanpassing: vrijdag 27 februari 2026 om 10:53
 -->
 <html lang="nl">
 <head>
@@ -505,6 +505,60 @@
     }
     .morgen-item .tag { font-size: 10px; padding: 2px 7px; }
 
+    /* ── VIEW TRANSITIONS ── */
+    .view {
+      animation: none;
+    }
+    .view.active {
+      animation: viewFadeIn .25s ease both;
+    }
+    @keyframes viewFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SKELETON LOADING ── */
+    .skeleton-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .skeleton-card {
+      background: var(--card);
+      border: 1.5px solid var(--line2);
+      border-radius: var(--radius);
+      padding: 12px 13px;
+      box-shadow: var(--shadow);
+    }
+    .skeleton-line {
+      border-radius: 6px;
+      background: linear-gradient(90deg, #e8eaf5 25%, #f0f2ff 50%, #e8eaf5 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-avatar {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(90deg, #e8eaf5 25%, #f0f2ff 50%, #e8eaf5 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      flex-shrink: 0;
+    }
+    .skeleton-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px; margin-bottom: 14px;
+    }
+    .skeleton-stat {
+      background: var(--card);
+      border-radius: 12px; padding: 11px 14px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--line2);
+    }
+
     /* ── EMPTY STATE ── */
     .empty-state { padding: 60px 20px; text-align: center; color: var(--sub); }
     .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
@@ -874,9 +928,36 @@ function setStatus(text, kind) {
   span.textContent = text;
 }
 
+function renderSkeleton() {
+  // Stats skeleton
+  const statsRow = document.getElementById("statsRow");
+  if (statsRow) {
+    statsRow.innerHTML = Array(5).fill(0).map((_, i) => `
+      <div class="skeleton-stat">
+        <div class="skeleton-line" style="height:9px;width:60%;margin-bottom:8px;animation-delay:${i*0.1}s"></div>
+        <div class="skeleton-line" style="height:28px;width:40%;animation-delay:${i*0.1}s"></div>
+      </div>`).join("");
+  }
+  // Cards skeleton
+  const grid = document.getElementById("teamGrid");
+  if (grid) {
+    grid.innerHTML = `<div class="skeleton-grid" style="grid-column:1/-1;">` +
+      Array(8).fill(0).map((_, i) => `
+        <div class="skeleton-card" style="animation-delay:${i*0.05}s">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
+            <div class="skeleton-avatar" style="animation-delay:${i*0.05}s"></div>
+            <div class="skeleton-line" style="height:13px;width:70%;animation-delay:${i*0.05}s"></div>
+          </div>
+          <div class="skeleton-line" style="height:24px;width:85%;animation-delay:${i*0.05+0.1}s"></div>
+        </div>`).join("") +
+    `</div>`;
+  }
+}
+
 async function loadData() {
   console.log("[Permanenties] loadData() gestart, URL:", DATA_URL);
   setStatus("Laden…","load");
+  renderSkeleton();
   try {
     const res = await fetch(`${DATA_URL}?v=${Date.now()}`, {cache:"no-store"});
     console.log("[Permanenties] fetch status:", res.status, res.ok);
@@ -1427,7 +1508,14 @@ function switchView(viewName) {
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   document.querySelector(`.nav-item[data-view="${viewName}"]`).classList.add("active");
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.getElementById("view-" + viewName).classList.add("active");
+  // Re-trigger animatie door kort te verwijderen en terug toe te voegen
+  const target = document.getElementById("view-" + viewName);
+  target.classList.remove("active");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      target.classList.add("active");
+    });
+  });
   // Sync mobile nav ook
   document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
     el.classList.toggle("active", el.dataset.mobView === viewName);
