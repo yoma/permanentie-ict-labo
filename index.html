@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 11:25
+  Laatste aanpassing: vrijdag 27 februari 2026 om 11:27
 -->
 <html lang="nl">
 <head>
@@ -1155,19 +1155,19 @@ function checkTeamComplete(dateStr) {
   );
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
     banner.innerHTML = `<div class="team-complete-banner" id="teamCompleteBannerInner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
-    // Gradient starten en na 5s stoppen
-    const gradColors = ["#3b5bdb","#748ffc","#2f9e44","#f59f00","#e03131","#3b5bdb"];
+    // Stop eventueel lopend interval eerst
+    if (window._gradInterval) { clearInterval(window._gradInterval); window._gradInterval = null; }
+    const gradColors = ["#3b5bdb","#748ffc","#2f9e44","#f59f00","#e03131"];
     let gradIdx = 0;
-    const el = document.getElementById("teamCompleteBannerInner");
-    const gradInterval = setInterval(() => {
-      if (!el) { clearInterval(gradInterval); return; }
-      gradIdx = (gradIdx + 1) % (gradColors.length - 1);
-      el.style.background = gradColors[gradIdx];
-      el.style.transition = "background 0.5s ease";
+    const gradEl = document.getElementById("teamCompleteBannerInner");
+    window._gradInterval = setInterval(() => {
+      gradIdx = (gradIdx + 1) % gradColors.length;
+      if (gradEl) { gradEl.style.background = gradColors[gradIdx]; gradEl.style.transition = "background 0.4s ease"; }
     }, 500);
     setTimeout(() => {
-      clearInterval(gradInterval);
-      if (el) { el.style.background = "#3b5bdb"; el.style.transition = "background 1s ease"; }
+      clearInterval(window._gradInterval);
+      window._gradInterval = null;
+      if (gradEl) { gradEl.style.transition = "background 1s ease"; gradEl.style.background = "#3b5bdb"; }
     }, 5000);
     // Confetti enkel 1x per dag tonen
     if (lastConfettiDate !== dateStr) {
