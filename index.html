@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: maandag 2 maart 2026 om 09:34
+  Laatste aanpassing: maandag 2 maart 2026 om 09:38
 -->
 <html lang="nl">
 <head>
@@ -753,7 +753,10 @@
       <div class="status-dot"></div>
       <span id="statusText">Laden…</span>
     </div>
-    <div id="genAt"></div>
+    <div id="genAt" style="display:flex;align-items:center;gap:6px;">
+    <span id="genAtText"></span>
+    <span id="refreshCountdown" style="color:rgba(255,255,255,.35);font-size:9px;"></span>
+  </div>
   </div>
   <nav class="sidebar-nav">
     <div class="nav-label">Weergave</div>
@@ -1882,8 +1885,26 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
   renderAll();
 });
 
-// Auto-refresh elke 10 minuten
-setInterval(() => location.reload(), 10 * 60 * 1000);
+// Auto-refresh met countdown
+(function() {
+  const REFRESH_SEC = 10 * 60;
+  let remaining = REFRESH_SEC;
+  const el = document.getElementById("refreshCountdown");
+
+  function fmt(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return m > 0 ? `${m}m${sec > 0 ? sec + 's' : ''}` : `${sec}s`;
+  }
+
+  setInterval(() => {
+    remaining--;
+    if (remaining <= 0) location.reload();
+    if (el) el.textContent = `· refresh in ${fmt(remaining)}`;
+  }, 1000);
+
+  if (el) el.textContent = `· refresh in ${fmt(remaining)}`;
+})();
 
 // Start zodra DOM klaar is — werkt ook als DOMContentLoaded al voorbij is
 if (document.readyState === "loading") {
