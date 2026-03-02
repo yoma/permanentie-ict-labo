@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: vrijdag 27 februari 2026 om 14:58
+  Laatste aanpassing: maandag 2 maart 2026 om 09:34
 -->
 <html lang="nl">
 <head>
@@ -1881,6 +1881,9 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
   switchView("today");
   renderAll();
 });
+
+// Auto-refresh elke 10 minuten
+setInterval(() => location.reload(), 10 * 60 * 1000);
 
 // Start zodra DOM klaar is — werkt ook als DOMContentLoaded al voorbij is
 if (document.readyState === "loading") {
