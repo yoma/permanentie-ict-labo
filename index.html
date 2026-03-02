@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: maandag 2 maart 2026 om 09:42
+  Laatste aanpassing: maandag 2 maart 2026 om 10:03
 -->
 <html lang="nl">
 <head>
@@ -1074,11 +1074,33 @@ async function loadData() {
 
     if (payload.generatedAt) {
       const d = new Date(payload.generatedAt);
-      document.getElementById("genAt").textContent =
+      document.getElementById("genAtText").textContent =
         `Bijgewerkt: ${d.toLocaleDateString("nl-BE")} ${d.toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"})}`;
     }
 
     setStatus("Gesynchroniseerd","ok");
+
+    // Start countdown refresh
+    (function() {
+      const REFRESH_SEC = 10 * 60;
+      let remaining = REFRESH_SEC;
+      function fmt(s) {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return m > 0 ? `${m}m${sec > 0 ? sec+'s' : ''}` : `${sec}s`;
+      }
+      function update() {
+        const el = document.getElementById("refreshCountdown");
+        if (el) el.textContent = `↻ ${fmt(remaining)}`;
+      }
+      update();
+      setInterval(() => {
+        remaining--;
+        if (remaining <= 0) location.reload();
+        update();
+      }, 1000);
+    })();
+
     buildPeopleList();
     buildMonthTabs();
     renderAll();
@@ -1886,26 +1908,6 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
 });
 
 // Auto-refresh met countdown
-(function() {
-  const REFRESH_SEC = 10 * 60;
-  let remaining = REFRESH_SEC;
-  const el = document.getElementById("refreshCountdown");
-
-  function fmt(s) {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return m > 0 ? `${m}m${sec > 0 ? sec + 's' : ''}` : `${sec}s`;
-  }
-
-  setInterval(() => {
-    remaining--;
-    if (remaining <= 0) location.reload();
-    if (el) el.textContent = `· refresh in ${fmt(remaining)}`;
-  }, 1000);
-
-  if (el) el.textContent = `· refresh in ${fmt(remaining)}`;
-})();
-
 // Start zodra DOM klaar is — werkt ook als DOMContentLoaded al voorbij is
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", loadData);
