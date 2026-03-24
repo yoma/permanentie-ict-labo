@@ -864,6 +864,20 @@
       .sidebar-logo h1 { font-size: 16px; }
       .sidebar-status { margin: 0; }
       .sidebar-nav, .sidebar-people, .sidebar-bday { display: none; }
+      .mob-bday-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255,215,0,.12);
+        border: 1px solid rgba(255,215,0,.3);
+        border-radius: 8px;
+        padding: 4px 8px;
+        font-size: 10px;
+        font-weight: 600;
+        color: #ffd700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
       .main { height: auto; overflow: visible; padding-bottom: 68px; }
       .topbar { padding: 8px 12px; flex-wrap: nowrap; }
       .tb-date, .btn:not(.mob-visible) { display: none; }
@@ -953,6 +967,9 @@
   <div class="mob-nav-item" id="mobPeopleBtn">
     <span class="mob-icon">👤</span><span>Persoon</span>
   </div>
+  <div class="mob-nav-item" id="mobBdayBtn">
+    <span class="mob-icon">🎂</span><span>Jarig</span>
+  </div>
 </nav>
 
 <!-- Mobile people popup -->
@@ -1028,6 +1045,7 @@
       <input type="date" id="datePickerMob" style="flex:1;padding:8px 10px;border:1.5px solid rgba(59,91,219,.1);border-radius:10px;font-family:var(--sans);font-size:13px;color:var(--ink);background:#fff;outline:none;box-shadow:var(--shadow);"/>
       <button id="btnTodayMob" style="padding:8px 14px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(59,91,219,.3);">Vandaag</button>
     </div>
+    <span class="mob-bday-chip" id="mobBdayChip" style="display:none;" id="mobBdayChip"></span>
   </div>
 
   <!-- FILTER PANEL -->
@@ -1457,6 +1475,19 @@ function updateBdaySidebar() {
     txt.innerHTML = "Volgende verjaardag:<br><strong>" + next.name
       + " <span style='font-weight:500;color:rgba(255,215,0,.8);'>(" + dateLbl + ")</span></strong><br>"
       + "<span style='font-size:10px;color:rgba(255,255,255,.65);'>over " + next.days + " dagen</span>";
+  }
+
+  // Mobile chip in topbar
+  var chip = document.getElementById("mobBdayChip");
+  if (chip) {
+    chip.style.display = "inline-flex";
+    var chipLbl = next.days === 0
+      ? "🎂 " + next.name + " jarig!"
+      : next.days === 1
+        ? "🎂 " + next.name + " morgen"
+        : "🎂 " + next.name + " · " + dateLbl;
+    chip.textContent = chipLbl;
+    chip.onclick = function() { openBdayPopup(); };
   }
 }
 
@@ -2272,6 +2303,10 @@ document.addEventListener("click", function(e) {
 document.getElementById("bdayOverviewLink").addEventListener("click", openBdayPopup);
 document.getElementById("bdayPopupClose").addEventListener("click", closeBdayPopup);
 document.getElementById("bdayPopupBackdrop").addEventListener("click", closeBdayPopup);
+
+document.getElementById("mobBdayBtn").addEventListener("click", function() {
+  openBdayPopup();
+});
 
 // ─── START ────────────────────────────────────────────────────────────────
 if (document.readyState === "loading") {
