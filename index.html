@@ -1,15 +1,11 @@
 <!doctype html>
-<!--
-  ICT Permanenties Dashboard
-  Laatste aanpassing: dinsdag 24 maart 2026
--->
 <html lang="nl">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>ICT Labo — Permanenties</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --bg:      #eef0f8;
@@ -19,13 +15,10 @@
       --blue3:   #748ffc;
       --blue4:   #e8ecff;
       --blue5:   #f0f2ff;
-      --teal:    #0c8599;
       --amber:   #e67700;
       --amber2:  #fff3bf;
       --red:     #e03131;
-      --red2:    #ffe3e3;
       --green:   #2f9e44;
-      --green2:  #d3f9d8;
       --ink:     #1a1b2e;
       --ink2:    #2c2e4a;
       --sub:     #6b7299;
@@ -35,7 +28,6 @@
       --line2:   rgba(59,91,219,.06);
       --shadow:  0 2px 12px rgba(59,91,219,.08), 0 1px 3px rgba(0,0,0,.04);
       --shadow2: 0 8px 32px rgba(59,91,219,.12), 0 2px 8px rgba(0,0,0,.06);
-      --shadow3: 0 16px 48px rgba(59,91,219,.15), 0 4px 12px rgba(0,0,0,.08);
       --radius:  16px;
       --sans:    'Inter', sans-serif;
       --mono:    'DM Mono', monospace;
@@ -63,13 +55,19 @@
 
     .sidebar, .main { position: relative; z-index: 1; }
 
-    /* ── SIDEBAR ── */
+    /* ═══════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════ */
     .sidebar {
-      width: 250px; min-width: 250px;
+      width: 250px;
+      min-width: 250px;
       background: var(--ink);
-      display: flex; flex-direction: column;
-      height: 100vh; overflow-y: auto;
-      position: sticky; top: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
       box-shadow: 4px 0 24px rgba(26,27,46,.15);
     }
 
@@ -79,153 +77,298 @@
     }
     .sidebar-logo .org {
       font-family: var(--mono);
-      font-size: 10px; font-weight: 500;
-      letter-spacing: 2.2px; text-transform: uppercase;
-      color: var(--blue3); margin-bottom: 8px;
-      display: flex; align-items: center; gap: 7px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--blue3);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
     .sidebar-logo .org::before {
       content: '';
-      display: inline-block; width: 6px; height: 6px;
-      border-radius: 50%; background: var(--blue3);
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue3);
       box-shadow: 0 0 8px var(--blue3);
     }
     .sidebar-logo h1 {
-      font-size: 20px; font-weight: 800;
-      letter-spacing: -.4px; line-height: 1.2; color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.4px;
+      line-height: 1.2;
+      color: #fff;
     }
     .sidebar-logo h1 span {
       background: linear-gradient(120deg, var(--blue3), #74c0fc);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .sidebar-status { padding: 14px 22px 0; }
     .status-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 12px; border-radius: 999px;
-      font-size: 11px; font-weight: 600;
-      background: rgba(255,255,255,.07); color: rgba(255,255,255,.45);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255,255,255,.07);
+      color: rgba(255,255,255,.45);
       border: 1px solid rgba(255,255,255,.1);
     }
-    .status-pill.ok   { background: rgba(47,158,68,.15); color: #69db7c; border-color: rgba(47,158,68,.25); }
-    .status-pill.err  { background: rgba(224,49,49,.15); color: #ffa8a8; border-color: rgba(224,49,49,.25); }
-    .status-pill.load { background: rgba(76,110,245,.2); color: var(--blue3); border-color: rgba(76,110,245,.3); }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+    .status-pill.ok   { background: rgba(47,158,68,.15);  color: #69db7c; border-color: rgba(47,158,68,.25); }
+    .status-pill.err  { background: rgba(224,49,49,.15);  color: #ffa8a8; border-color: rgba(224,49,49,.25); }
+    .status-pill.load { background: rgba(76,110,245,.2);  color: var(--blue3); border-color: rgba(76,110,245,.3); }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s infinite;
+    }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 
-    #genAt { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,.75); margin-top: 7px; }
+    #genAt {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(255,255,255,.75);
+      margin-top: 7px;
+    }
 
+    /* Verjaardag pill in sidebar */
+    .sidebar-bday { padding: 10px 14px 0; }
+    .bday-next-pill {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: rgba(255,215,0,.1);
+      border: 1px solid rgba(255,215,0,.25);
+      border-radius: 10px;
+      padding: 9px 11px;
+      font-size: 11px;
+      color: rgba(255,255,255,.7);
+      line-height: 1.5;
+    }
+    .bday-next-pill .bday-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .bday-next-pill strong { color: #ffd700; }
+
+    /* Nav */
     .sidebar-nav { padding: 20px 0; flex: 1; }
     .nav-label {
-      font-family: var(--mono); font-size: 9px; font-weight: 500;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(255,255,255,.75); padding: 0 22px 10px;
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      padding: 0 22px 10px;
     }
     .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 22px; font-size: 13.5px; font-weight: 500;
-      color: rgba(255,255,255,.45); cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 22px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,.45);
+      cursor: pointer;
       border-left: 2px solid transparent;
-      transition: all .15s; user-select: none;
+      transition: all .15s;
+      user-select: none;
     }
     .nav-item:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
     .nav-item.active {
-      color: #fff; background: rgba(76,110,245,.2);
-      border-left-color: var(--blue2); font-weight: 600;
+      color: #fff;
+      background: rgba(76,110,245,.2);
+      border-left-color: var(--blue2);
+      font-weight: 600;
     }
     .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
 
+    /* People list */
     .sidebar-people {
       padding: 12px 12px 20px;
       border-top: 1px solid rgba(255,255,255,.07);
     }
     .people-label {
-      font-family: var(--mono); font-size: 9px; font-weight: 500;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(255,255,255,.75); padding: 0 8px 10px;
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      padding: 0 8px 10px;
     }
     .person-chip {
-      display: flex; align-items: center; gap: 9px;
-      padding: 7px 10px; border-radius: 10px;
-      font-size: 13px; color: rgba(255,255,255,.45);
-      cursor: pointer; transition: all .12s;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,.45);
+      cursor: pointer;
+      transition: all .12s;
       border: 1px solid transparent;
     }
     .person-chip:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.85); }
     .person-chip.active {
       background: rgba(76,110,245,.25);
       border-color: rgba(76,110,245,.4);
-      color: #fff; font-weight: 600;
+      color: #fff;
+      font-weight: 600;
     }
     .person-chip.active::after { content: "✓"; margin-left: auto; font-size: 11px; color: var(--blue3); }
+
     .avatar {
-      width: 26px; height: 26px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; flex-shrink: 0; color: #fff;
+      width: 26px; height: 26px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: #fff;
     }
+
     .sidebar::-webkit-scrollbar { width: 3px; }
     .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
 
-    /* ── MAIN ── */
-    .main { flex: 1; overflow-y: auto; height: 100vh; display: flex; flex-direction: column; }
+    /* ═══════════════════════════════
+       MAIN
+    ═══════════════════════════════ */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
     .main::-webkit-scrollbar { width: 4px; }
     .main::-webkit-scrollbar-thumb { background: rgba(59,91,219,.15); border-radius: 4px; }
 
-    /* ── TOPBAR ── */
+    /* TOPBAR */
     .topbar {
       background: rgba(255,255,255,.7);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
       padding: 12px 24px;
-      display: flex; align-items: center; gap: 10px;
-      flex-wrap: wrap; position: sticky; top: 0; z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .tb-date input[type=date] {
-      padding: 9px 12px; border: 1.5px solid var(--line);
-      border-radius: 12px; font-family: var(--sans); font-size: 13.5px;
-      color: var(--ink); background: #fff;
-      outline: none; cursor: pointer; transition: all .15s;
+      padding: 9px 12px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      font-family: var(--sans);
+      font-size: 13.5px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      cursor: pointer;
+      transition: border-color .15s;
       box-shadow: var(--shadow);
     }
     .tb-date input[type=date]:focus { border-color: var(--blue2); }
 
     .btn {
-      padding: 9px 16px; border-radius: 12px;
+      padding: 9px 16px;
+      border-radius: 12px;
       border: 1.5px solid var(--line);
       background: #fff;
-      font-family: var(--sans); font-size: 13px; font-weight: 600;
-      color: var(--ink2); cursor: pointer;
-      display: inline-flex; align-items: center; gap: 7px;
-      transition: all .15s; white-space: nowrap;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all .15s;
+      white-space: nowrap;
       box-shadow: var(--shadow);
     }
     .btn:hover { border-color: var(--blue2); color: var(--blue); background: var(--blue5); box-shadow: var(--shadow2); }
     .btn.primary {
-      background: var(--blue); border-color: var(--blue); color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
       box-shadow: 0 4px 16px rgba(59,91,219,.35);
     }
-    .btn.primary:hover { background: var(--blue2); box-shadow: 0 6px 22px rgba(59,91,219,.45); transform: translateY(-1px); }
+    .btn.primary:hover { background: var(--blue2); transform: translateY(-1px); }
+    .btn.active-filter {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(59,91,219,.3);
+    }
 
-    /* ── CONTENT ── */
+    /* CONTENT */
     .content { padding: 24px 24px 48px; flex: 1; }
     .view { display: none; }
-    .view.active { display: block; }
+    .view.active { display: block; animation: viewFadeIn .4s cubic-bezier(.22,.68,0,1.15) both; }
+    @keyframes viewFadeIn {
+      from { opacity: 0; transform: translateY(24px) scale(.97); }
+      to   { opacity: 1; transform: none; }
+    }
 
-    /* ── TITELS ── */
+    /* Dag header + nav */
+    .today-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2px;
+    }
     .today-title {
-      font-size: 18px; font-weight: 700;
-      letter-spacing: -.3px; color: var(--ink); margin-bottom: 2px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.3px;
+      color: var(--ink);
+      margin-bottom: 2px;
     }
     .today-title span { color: var(--blue); }
-    .today-sub { font-size: 12px; color: var(--sub); margin-bottom: 14px; }
+    .today-sub { font-size: 12px; color: var(--sub); }
+    .day-nav-btn {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      color: var(--ink2);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      transition: all .15s;
+    }
+    .day-nav-btn:hover { border-color: var(--blue2); color: var(--blue); background: var(--blue5); }
 
-    /* ── STATS ── */
+    /* Legend */
+    .legend-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
+
+    /* Stats */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 8px; margin-bottom: 14px;
+      gap: 8px;
+      margin-bottom: 14px;
     }
     .stat-card {
       background: var(--card);
@@ -233,8 +376,9 @@
       padding: 14px 16px;
       box-shadow: var(--shadow);
       border: 1.5px solid var(--line2);
+      position: relative;
+      overflow: hidden;
       animation: fadeUp .4s ease both;
-      position: relative; overflow: hidden;
       transition: transform .2s, box-shadow .2s;
     }
     .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow2); }
@@ -242,74 +386,79 @@
       content: '';
       position: absolute; top: 0; left: 0; right: 0; height: 3px;
       border-radius: 16px 16px 0 0;
-      background: var(--line2);
     }
-    .stat-card.accent-blue::before  { background: var(--blue); }
-    .stat-card.accent-red::before   { background: var(--red); }
-    .stat-card.accent-amber::before { background: #ffd43b; }
-    .stat-card.accent-green::before { background: #2f9e44; }
-    .stat-card.accent-sub::before    { background: var(--sub2); }
-    .stat-card.accent-sub .stat-value { color: var(--ink2); }
-    .stat-card.accent-purple::before  { background: #7c3aed; }
-    .stat-card.accent-purple .stat-value { color: #7c3aed; }
-    .stat-card.accent-orange::before  { background: #e8590c; }
-    .stat-card.accent-orange .stat-value { color: #e8590c; }
+    .stat-card.blue::before   { background: var(--blue); }
+    .stat-card.green::before  { background: var(--green); }
+    .stat-card.red::before    { background: var(--red); }
+    .stat-card.amber::before  { background: #ffd43b; }
+    .stat-card.gray::before   { background: var(--sub2); }
     .stat-label {
       font-family: var(--mono);
-      font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
-      color: var(--sub2); margin-bottom: 6px;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--sub2);
+      margin-bottom: 6px;
     }
-    .stat-card.accent-blue   .stat-value { color: var(--blue) !important; }
-    .stat-card.accent-green  .stat-value { color: #2f9e44 !important; }
-    .stat-card.accent-green::before { background: #2f9e44; }
-    .stat-card.accent-red    .stat-value { color: var(--red) !important; }
-    .stat-card.accent-amber  .stat-value { color: #f08c00 !important; }
-    .stat-card.accent-orange .stat-value { color: #e8590c !important; }
-    .stat-card.accent-sub    .stat-value { color: var(--sub) !important; }
-    .stat-value { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: var(--ink); }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    .stat-value { font-size: 36px; font-weight: 900; letter-spacing: -2px; }
+    .stat-card.blue  .stat-value { color: var(--blue); }
+    .stat-card.green .stat-value { color: var(--green); }
+    .stat-card.red   .stat-value { color: var(--red); }
+    .stat-card.amber .stat-value { color: #f08c00; }
+    .stat-card.gray  .stat-value { color: var(--sub); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
 
-    /* ── LEGEND ── */
-    .legend-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
-
-    /* ── CODE FILTER ROW ── */
-    .code-filter-row {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      margin-bottom: 16px; align-items: center;
-    }
-    .code-filter-label {
-      font-family: var(--mono); font-size: 10px; font-weight: 500;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--sub2); margin-right: 4px; white-space: nowrap;
-    }
-    .cf-btn {
-      display: inline-flex; align-items: center;
-      padding: 5px 12px; border-radius: 8px;
-      font-size: 11px; font-weight: 700;
-      font-family: var(--mono); letter-spacing: .3px;
-      cursor: pointer; transition: all .15s;
-      border: 1.5px solid; white-space: nowrap;
-      user-select: none; box-shadow: var(--shadow);
-    }
-    .cf-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
-    .cf-btn.active { box-shadow: var(--shadow2); transform: translateY(-1px); filter: brightness(.93); }
-    .cf-clear {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 12px; border-radius: 8px;
-      font-size: 11px; font-weight: 600; font-family: var(--sans);
-      cursor: pointer; transition: all .15s;
-      border: 1.5px solid var(--line);
-      background: #fff; color: var(--sub);
-      white-space: nowrap; user-select: none;
+    /* Morgen strip */
+    .morgen-strip {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 8px 13px;
+      background: var(--card);
+      border-radius: 10px;
+      border: 1.5px solid var(--line2);
       box-shadow: var(--shadow);
+      font-size: 12px;
+      color: var(--sub);
+      margin-bottom: 14px;
     }
-    .cf-clear:hover { border-color: var(--blue2); color: var(--blue); background: var(--blue5); }
+    .morgen-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--sub2);
+      white-space: nowrap;
+    }
+    .morgen-item { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
 
-    /* ── TEAM CARDS ── */
+    /* Team complete banner */
+    .tc-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 14px;
+      padding: 8px 16px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 6px 24px rgba(59,91,219,.4);
+      animation: bannerPop .55s cubic-bezier(.22,.68,0,1.35) both;
+      transition: background .5s;
+    }
+    @keyframes bannerPop {
+      from { opacity:0; transform:scale(.75) translateY(16px); }
+      70%  { transform:scale(1.03) translateY(-3px); }
+      to   { opacity:1; transform:none; }
+    }
+
+    /* Team grid */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -322,292 +471,282 @@
       border-radius: 14px;
       padding: 14px 15px;
       box-shadow: 0 2px 8px rgba(59,91,219,.06);
-      transition: all .2s; animation: fadeUp .35s ease both;
-      overflow: hidden; min-width: 0;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      animation: fadeUp .35s ease both;
+      overflow: hidden;
     }
-    .team-card:hover {
-      border-color: rgba(59,91,219,.2);
-      box-shadow: var(--shadow2);
-      transform: translateY(-3px);
-    }
-    .team-card.grp-hotline { border-left-color: var(--red); }
-    .team-card.grp-hotline:hover { box-shadow: 0 8px 32px rgba(224,49,49,.12); }
-    .team-card.grp-wacht   { border-left-color: var(--amber); }
-    .team-card.grp-norm    { border-left-color: var(--blue2); }
-    .team-card.grp-afwezig { border-left-color: var(--sub2); opacity: .7; }
-    .team-card.grp-geen    { border-left-color: var(--line2); opacity: .45; }
+    .team-card:hover { transform: translateY(-3px); box-shadow: var(--shadow2); border-color: rgba(59,91,219,.2); }
+    .team-card.hotline  { border-left-color: var(--red); }
+    .team-card.hotline:hover { box-shadow: 0 8px 28px rgba(224,49,49,.12); }
+    .team-card.wacht    { border-left-color: var(--amber); }
+    .team-card.norm     { border-left-color: var(--blue2); }
+    .team-card.afwezig  { border-left-color: var(--sub2); opacity: .7; }
+    .team-card.geen     { border-left-color: var(--line2); opacity: .45; }
 
-    /* Middelheim highlight */
-    .team-card.grp-middelheim {
-      border-left-color: #16a34a;
+    /* Middelheim pulse */
+    .team-card.middelheim {
       border: 2px solid #16a34a;
-      box-shadow: 0 0 0 0 rgba(22,163,74,.5), var(--shadow);
-      animation: fadeUp .35s ease both, middelheimPulse 2s ease-in-out infinite;
+      animation: fadeUp .35s ease both, midPulse 2.2s ease-in-out infinite;
     }
-    .team-card.grp-middelheim:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 0 4px rgba(22,163,74,.2), var(--shadow2);
+    @keyframes midPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(22,163,74,.45), var(--shadow); }
+      50%      { box-shadow: 0 0 0 6px rgba(22,163,74,0), var(--shadow); }
     }
-    @keyframes middelheimPulse {
-      0%   { box-shadow: 0 0 0 0   rgba(22,163,74,.45), var(--shadow); }
-      50%  { box-shadow: 0 0 0 6px rgba(22,163,74,.0),  var(--shadow); }
-      100% { box-shadow: 0 0 0 0   rgba(22,163,74,.45), var(--shadow); }
-    }
+    .team-card.middelheim:hover { transform: translateY(-3px); box-shadow: 0 0 0 4px rgba(22,163,74,.2), var(--shadow2); }
 
-    .tc-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
-    .tc-avatar {
-      width: 32px; height: 32px; border-radius: 9px;
+    /* Verjaardag card */
+    .team-card.bday {
+      border: 2px solid #ffd700 !important;
+      background: linear-gradient(135deg, #fffdf0, #fff9e6);
+      animation: fadeUp .35s ease both, bdayPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes bdayPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(255,215,0,.5), var(--shadow); }
+      50%      { box-shadow: 0 0 0 8px rgba(255,215,0,0), var(--shadow); }
+    }
+    .team-card.bday:hover { transform: translateY(-3px); box-shadow: 0 0 0 4px rgba(255,215,0,.25), var(--shadow2); }
+
+    .tc-top  { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+    .tc-av   {
+      width: 32px; height: 32px;
+      border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600; flex-shrink: 0; color: #fff;
+      font-size: 11px; font-weight: 600;
+      flex-shrink: 0; color: #fff;
     }
     .tc-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-    .tc-codes { display: flex; flex-wrap: wrap; gap: 5px; overflow: hidden; }
+    .tc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 
-    /* ── TAGS ── */
+    /* Tags */
     .tag {
-      display: inline-flex; align-items: center;
-      padding: 3px 9px; border-radius: 7px;
-      font-size: 11px; font-weight: 500;
-      font-family: var(--sans); letter-spacing: 0;
-      white-space: normal; word-break: break-word;
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: normal;
+      word-break: break-word;
     }
     .tag.norm    { background: var(--blue5); color: var(--blue); border: 1.5px solid rgba(59,91,219,.2); }
-    .tag.hotline { background: var(--red); color: #fff; border: 1.5px solid var(--red); box-shadow: 0 2px 10px rgba(224,49,49,.25); font-weight: 700; }
+    .tag.hotline { background: var(--red); color: #fff; border: 1.5px solid var(--red); box-shadow: 0 2px 8px rgba(224,49,49,.25); font-weight: 700; }
     .tag.wacht   { background: var(--amber2); color: var(--amber); border: 1.5px solid #ffd43b; }
     .tag.afwezig { background: var(--bg); color: var(--sub); border: 1.5px solid var(--line); }
-    .tag.empty   { color: var(--sub2); font-family: var(--sans); font-weight: 400; font-size: 12px; font-style: italic; }
+    .tag.empty   { color: var(--sub2); font-style: italic; font-weight: 400; font-size: 12px; }
 
-    /* ── WEEK VIEW ── */
+    /* Filter panel */
+    #filterPanel {
+      display: none;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1.5px solid var(--line);
+      padding: 12px 16px;
+      position: sticky;
+      top: 57px;
+      z-index: 9;
+    }
+    .cf-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--mono);
+      cursor: pointer;
+      transition: all .15s;
+      border: 1.5px solid;
+      white-space: nowrap;
+      user-select: none;
+      box-shadow: var(--shadow);
+    }
+    .cf-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
+    .cf-btn.active { outline: 2px solid var(--blue); outline-offset: 1px; transform: translateY(-1px); }
+
+    /* Week view */
     .week-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-    .week-label { font-size: 17px; font-weight: 700; flex: 1; text-align: center; color: var(--ink); }
+    .week-label { font-size: 17px; font-weight: 700; flex: 1; text-align: center; }
     .week-grid {
       display: grid;
       grid-template-columns: 130px repeat(5, 1fr);
-      gap: 3px; border-radius: var(--radius); overflow: hidden;
-      box-shadow: var(--shadow2);
+      gap: 3px;
+      border-radius: var(--radius);
+      overflow: hidden;
       border: 1.5px solid var(--line);
+      box-shadow: var(--shadow2);
     }
-    .wg-header {
-      background: var(--bg2); color: var(--sub);
-      font-size: 11px; font-weight: 600; padding: 11px 12px; text-align: center;
+    .wg-head {
+      background: var(--bg2);
+      color: var(--sub);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 11px 12px;
+      text-align: center;
     }
-    .wg-header.day-col { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-    .wg-header.day-col .day-name { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--sub2); }
-    .wg-header.day-col .day-num  { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -1px; }
-    .wg-header.day-col.today-col { background: var(--blue4); }
-    .wg-header.day-col.today-col .day-num { color: var(--blue); }
+    .wg-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .wg-day .dn { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--sub2); }
+    .wg-day .dd { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -1px; }
+    .wg-day.today-col { background: var(--blue4); }
+    .wg-day.today-col .dd { color: var(--blue); }
     .wg-person {
-      background: #fff; color: var(--ink2);
-      font-size: 12px; font-weight: 600; padding: 9px 12px;
-      display: flex; align-items: center; gap: 8px;
+      background: #fff;
+      color: var(--ink2);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       border-top: 1px solid var(--line2);
     }
     .wg-cell {
-      background: rgba(255,255,255,.7); padding: 7px 5px;
-      display: flex; flex-wrap: wrap; gap: 3px;
-      align-items: flex-start; min-height: 44px;
+      background: rgba(255,255,255,.7);
+      padding: 7px 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      align-items: flex-start;
+      min-height: 44px;
       border-top: 1px solid var(--line2);
     }
     .wg-cell.today-col { background: var(--blue5); }
+    .wg-cell.bday-cell { background: linear-gradient(135deg,#fffdf0,#fff9e6); border: 1px solid #ffd700; }
 
-    /* ── MONTH TABS ── */
+    /* Month/calendar view */
     .month-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
     .month-tab {
-      padding: 7px 15px; border-radius: 10px;
-      font-size: 12px; font-weight: 600;
+      padding: 7px 15px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
       border: 1.5px solid var(--line);
       background: #fff;
-      cursor: pointer; transition: all .12s; color: var(--sub);
+      cursor: pointer;
+      transition: all .12s;
+      color: var(--sub);
       font-family: var(--mono);
       box-shadow: var(--shadow);
     }
-    .month-tab:hover { border-color: var(--blue2); color: var(--blue); background: var(--blue5); box-shadow: var(--shadow2); }
+    .month-tab:hover { border-color: var(--blue2); color: var(--blue); background: var(--blue5); }
     .month-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 4px 14px rgba(59,91,219,.3); }
 
-    /* ── KALENDER ── */
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-      gap: 8px;
-    }
+    .cal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 8px; }
     .cal-day {
       background: var(--card);
       border: 1.5px solid var(--line2);
-      border-radius: 14px; padding: 10px 12px; min-height: 72px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      min-height: 72px;
       box-shadow: var(--shadow);
-      transition: all .15s;
+      transition: transform .15s, box-shadow .15s;
     }
-    .cal-day:hover { border-color: rgba(59,91,219,.2); box-shadow: var(--shadow2); transform: translateY(-1px); }
+    .cal-day:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
     .cal-day.weekend { background: var(--bg2); opacity: .8; }
     .cal-day.today   { border-color: rgba(59,91,219,.35); background: var(--blue5); }
-    .cal-day.empty   { opacity: .4; }
-    .cal-day-header  { display: flex; align-items: baseline; gap: 5px; margin-bottom: 7px; padding-bottom: 6px; border-bottom: 1px solid var(--line2); }
-    .cal-day-num { font-size: 16px; font-weight: 800; color: var(--ink); line-height: 1; letter-spacing: -.5px; }
-    .cal-day.today .cal-day-num { color: var(--blue); }
-    .cal-day-name { font-family: var(--mono); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: .8px; color: var(--sub2); }
+    .cal-day.bday-day { border-color: #ffd700; background: linear-gradient(135deg,#fffdf0,#fff9e6); }
+    .cal-day-hdr {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      margin-bottom: 7px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line2);
+    }
+    .cal-num { font-size: 16px; font-weight: 800; line-height: 1; letter-spacing: -.5px; }
+    .cal-day.today .cal-num { color: var(--blue); }
+    .cal-dname { font-family: var(--mono); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: .8px; color: var(--sub2); }
     .cal-entries { display: flex; flex-direction: column; gap: 4px; }
     .cal-entry { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
-    .cal-entry-name { font-size: 11px; font-weight: 700; white-space: nowrap; min-width: 42px; }
-    .cal-entry-codes { display: flex; flex-wrap: wrap; gap: 3px; }
+    .cal-ename { font-size: 11px; font-weight: 700; white-space: nowrap; min-width: 42px; }
+    .cal-ecodes { display: flex; flex-wrap: wrap; gap: 3px; }
 
-    .btn#btnFilter.active {
-      background: var(--blue); border-color: var(--blue); color: #fff;
-      box-shadow: 0 4px 14px rgba(59,91,219,.3);
-    }
-    .cf-btn.active { transform: translateY(-1px); box-shadow: var(--shadow2); outline: 2px solid var(--blue); outline-offset: 1px; }
-
-    /* ── DAG NAV PIJLTJES ── */
-    .day-nav-btn {
-      width: 32px; height: 32px;
-      border-radius: 10px;
-      border: 1.5px solid var(--line);
-      background: var(--card);
-      color: var(--ink2);
-      font-size: 20px; line-height: 1;
-      cursor: pointer; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow);
-      transition: all .15s;
-    }
-    .day-nav-btn:hover {
-      border-color: var(--blue2); color: var(--blue);
-      background: var(--blue5); box-shadow: var(--shadow2);
-    }
-
-    /* ── MORGEN STRIP ── */
-    .morgen-strip {
-      display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
-      align-items: center;
-      padding: 7px 12px;
-      background: var(--card);
-      border-radius: 10px;
-      border: 1.5px solid var(--line2);
-      box-shadow: var(--shadow);
-      font-size: 12px; color: var(--sub);
-    }
-    .morgen-strip-label {
-      font-family: var(--mono); font-size: 9px; font-weight: 500;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--sub2); white-space: nowrap;
-    }
-    .morgen-item {
-      display: inline-flex; align-items: center; gap: 5px;
-      white-space: nowrap;
-    }
-    .morgen-item .tag { font-size: 10px; padding: 2px 7px; }
-
-    /* ── VIEW TRANSITIONS ── */
-    .view.active {
-      animation: viewFadeIn .45s cubic-bezier(.22,.68,0,1.15) both;
-    }
-    @keyframes viewFadeIn {
-      from { opacity: 0; transform: translateY(30px) scale(.95); filter: blur(4px); }
-      to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-    }
-
-    /* ── SKELETON LOADING ── */
-    .skeleton-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px;
-    }
-    .skeleton-card {
-      background: var(--card);
-      border: 1.5px solid var(--line2);
-      border-radius: var(--radius);
-      padding: 12px 13px;
-      box-shadow: var(--shadow);
-    }
-    .skeleton-line {
+    /* Skeleton loading */
+    .skel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; grid-column: 1/-1; }
+    .skel-card { background: var(--card); border: 1.5px solid var(--line2); border-radius: var(--radius); padding: 12px 13px; }
+    .skel-line {
       border-radius: 6px;
       background: linear-gradient(90deg, #d0d4ed 20%, #eaecff 50%, #d0d4ed 80%);
       background-size: 400% 100%;
       animation: shimmer .9s ease-in-out infinite;
     }
-    @keyframes shimmer {
-      0%   { background-position: 100% 0; }
-      100% { background-position: -100% 0; }
-    }
-    .skeleton-avatar {
-      width: 32px; height: 32px; border-radius: 9px;
+    .skel-av {
+      width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
       background: linear-gradient(90deg, #d0d4ed 20%, #eaecff 50%, #d0d4ed 80%);
       background-size: 400% 100%;
       animation: shimmer .9s ease-in-out infinite;
-      flex-shrink: 0;
     }
-    .skeleton-stat {
-      background: var(--card);
-      border-radius: 12px; padding: 11px 14px;
-      box-shadow: var(--shadow);
-      border: 1.5px solid var(--line2);
-    }
+    .skel-stat { background: var(--card); border-radius: 12px; padding: 11px 14px; box-shadow: var(--shadow); border: 1.5px solid var(--line2); }
+    @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
 
-    /* ── FRIYAY OVERLAY ── */
-    .friyay-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+    /* Overlays */
+    .overlay {
+      position: fixed; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      z-index: 1000; pointer-events: none;
+      z-index: 1000;
+      pointer-events: none;
     }
-    .friyay-text {
-      font-size: clamp(40px, 10vw, 90px);
+    .friyay-txt {
+      font-size: clamp(40px, 10vw, 88px);
       font-weight: 900;
       letter-spacing: -2px;
+      text-align: center;
       background: linear-gradient(135deg, #f59f00, #ffd43b, #fab005, #ffe066);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       filter: drop-shadow(0 4px 24px rgba(245,159,0,.5));
-      animation: friyayPop 3.5s ease forwards;
+      animation: popFade 3.5s ease forwards;
     }
-    @keyframes friyayPop {
-      0%   { opacity: 0; transform: scale(.5); }
-      20%  { opacity: 1; transform: scale(1.08); }
-      35%  { transform: scale(1); }
-      70%  { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1.1); }
+    .bday-txt {
+      font-size: clamp(32px, 7vw, 76px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-align: center;
+      background: linear-gradient(135deg, #ffd700, #ffec99, #ffd700, #ffe066);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 4px 24px rgba(255,215,0,.6));
+      animation: popFade 4s ease forwards;
+    }
+    @keyframes popFade {
+      0%   { opacity:0; transform:scale(.5); }
+      20%  { opacity:1; transform:scale(1.08); }
+      35%  { transform:scale(1); }
+      70%  { opacity:1; }
+      100% { opacity:0; transform:scale(1.1); }
     }
 
-    /* ── CONFETTI ── */
-    .confetti-piece {
+    /* Confetti */
+    .confetti-p {
       position: fixed;
       width: 10px; height: 10px;
       top: -10px;
       border-radius: 2px;
-      opacity: 0;
-      animation: confettiFall linear forwards;
-      z-index: 999;
       pointer-events: none;
+      z-index: 999;
+      animation: cFall linear forwards;
     }
-    @keyframes confettiFall {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-      80%  { opacity: 1; }
-      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-    }
-    .team-complete-banner {
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      background: #3b5bdb;
-      transition: background 0.6s ease;
-      animation: bannerPop .6s cubic-bezier(.22,.68,0,1.35) both;
-      color: #fff; border-radius: 16px;
-      padding: 7px 16px; margin-bottom: 12px;
-      font-size: 12px; font-weight: 600;
-      letter-spacing: -.3px;
-      box-shadow: 0 8px 32px rgba(59,91,219,.4), 0 2px 8px rgba(0,0,0,.1);
-      text-align: center;
-    }
-    @keyframes bannerPop {
-      0%   { opacity: 0; transform: scale(.7) translateY(20px); }
-      70%  { transform: scale(1.04) translateY(-4px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
+    @keyframes cFall {
+      0%   { transform:translateY(0) rotate(0deg); opacity:1; }
+      80%  { opacity:1; }
+      100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
     }
 
-    /* ── EMPTY STATE ── */
+    /* Empty state */
     .empty-state { padding: 60px 20px; text-align: center; color: var(--sub); }
     .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
     .empty-state p { font-size: 14px; }
 
-    /* ── MOBILE ── */
+    /* ═══════════════════════════════
+       MOBILE
+    ═══════════════════════════════ */
     .mobile-nav { display: none; }
 
     @media (max-width: 750px) {
@@ -615,59 +754,56 @@
       .sidebar {
         width: 100%; min-width: unset; height: auto; position: static;
         flex-direction: row; align-items: center; justify-content: space-between;
-        padding: 10px 14px; flex-wrap: nowrap;
+        padding: 10px 14px;
       }
       .sidebar-logo { border-bottom: none; padding: 0; }
       .sidebar-logo .org { display: none; }
       .sidebar-logo h1 { font-size: 16px; }
       .sidebar-status { margin: 0; }
-      .sidebar-nav, .sidebar-people { display: none; }
+      .sidebar-nav, .sidebar-people, .sidebar-bday { display: none; }
       .main { height: auto; overflow: visible; padding-bottom: 68px; }
-      .topbar { padding: 8px 12px; gap: 6px; flex-wrap: nowrap; }
-      .search-wrap { display: none; }
-      .tb-date { display: none; }
+      .topbar { padding: 8px 12px; flex-wrap: nowrap; }
+      .tb-date, .btn:not(.mob-visible) { display: none; }
       #mobDateRow { display: flex !important; }
-      .btn.primary, .btn:not(.primary) { display: none; }
       .content { padding: 10px 10px 16px; }
       .team-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
       .team-card { padding: 11px; }
-      .tc-avatar { width: 30px; height: 30px; font-size: 10px; border-radius: 9px; }
+      .tc-av { width: 28px; height: 28px; font-size: 10px; }
       .tc-name { font-size: 12px; }
       .tag { font-size: 10px; padding: 3px 7px; }
-      .today-title { font-size: 17px; }
       .stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
       .stat-card { padding: 10px 12px; }
+      .stat-value { font-size: 28px; }
       .legend-row { display: none; }
       .week-grid { display: none; }
       #weekMobileWrap { display: block; }
       .cal-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-      .cal-day { padding: 6px 8px; min-height: 54px; }
+      .cal-day { padding: 6px 8px; min-height: 50px; }
       #filterPanel {
         position: static !important;
-        bottom: auto !important;
-        top: auto !important;
         border: 1.5px solid var(--line) !important;
         border-radius: 12px;
-        margin: 0 0 12px 0;
-        box-shadow: var(--shadow);
+        margin: 0 0 10px;
         max-height: none;
-        padding: 10px 12px !important;
       }
       .mobile-nav {
-        display: flex; position: fixed; bottom: 0; left: 0; right: 0;
-        background: rgba(255,255,255,.85);
-        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        display: flex;
+        position: fixed; bottom: 0; left: 0; right: 0;
+        background: rgba(255,255,255,.9);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-top: 1px solid var(--line);
-        box-shadow: 0 -4px 20px rgba(59,91,219,.08);
         z-index: 100;
       }
       .mob-nav-item {
-        flex: 1; display: flex; flex-direction: column;
+        flex: 1;
+        display: flex; flex-direction: column;
         align-items: center; justify-content: center;
         padding: 8px 4px; gap: 3px;
         color: var(--sub2); cursor: pointer;
-        font-size: 10px; font-weight: 600; letter-spacing: .3px;
-        border-top: 2px solid transparent; transition: all .15s;
+        font-size: 10px; font-weight: 600;
+        border-top: 2px solid transparent;
+        transition: all .15s;
       }
       .mob-nav-item.active { color: var(--blue); border-top-color: var(--blue); }
       .mob-icon { font-size: 17px; line-height: 1; }
@@ -681,107 +817,146 @@
         padding: 5px 10px 5px 6px; border-radius: 999px;
         border: 1.5px solid var(--line); background: #fff;
         font-size: 12px; font-weight: 600; white-space: nowrap;
-        cursor: pointer; flex-shrink: 0; color: var(--ink); transition: all .12s;
+        cursor: pointer; flex-shrink: 0; color: var(--ink);
         box-shadow: var(--shadow);
       }
       .mob-person-btn.active { background: var(--blue4); border-color: rgba(59,91,219,.3); color: var(--blue); }
-      .mob-person-btn .avatar { width: 20px; height: 20px; border-radius: 6px; font-size: 9px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── MOBILE BOTTOM NAV ── -->
+<!-- ═══════════════════════════════
+     MOBILE BOTTOM NAV
+═══════════════════════════════ -->
 <nav class="mobile-nav">
-  <div class="mob-nav-item active" data-mob-view="today"><span class="mob-icon">📅</span><span>Vandaag</span></div>
-  <div class="mob-nav-item" data-mob-view="week"><span class="mob-icon">📆</span><span>Week</span></div>
-  <div class="mob-nav-item" data-mob-view="list"><span class="mob-icon">🗓️</span><span>Maand</span></div>
-  <div class="mob-nav-item" id="mobFilterBtn"><span class="mob-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span><span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span></div>
-  <div class="mob-nav-item" id="mobPeopleBtn"><span class="mob-icon">👤</span><span>Persoon</span></div>
+  <div class="mob-nav-item active" data-mob-view="today">
+    <span class="mob-icon">📅</span><span>Vandaag</span>
+  </div>
+  <div class="mob-nav-item" data-mob-view="week">
+    <span class="mob-icon">📆</span><span>Week</span>
+  </div>
+  <div class="mob-nav-item" data-mob-view="list">
+    <span class="mob-icon">🗓️</span><span>Maand</span>
+  </div>
+  <div class="mob-nav-item" id="mobFilterBtn">
+    <span class="mob-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+    </span>
+    <span>Filter <span id="mobFilterDot" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:0 5px;font-size:9px;vertical-align:middle;">1</span></span>
+  </div>
+  <div class="mob-nav-item" id="mobPeopleBtn">
+    <span class="mob-icon">👤</span><span>Persoon</span>
+  </div>
 </nav>
 
-<!-- ── MOBILE PEOPLE POPUP ── -->
-<div id="mobPeoplePopup" style="display:none; position:fixed; bottom:60px; left:0; right:0; background:rgba(255,255,255,.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1.5px solid rgba(59,91,219,.1); padding:14px 16px; z-index:99; box-shadow:0 -8px 32px rgba(59,91,219,.12);">
+<!-- Mobile people popup -->
+<div id="mobPeoplePopup" style="display:none;position:fixed;bottom:60px;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1.5px solid rgba(59,91,219,.1);padding:14px 16px;z-index:99;box-shadow:0 -8px 32px rgba(59,91,219,.12);">
   <div style="font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sub2);margin-bottom:10px;">Persoon kiezen</div>
   <div class="mob-people-strip" id="mobPeopleStrip"></div>
 </div>
 
-<!-- ── SIDEBAR ── -->
+<!-- ═══════════════════════════════
+     SIDEBAR
+═══════════════════════════════ -->
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="org">Klinisch Labo</div>
     <h1>ICT <span>Permanenties</span></h1>
   </div>
+
   <div class="sidebar-status">
     <div class="status-pill load" id="statusPill">
       <div class="status-dot"></div>
       <span id="statusText">Laden…</span>
     </div>
     <div id="genAt">
-      <span id="genAtText"></span>
-      <div id="refreshCountdown" style="color:rgba(255,255,255,.45);font-size:9px;margin-top:2px;"></div>
+      <div id="genAtText"></div>
+      <div id="refreshCountdown" style="color:rgba(255,255,255,.4);font-size:9px;margin-top:2px;"></div>
     </div>
   </div>
+
+  <div class="sidebar-bday">
+    <div class="bday-next-pill" id="bdayNextPill" style="display:none;">
+      <span class="bday-icon">🎂</span>
+      <span id="bdayNextText"></span>
+    </div>
+  </div>
+
   <nav class="sidebar-nav">
     <div class="nav-label">Weergave</div>
     <div class="nav-item active" data-view="today"><span class="icon">📅</span> Vandaag</div>
     <div class="nav-item" data-view="week"><span class="icon">📆</span> Week</div>
     <div class="nav-item" data-view="list"><span class="icon">🗂️</span> Maand</div>
   </nav>
+
   <div class="sidebar-people">
     <div class="people-label">Team</div>
     <div id="peopleList"></div>
   </div>
 </aside>
 
-<!-- ── MAIN ── -->
+<!-- ═══════════════════════════════
+     MAIN
+═══════════════════════════════ -->
 <div class="main">
+
+  <!-- TOPBAR -->
   <div class="topbar">
-    <div id="topbarNotice" style="flex:1;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub);font-family:var(--sans);min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
-      <span id="topbarNoticeText" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <div style="flex:1;font-size:12px;color:var(--sub);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
+      <span id="topbarNoticeText"></span>
     </div>
     <div class="tb-date">
       <input type="date" id="datePicker"/>
     </div>
     <button class="btn primary" id="btnToday">Vandaag</button>
-    <button class="btn" id="btnFilter" title="Filter op code">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-      Filter <span id="filterBadge" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:1px 6px;font-size:10px;margin-left:2px;"></span>
+    <button class="btn" id="btnFilter">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+      Filter
+      <span id="filterBadge" style="display:none;background:var(--blue);color:#fff;border-radius:999px;padding:1px 6px;font-size:10px;"></span>
     </button>
     <button class="btn" id="btnReset">Reset</button>
-    <div id="mobDateRow" style="display:none; width:100%; align-items:center; gap:6px; flex-wrap:nowrap;">
-      <input type="date" id="datePickerMob" style="flex:1;padding:8px 10px;border:1.5px solid rgba(59,91,219,.1);border-radius:10px;font-family:var(--sans);font-size:13px;color:var(--ink);background:#fff;outline:none;box-shadow:0 2px 8px rgba(59,91,219,.06);"/>
-      <button id="btnTodayMob" style="padding:8px 14px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 3px 12px rgba(59,91,219,.3);">Vandaag</button>
+    <div id="mobDateRow" style="display:none;width:100%;align-items:center;gap:6px;">
+      <input type="date" id="datePickerMob" style="flex:1;padding:8px 10px;border:1.5px solid rgba(59,91,219,.1);border-radius:10px;font-family:var(--sans);font-size:13px;color:var(--ink);background:#fff;outline:none;box-shadow:var(--shadow);"/>
+      <button id="btnTodayMob" style="padding:8px 14px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(59,91,219,.3);">Vandaag</button>
     </div>
   </div>
 
-  <!-- ── FILTER PANEL ── -->
-  <div id="filterPanel" style="display:none; background:rgba(255,255,255,.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1.5px solid var(--line); padding:12px 16px; position:sticky; top:57px; z-index:9;">
-    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+  <!-- FILTER PANEL -->
+  <div id="filterPanel">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
       <span style="font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub2);flex:1;">Code filter:</span>
-      <span id="filterClearAll" style="display:none; cursor:pointer; font-size:11px; font-weight:600; color:var(--sub); padding:4px 9px; border:1.5px solid var(--line); border-radius:8px; background:#fff; white-space:nowrap;" onclick="if(typeof clearCodeFilter!=='undefined') clearCodeFilter()">✕ Wis filter</span>
-      <span onclick="document.getElementById('filterPanel').style.display='none'" style="cursor:pointer;width:26px;height:26px;border-radius:8px;background:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-size:14px;color:var(--sub);flex-shrink:0;">✕</span>
+      <span id="filterClearAll" style="display:none;cursor:pointer;font-size:11px;font-weight:600;color:var(--sub);padding:4px 9px;border:1.5px solid var(--line);border-radius:8px;background:#fff;">✕ Wis filter</span>
+      <span id="filterPanelClose" style="cursor:pointer;width:26px;height:26px;border-radius:8px;background:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-size:14px;color:var(--sub);">✕</span>
     </div>
     <div id="filterBtns" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
   </div>
 
+  <!-- CONTENT -->
   <div class="content">
+
+    <!-- TODAY VIEW -->
     <div class="view active" id="view-today">
-      <div class="today-header" style="display:flex; align-items:center; gap:10px; margin-bottom:2px;">
-        <button class="day-nav-btn" id="btnPrevDay" title="Vorige dag">‹</button>
+      <div class="today-header">
+        <button class="day-nav-btn" id="btnPrevDay">‹</button>
         <div style="flex:1;">
           <div class="today-title" id="todayTitle">—</div>
-          <div class="today-sub" id="todaySub">Wie is er aanwezig vandaag?</div>
+          <div class="today-sub" id="todaySub"></div>
         </div>
-        <button class="day-nav-btn" id="btnNextDay" title="Volgende dag">›</button>
+        <button class="day-nav-btn" id="btnNextDay">›</button>
       </div>
       <div class="legend-row" id="legendRow"></div>
       <div class="stats-row" id="statsRow"></div>
-      <div class="morgen-strip" id="morgenStrip"></div>
+      <div class="morgen-strip" id="morgenStrip" style="display:none;"></div>
       <div id="teamCompleteBanner"></div>
       <div class="team-grid" id="teamGrid"></div>
     </div>
 
+    <!-- WEEK VIEW -->
     <div class="view" id="view-week">
       <div class="week-nav">
         <button class="btn" id="btnPrevWeek">← Vorige</button>
@@ -792,643 +967,786 @@
       <div id="weekMobileWrap" style="display:none;"></div>
     </div>
 
+    <!-- LIST VIEW -->
     <div class="view" id="view-list">
       <div class="month-tabs" id="monthTabs"></div>
       <div id="calendarWrap"></div>
     </div>
+
   </div>
 </div>
 
+<!-- ═══════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════ -->
 <script>
-window.onerror = function(msg, src, line, col, err) {
-  const pill = document.getElementById("statusPill");
-  const span = document.getElementById("statusText");
+"use strict";
+
+// ─── GLOBALE FOUTOPVANG ───────────────────────────────────────────
+window.onerror = function(msg, src, line) {
+  var pill = document.getElementById("statusPill");
+  var span = document.getElementById("statusText");
   if (pill) pill.className = "status-pill err";
   if (span) span.textContent = "JS Fout: " + msg + " (regel " + line + ")";
-  const grid = document.getElementById("teamGrid");
-  if (grid) grid.innerHTML = `<div class="empty-state"><div class="icon">❌</div><p style="color:var(--red);">Fout: ${msg}<br><small>Regel ${line}</small></p></div>`;
+  var grid = document.getElementById("teamGrid");
+  if (grid) grid.innerHTML =
+    '<div class="empty-state"><div class="icon">❌</div>' +
+    '<p style="color:var(--red)">Fout: ' + msg + '</p></div>';
   return false;
 };
 
-const DATA_URL = "permanentie.json";
-
-const CODE_CLASSES = {
-  H: "hotline",
-  w: "wacht", w1: "wacht", w2: "wacht", w3: "wacht",
-  adv: "afwezig", gadv: "afwezig",
-  v: "afwezig", vV: "afwezig", gvV: "afwezig",
-  z: "afwezig",
-  x: "afwezig", xg: "afwezig", xh: "afwezig", gx: "afwezig",
-  kv: "afwezig", b: "afwezig", vbst: "afwezig",
+// ─── VERJAARDAGEN ────────────────────────────────────────────────
+var BIRTHDAYS = {
+  "Kenneth":  "22/09",
+  "Youri":    "14/05",
+  "Debby":    "22/08",
+  "Ben":      "30/09",
+  "Kurt":     "25/12",
+  "Dries":    "18/01",
+  "Kathleen": "21/10",
+  "Youssef":  "27/10",
+  "Mina":     "14/09"
 };
 
-let CODE_MAP = {};
-
-function buildCodeMapFromLegend(legendItems) {
-  const map = {};
-  for (const item of (legendItems || [])) {
-    const code = item.code;
-    const label = item.description;
-    const cls = CODE_CLASSES[code] || "norm";
-    map[code] = { label, cls };
-  }
-  return map;
+function isBirthday(name, isoDate) {
+  var bd = BIRTHDAYS[name];
+  if (!bd) return false;
+  var parts = bd.split("/");
+  var dd = parts[0], mm = parts[1];
+  var dateParts = isoDate.split("-");
+  return mm === dateParts[1] && dd === dateParts[2];
 }
 
-const DAYS_NL = ["zo","ma","di","wo","do","vr","za"];
-const DAYS_FULL = ["zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag"];
-const MONTHS_NL = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+function daysUntilBirthday(name) {
+  var bd = BIRTHDAYS[name];
+  if (!bd) return Infinity;
+  var parts = bd.split("/").map(Number);
+  var dd = parts[0], mm = parts[1];
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var next = new Date(today.getFullYear(), mm - 1, dd);
+  if (next < today) next = new Date(today.getFullYear() + 1, mm - 1, dd);
+  return Math.round((next - today) / 86400000);
+}
 
-let records    = [];
-let allPeople  = [];
-let payload    = null;
-let activeView = "today";
-let filterPerson = "";
-let filterCode = "";
-let currentWeekStart = null;
+function getNextBirthday() {
+  var best = null, bestDays = Infinity;
+  var names = Object.keys(BIRTHDAYS);
+  for (var i = 0; i < names.length; i++) {
+    var days = daysUntilBirthday(names[i]);
+    if (days < bestDays) { bestDays = days; best = names[i]; }
+  }
+  return best ? { name: best, days: bestDays } : null;
+}
+
+// ─── CONFIGURATIE ────────────────────────────────────────────────
+var DATA_URL = "permanentie.json";
+
+var WACHT_CODES = ["w", "w1", "w2", "w3"];
+var WACHT_AFWEZIG_CODES = ["w", "w1", "w2", "w3", "h"];
+
+var CODE_CLASSES = {
+  "H":    "hotline",
+  "w":    "wacht", "w1": "wacht", "w2": "wacht", "w3": "wacht",
+  "adv":  "afwezig", "gadv": "afwezig",
+  "v":    "afwezig", "vV": "afwezig", "gvV": "afwezig",
+  "z":    "afwezig",
+  "x":    "afwezig", "xg": "afwezig", "xh": "afwezig", "gx": "afwezig",
+  "kv":   "afwezig", "b": "afwezig", "vbst": "afwezig"
+};
+
+var CODE_COLORS = {
+  "mi":    "background:#dcfce7;color:#166534;border-color:#bbf7d0;",
+  "sa":    "background:#fce7f3;color:#9d174d;border-color:#fbcfe8;",
+  "sv":    "background:#ede9fe;color:#5b21b6;border-color:#ddd6fe;",
+  "ca":    "background:#fff7ed;color:#9a3412;border-color:#fed7aa;",
+  "jp":    "background:#cffafe;color:#155e75;border-color:#a5f3fc;",
+  "pl":    "background:#fefce8;color:#854d0e;border-color:#fef08a;",
+  "th":    "background:#f0fdf4;color:#14532d;border-color:#bbf7d0;",
+  "opl":   "background:#f0f9ff;color:#0c4a6e;border-color:#bae6fd;",
+  "vp":    "background:#fdf4ff;color:#6b21a8;border-color:#e9d5ff;",
+  "syvor": "background:#fff1f2;color:#881337;border-color:#fecdd3;",
+  "soc":   "background:#f7fee7;color:#3f6212;border-color:#d9f99d;",
+  "sov":   "background:#f7fee7;color:#3f6212;border-color:#d9f99d;",
+  "bh":    "background:#fffbeb;color:#78350f;border-color:#fde68a;",
+  "gbh":   "background:#fffbeb;color:#78350f;border-color:#fde68a;",
+  "gso":   "background:#fdf2f8;color:#831843;border-color:#f9a8d4;"
+};
+
+var DAYS_NL   = ["zo","ma","di","wo","do","vr","za"];
+var MONTHS_NL = ["januari","februari","maart","april","mei","juni",
+                 "juli","augustus","september","oktober","november","december"];
+
+// ─── STATE ───────────────────────────────────────────────────────
+var codeMap      = {};
+var records      = [];
+var allPeople    = [];
+var activeView   = "today";
+var filterPerson = "";
+var filterCode   = "";
+var activeMonth  = null;
+var currentWeekStart = null;
+var lastConfettiDate = null;
+var shownBdayOverlay = null;
+var vrijdagDone      = false;
+
+// ─── HELPERS ─────────────────────────────────────────────────────
+function pad(n) { return n < 10 ? "0" + n : "" + n; }
 
 function isoToday() {
-  const d = new Date();
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-}
-function pad(n){ return n < 10 ? "0"+n : ""+n; }
-
-function formatDateNL(iso) {
-  const [y,m,d] = iso.split("-").map(Number);
-  const dt = new Date(y, m-1, d);
-  return `${DAYS_NL[dt.getDay()]} ${d} ${MONTHS_NL[m-1]} ${y}`;
+  var d = new Date();
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
 }
 
 function isoFromDate(d) {
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
 }
 
 function addDays(isoOrDate, n) {
-  const d = typeof isoOrDate === "string"
-    ? new Date(...isoOrDate.split("-").map((v,i) => i===1?Number(v)-1:Number(v)))
-    : new Date(isoOrDate);
+  var d;
+  if (typeof isoOrDate === "string") {
+    var p = isoOrDate.split("-").map(Number);
+    d = new Date(p[0], p[1] - 1, p[2]);
+  } else {
+    d = new Date(isoOrDate.getTime());
+  }
   d.setDate(d.getDate() + n);
   return d;
 }
 
 function getMonday(dateStr) {
-  const [y,m,d] = dateStr.split("-").map(Number);
-  const dt = new Date(y, m-1, d);
-  const day = dt.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
+  var p = dateStr.split("-").map(Number);
+  var dt = new Date(p[0], p[1] - 1, p[2]);
+  var day = dt.getDay();
+  var diff = day === 0 ? -6 : 1 - day;
   dt.setDate(dt.getDate() + diff);
   return isoFromDate(dt);
 }
 
+function formatDateNL(iso) {
+  var p = iso.split("-").map(Number);
+  var dt = new Date(p[0], p[1] - 1, p[2]);
+  return DAYS_NL[dt.getDay()] + " " + p[2] + " " + MONTHS_NL[p[1] - 1] + " " + p[0];
+}
+
 function splitTokens(code) {
-  return (code||"").split("/").map(s=>s.trim()).filter(Boolean);
+  if (!code) return [];
+  return code.split("/").map(function(s) { return s.trim(); }).filter(Boolean);
 }
 
-const CODE_COLORS = {
-  mi:    { bg:"#dcfce7", color:"#166534", border:"#bbf7d0" },
-  sa:    { bg:"#fce7f3", color:"#9d174d", border:"#fbcfe8" },
-  sv:    { bg:"#ede9fe", color:"#5b21b6", border:"#ddd6fe" },
-  ca:    { bg:"#fff7ed", color:"#9a3412", border:"#fed7aa" },
-  jp:    { bg:"#cffafe", color:"#155e75", border:"#a5f3fc" },
-  pl:    { bg:"#fefce8", color:"#854d0e", border:"#fef08a" },
-  th:    { bg:"#f0fdf4", color:"#14532d", border:"#bbf7d0" },
-  opl:   { bg:"#f0f9ff", color:"#0c4a6e", border:"#bae6fd" },
-  vp:    { bg:"#fdf4ff", color:"#6b21a8", border:"#e9d5ff" },
-  syvor: { bg:"#fff1f2", color:"#881337", border:"#fecdd3" },
-  soc:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" },
-  sov:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" },
-  bh:    { bg:"#fffbeb", color:"#78350f", border:"#fde68a" },
-  gbh:   { bg:"#fffbeb", color:"#78350f", border:"#fde68a" },
-  gso:   { bg:"#fdf2f8", color:"#831843", border:"#f9a8d4" },
-};
-
-function getCodeStyle(token) {
-  const c = CODE_COLORS[token] || CODE_COLORS[token.toLowerCase()];
-  if (c) return `style="background:${c.bg};color:${c.color};border-color:${c.border};"`;
-  return "";
-}
-
-function renderTags(code) {
-  return splitTokens(code).map(t => {
-    const def = CODE_MAP[t] || CODE_MAP[t.toLowerCase()];
-    const cls = def ? def.cls : (CODE_CLASSES[t] || CODE_CLASSES[t.toLowerCase()] || "norm");
-    const label = def ? def.label
-      : t === "H"  ? "Hotline"
-      : t === "w"  ? "Weekdagwacht"
-      : t === "w1" ? "Zaterdagwacht"
-      : t === "w2" ? "Zondagwacht"
-      : t === "w3" ? "Feestdagwacht"
-      : t.toUpperCase();
-    const extraStyle = cls === "norm" ? getCodeStyle(t) : "";
-    return `<span class="tag ${cls}" ${extraStyle}>${label}</span>`;
-  }).join("");
-}
-
-function getTagClass(token) {
-  const def = CODE_MAP[token] || CODE_MAP[token.toLowerCase()];
-  if (def) return def.cls;
+function getTagCls(token) {
+  var def = codeMap[token] || codeMap[token.toLowerCase()];
+  if (def && def.cls) return def.cls;
   return CODE_CLASSES[token] || CODE_CLASSES[token.toLowerCase()] || "norm";
 }
 
+function getTagLabel(token) {
+  var def = codeMap[token] || codeMap[token.toLowerCase()];
+  if (def && def.label) return def.label;
+  var labels = {
+    "H": "Hotline", "w": "Weekdagwacht",
+    "w1": "Zaterdagwacht", "w2": "Zondagwacht", "w3": "Feestdagwacht"
+  };
+  return labels[token] || token.toUpperCase();
+}
+
+function renderTags(code) {
+  return splitTokens(code).map(function(t) {
+    var cls    = getTagCls(t);
+    var label  = getTagLabel(t);
+    var extra  = cls === "norm" ? (CODE_COLORS[t.toLowerCase()] ? ' style="' + CODE_COLORS[t.toLowerCase()] + '"' : "") : "";
+    return '<span class="tag ' + cls + '"' + extra + '>' + label + '</span>';
+  }).join("");
+}
+
 function personInitials(name) {
-  return name.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase();
+  return name.split(" ").slice(0, 2).map(function(w) { return w[0]; }).join("").toUpperCase();
 }
 
 function avatarColor(name) {
-  const colors = ["#1a4ecc","#0d7c70","#b45309","#9333ea","#0891b2","#be123c","#166534"];
-  let h = 0;
-  for(let i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) % colors.length;
+  var colors = ["#1a4ecc","#0d7c70","#b45309","#9333ea","#0891b2","#be123c","#166534"];
+  var h = 0;
+  for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % colors.length;
   return colors[h];
 }
 
 function setStatus(text, kind) {
-  const pill = document.getElementById("statusPill");
-  const span = document.getElementById("statusText");
-  pill.className = "status-pill " + (kind||"");
-  span.textContent = text;
+  var pill = document.getElementById("statusPill");
+  var span = document.getElementById("statusText");
+  if (pill) pill.className = "status-pill " + (kind || "");
+  if (span) span.textContent = text;
 }
 
-function renderSkeleton() {
-  const statsRow = document.getElementById("statsRow");
-  if (statsRow) {
-    statsRow.innerHTML = Array(5).fill(0).map((_, i) => `
-      <div class="skeleton-stat">
-        <div class="skeleton-line" style="height:9px;width:60%;margin-bottom:8px;animation-delay:${i*0.1}s"></div>
-        <div class="skeleton-line" style="height:28px;width:40%;animation-delay:${i*0.1}s"></div>
-      </div>`).join("");
+// ─── CONFETTI ────────────────────────────────────────────────────
+function launchConfetti(colors) {
+  colors = colors || ["#3b5bdb","#748ffc","#f59f00","#2f9e44","#e03131","#ae3ec9","#0c8599","#fff"];
+  for (var i = 0; i < 80; i++) {
+    (function() {
+      var el = document.createElement("div");
+      el.className = "confetti-p";
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.width  = (8 + Math.random() * 8) + "px";
+      el.style.height = (8 + Math.random() * 8) + "px";
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+      el.style.animationDuration = (2 + Math.random() * 2) + "s";
+      el.style.animationDelay    = (Math.random() * 1.5) + "s";
+      document.body.appendChild(el);
+      el.addEventListener("animationend", function() { el.remove(); });
+    })();
   }
-  const grid = document.getElementById("teamGrid");
+}
+
+// ─── LOAD DATA ───────────────────────────────────────────────────
+function renderSkeleton() {
+  var sr = document.getElementById("statsRow");
+  if (sr) {
+    sr.innerHTML = [0,1,2,3,4].map(function(i) {
+      return '<div class="skel-stat" style="animation-delay:' + (i*.1) + 's">' +
+        '<div class="skel-line" style="height:9px;width:60%;margin-bottom:8px;"></div>' +
+        '<div class="skel-line" style="height:28px;width:40%;"></div></div>';
+    }).join("");
+  }
+  var grid = document.getElementById("teamGrid");
   if (grid) {
-    grid.innerHTML = `<div class="skeleton-grid" style="grid-column:1/-1;">` +
-      Array(10).fill(0).map((_, i) => `
-        <div class="skeleton-card" style="animation-delay:${i*0.05}s">
-          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
-            <div class="skeleton-avatar" style="animation-delay:${i*0.05}s"></div>
-            <div class="skeleton-line" style="height:13px;width:70%;animation-delay:${i*0.05}s"></div>
-          </div>
-          <div class="skeleton-line" style="height:28px;width:85%;animation-delay:${i*0.05+0.1}s;border-radius:8px;"></div>
-          <div class="skeleton-line" style="height:10px;width:55%;margin-top:6px;animation-delay:${i*0.05+0.15}s;"></div>
-        </div>`).join("") +
-    `</div>`;
+    grid.innerHTML = '<div class="skel-grid">' +
+      [0,1,2,3,4,5,6,7,8,9].map(function(i) {
+        return '<div class="skel-card" style="animation-delay:' + (i*.05) + 's">' +
+          '<div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">' +
+          '<div class="skel-av"></div>' +
+          '<div class="skel-line" style="height:13px;width:70%;"></div></div>' +
+          '<div class="skel-line" style="height:26px;width:85%;border-radius:7px;"></div>' +
+          '<div class="skel-line" style="height:10px;width:55%;margin-top:6px;"></div></div>';
+      }).join("") + '</div>';
   }
 }
 
 async function loadData() {
-  setStatus("Laden…","load");
+  setStatus("Laden…", "load");
   renderSkeleton();
   try {
-    const res = await fetch(`${DATA_URL}?v=${Date.now()}`, {cache:"no-store"});
-    if (!res.ok) throw new Error(`HTTP ${res.status} - Bestand niet gevonden: ${DATA_URL}`);
-    let raw = await res.json();
+    var res = await fetch(DATA_URL + "?v=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status + " — " + DATA_URL + " niet gevonden");
+    var raw = await res.json();
 
+    // Unwrap eventuele wrappers van Power Automate / Office Script
     if (raw && typeof raw.stdout === "string") raw = JSON.parse(raw.stdout);
     else if (raw && typeof raw.result === "string") raw = JSON.parse(raw.result);
     if (typeof raw === "string") raw = JSON.parse(raw);
     if (raw && typeof raw.stdout === "string") raw = JSON.parse(raw.stdout);
 
-    payload = raw;
-    records = (payload.records || []).filter(r =>
-      r.person && r.person.toLowerCase() !== "legende"
-    );
+    records   = (raw.records || []).filter(function(r) {
+      return r.person && r.person.toLowerCase() !== "legende";
+    });
+    allPeople = Array.from(new Set(records.map(function(r) { return r.person; })))
+                     .sort(function(a,b) { return a.localeCompare(b, "nl"); });
 
-    CODE_MAP = buildCodeMapFromLegend(payload.legend || []);
-    allPeople = [...new Set(records.map(r=>r.person))].sort((a,b)=>a.localeCompare(b,"nl"));
+    // Build code map van legend
+    codeMap = {};
+    (raw.legend || []).forEach(function(item) {
+      codeMap[item.code] = {
+        label: item.description,
+        cls:   CODE_CLASSES[item.code] || "norm"
+      };
+    });
 
-    if (payload.generatedAt) {
-      const d = new Date(payload.generatedAt);
+    // Timestamp
+    if (raw.generatedAt) {
+      var d = new Date(raw.generatedAt);
       document.getElementById("genAtText").textContent =
-        `Bijgewerkt: ${d.toLocaleDateString("nl-BE")} ${d.toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"})}`;
+        "Bijgewerkt: " + d.toLocaleDateString("nl-BE") + " " +
+        d.toLocaleTimeString("nl-BE", { hour:"2-digit", minute:"2-digit" });
     }
 
-    setStatus("Gesynchroniseerd","ok");
-
-    (function() {
-      const REFRESH_SEC = 10 * 60;
-      let remaining = REFRESH_SEC;
-      function fmt(s) {
-        const m = Math.floor(s / 60);
-        const sec = s % 60;
-        return m > 0 ? `${m}m${sec > 0 ? sec+'s' : ''}` : `${sec}s`;
-      }
-      function update() {
-        const el = document.getElementById("refreshCountdown");
-        if (el) el.textContent = `↻ auto refresh in ${fmt(remaining)}`;
-      }
-      update();
-      setInterval(() => {
-        remaining--;
-        if (remaining <= 0) location.reload();
-        update();
-      }, 1000);
-    })();
-
+    setStatus("Gesynchroniseerd", "ok");
+    updateBdaySidebar();
+    startRefreshCountdown();
     buildPeopleList();
     buildMonthTabs();
     renderAll();
+
   } catch(e) {
-    console.error("[Permanenties] FOUT:", e);
+    console.error("[Permanenties]", e);
     setStatus("⚠ " + e.message, "err");
-    const errHtml = `<div class="empty-state"><div class="icon">❌</div><p style="color:#e84040;">Fout bij laden: ${e.message}</p><p style="font-size:12px;color:var(--sub);margin-top:8px;">Controleer of permanentie.json bereikbaar is.</p></div>`;
-    const teamGrid = document.getElementById("teamGrid");
-    if (teamGrid) teamGrid.innerHTML = errHtml;
+    var grid = document.getElementById("teamGrid");
+    if (grid) grid.innerHTML =
+      '<div class="empty-state"><div class="icon">❌</div>' +
+      '<p style="color:#e84040">Fout bij laden:<br>' + e.message + '</p>' +
+      '<p style="font-size:12px;color:var(--sub);margin-top:8px;">Controleer of <b>permanentie.json</b> in dezelfde map staat.</p></div>';
   }
 }
 
-function buildPeopleList() {
-  const wrap = document.getElementById("peopleList");
-  wrap.innerHTML = `
-    <div class="person-chip ${filterPerson===''?'active':''}" data-person="">
-      <div class="avatar" style="background:rgba(255,255,255,.15)">👥</div>
-      <span>Iedereen</span>
-    </div>
-  ` + allPeople.map(p => `
-    <div class="person-chip ${filterPerson===p?'active':''}" data-person="${p}">
-      <div class="avatar" style="background:${avatarColor(p)}">${personInitials(p)}</div>
-      <span>${p}</span>
-    </div>
-  `).join("");
+function startRefreshCountdown() {
+  var REFRESH_SEC = 10 * 60;
+  var rem = REFRESH_SEC;
+  function fmt(s) {
+    var m = Math.floor(s / 60), sec = s % 60;
+    return m > 0 ? m + "m" + (sec > 0 ? sec + "s" : "") : sec + "s";
+  }
+  function tick() {
+    var el = document.getElementById("refreshCountdown");
+    if (el) el.textContent = "↻ auto refresh in " + fmt(rem);
+    rem--;
+    if (rem < 0) location.reload();
+    else setTimeout(tick, 1000);
+  }
+  tick();
+}
 
-  wrap.querySelectorAll(".person-chip").forEach(el => {
-    el.addEventListener("click", () => {
+// ─── SIDEBAR VERJAARDAG PILL ─────────────────────────────────────
+function updateBdaySidebar() {
+  var pill = document.getElementById("bdayNextPill");
+  var txt  = document.getElementById("bdayNextText");
+  if (!pill || !txt) return;
+  var next = getNextBirthday();
+  if (!next) return;
+  pill.style.display = "flex";
+  if (next.days === 0) {
+    txt.innerHTML = "Vandaag jarig: <strong>" + next.name + "! 🎉</strong>";
+  } else if (next.days === 1) {
+    txt.innerHTML = "Morgen jarig:<br><strong>" + next.name + "</strong>";
+  } else {
+    txt.innerHTML = "Volgende verjaardag:<br><strong>" + next.name + "</strong> over " + next.days + " dagen";
+  }
+}
+
+// ─── PEOPLE LIST ─────────────────────────────────────────────────
+function buildPeopleList() {
+  var wrap = document.getElementById("peopleList");
+  var html = '<div class="person-chip ' + (filterPerson === "" ? "active" : "") + '" data-person="">' +
+    '<div class="avatar" style="background:rgba(255,255,255,.15)">👥</div><span>Iedereen</span></div>';
+
+  allPeople.forEach(function(p) {
+    var bday = isBirthday(p, isoToday()) ? " 🎂" : "";
+    html += '<div class="person-chip ' + (filterPerson === p ? "active" : "") + '" data-person="' + p + '">' +
+      '<div class="avatar" style="background:' + avatarColor(p) + '">' + personInitials(p) + '</div>' +
+      '<span>' + p + bday + '</span></div>';
+  });
+
+  wrap.innerHTML = html;
+  wrap.querySelectorAll(".person-chip").forEach(function(el) {
+    el.addEventListener("click", function() {
       filterPerson = el.dataset.person;
-      wrap.querySelectorAll(".person-chip").forEach(c=>c.classList.remove("active"));
+      wrap.querySelectorAll(".person-chip").forEach(function(c) { c.classList.remove("active"); });
       el.classList.add("active");
       renderAll();
     });
   });
 }
 
+// ─── LEGEND ──────────────────────────────────────────────────────
 function buildLegend() {
-  const items = [
-    {cls:"hotline", label:"H = Hotline"},
-    {cls:"wacht",   label:"W/W1/W2 = Wachtdienst"},
-    {cls:"afwezig", label:"V/ADV/Z = Afwezig"},
-    {cls:"norm",    label:"Mi/Sa/Th = Aanwezig"},
-  ];
-  return items.map(i =>
-    `<div class="legend-item"><span class="tag ${i.cls}" style="font-family:var(--sans);font-weight:600;">${i.label}</span></div>`
-  ).join("");
+  return [
+    { cls: "hotline", label: "H = Hotline" },
+    { cls: "wacht",   label: "W/W1/W2 = Wachtdienst" },
+    { cls: "afwezig", label: "V/ADV/Z = Afwezig" },
+    { cls: "norm",    label: "Mi/Sa/Th = Aanwezig" }
+  ].map(function(i) {
+    return '<div class="legend-item"><span class="tag ' + i.cls + '" style="font-weight:600;">' + i.label + '</span></div>';
+  }).join("");
 }
 
-// ─────────────────────────────────────────────
-// STATS — gecorrigeerde versie
-// Wachtcodes worden genegeerd bij aanwezig/afwezig berekening
-// want wacht is altijd buiten de werkuren
-// ─────────────────────────────────────────────
+// ─── STATS ───────────────────────────────────────────────────────
 function buildStats(dateStr) {
-  const day = records.filter(r => r.date === dateStr);
-  const total = allPeople.length;
-  const WACHT_CODES = ["w","w1","w2","w3","h"];
+  var day = records.filter(function(r) { return r.date === dateStr; });
 
-  const aanwezig = day.filter(r => {
-    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
-    if (tokens.length === 0) return false; // puur wacht = niet meetellen
-    return !tokens.every(t => getTagClass(t) === "afwezig");
-  }).length;
-
-  const afwezig = day.filter(r => {
-    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
-    if (tokens.length === 0) return false; // puur wacht = niet meetellen
-    return tokens.every(t => getTagClass(t) === "afwezig");
-  }).length;
-
-  const hotline = day.filter(r => splitTokens(r.code).some(t => t === "H")).length;
-  const wacht   = day.filter(r => splitTokens(r.code).some(t => WACHT_CODES.includes(t.toLowerCase()))).length;
-
-  const items = [
-    { label: "Totaal team", value: total,    accent: "accent-sub",   delay: ".0s"  },
-    { label: "Aanwezig",    value: aanwezig, accent: "accent-green", delay: ".05s" },
-    { label: "Hotline",     value: hotline,  accent: "accent-red",   delay: ".1s"  },
-    { label: "Wachtdienst", value: wacht,    accent: "accent-amber", delay: ".15s" },
-    { label: "Afwezig",     value: afwezig,  accent: "accent-sub",   delay: ".2s"  },
-  ];
-  return items.map(it => `
-    <div class="stat-card ${it.accent}" style="animation-delay:${it.delay}">
-      <div class="stat-label">${it.label}</div>
-      <div class="stat-value">${it.value}</div>
-    </div>`).join("");
-}
-
-function launchConfetti() {
-  const colors = ["#3b5bdb","#748ffc","#f59f00","#2f9e44","#e03131","#ae3ec9","#0c8599","#fff"];
-  const count = 80;
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement("div");
-    el.className = "confetti-piece";
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.width = (8 + Math.random() * 8) + "px";
-    el.style.height = (8 + Math.random() * 8) + "px";
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
-    el.style.animationDuration = (2 + Math.random() * 2) + "s";
-    el.style.animationDelay = (Math.random() * 1.5) + "s";
-    document.body.appendChild(el);
-    el.addEventListener("animationend", () => el.remove());
-  }
-}
-
-let lastConfettiDate = null;
-
-function checkTeamComplete(dateStr) {
-  const banner = document.getElementById("teamCompleteBanner");
-  if (!banner) return;
-  const WACHT_CODES = ["w","w1","w2","w3","h"];
-  const dayRecords = records.filter(r => r.date === dateStr);
-  const aanwezig = dayRecords.filter(r => {
-    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
+  function isActief(r) {
+    var tokens = splitTokens(r.code).filter(function(t) {
+      return WACHT_AFWEZIG_CODES.indexOf(t.toLowerCase()) === -1;
+    });
     if (tokens.length === 0) return false;
-    return !tokens.every(t => getTagClass(t) === "afwezig");
+    return !tokens.every(function(t) { return getTagCls(t) === "afwezig"; });
+  }
+  function isAfwezig(r) {
+    var tokens = splitTokens(r.code).filter(function(t) {
+      return WACHT_AFWEZIG_CODES.indexOf(t.toLowerCase()) === -1;
+    });
+    if (tokens.length === 0) return false;
+    return tokens.every(function(t) { return getTagCls(t) === "afwezig"; });
+  }
+
+  var aanwezig = day.filter(isActief).length;
+  var afwezig  = day.filter(isAfwezig).length;
+  var hotline  = day.filter(function(r) { return splitTokens(r.code).indexOf("H") !== -1; }).length;
+  var wacht    = day.filter(function(r) {
+    return splitTokens(r.code).some(function(t) { return WACHT_CODES.indexOf(t.toLowerCase()) !== -1; });
+  }).length;
+
+  return [
+    { lbl:"Totaal team", val:allPeople.length, cls:"gray",  d:".0s"  },
+    { lbl:"Aanwezig",    val:aanwezig,          cls:"green", d:".05s" },
+    { lbl:"Hotline",     val:hotline,           cls:"red",   d:".1s"  },
+    { lbl:"Wachtdienst", val:wacht,             cls:"amber", d:".15s" },
+    { lbl:"Afwezig",     val:afwezig,           cls:"gray",  d:".2s"  }
+  ].map(function(it) {
+    return '<div class="stat-card ' + it.cls + '" style="animation-delay:' + it.d + '">' +
+      '<div class="stat-label">' + it.lbl + '</div>' +
+      '<div class="stat-value">' + it.val + '</div></div>';
+  }).join("");
+}
+
+// ─── TOPBAR NOTICE ───────────────────────────────────────────────
+function updateTopbarNotice(dateStr) {
+  var el = document.getElementById("topbarNoticeText");
+  if (!el) return;
+  var msgs = [];
+
+  var jarigen = allPeople.filter(function(p) { return isBirthday(p, dateStr); });
+  if (jarigen.length) msgs.push("🎂 Happy Birthday " + jarigen.join(" & ") + "!");
+
+  var day = records.filter(function(r) { return r.date === dateStr; });
+  var aanwezigCount = day.filter(function(r) {
+    var tokens = splitTokens(r.code).filter(function(t) {
+      return WACHT_AFWEZIG_CODES.indexOf(t.toLowerCase()) === -1;
+    });
+    if (!tokens.length) return false;
+    return !tokens.every(function(t) { return getTagCls(t) === "afwezig"; });
+  }).length;
+  if (aanwezigCount === allPeople.length && allPeople.length > 0) msgs.push("🎉 Team Complete!");
+
+  var d = new Date(dateStr.replace(/-/g, "/"));
+  if (d.getDay() === 5) msgs.push("✨ It's Friyay! Have a great weekend! ✨");
+
+  el.textContent = msgs.join("  ·  ");
+}
+
+// ─── TEAM COMPLETE BANNER ────────────────────────────────────────
+function checkTeamComplete(dateStr) {
+  var banner = document.getElementById("teamCompleteBanner");
+  if (!banner) return;
+
+  var day = records.filter(function(r) { return r.date === dateStr; });
+  var aanwezig = day.filter(function(r) {
+    var tokens = splitTokens(r.code).filter(function(t) {
+      return WACHT_AFWEZIG_CODES.indexOf(t.toLowerCase()) === -1;
+    });
+    if (!tokens.length) return false;
+    return !tokens.every(function(t) { return getTagCls(t) === "afwezig"; });
   });
+
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
-    banner.innerHTML = `<div class="team-complete-banner" id="teamCompleteBannerInner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
-    if (window._gradInterval) { clearInterval(window._gradInterval); window._gradInterval = null; }
-    const gradColors = ["#3b5bdb","#748ffc","#2f9e44","#f59f00","#e03131"];
-    let gradIdx = 0;
-    const gradEl = document.getElementById("teamCompleteBannerInner");
-    window._gradInterval = setInterval(() => {
-      gradIdx = (gradIdx + 1) % gradColors.length;
-      if (gradEl) { gradEl.style.background = gradColors[gradIdx]; gradEl.style.transition = "background 0.4s ease"; }
+    banner.innerHTML = '<div class="tc-banner" id="tcBannerInner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>';
+
+    if (window._gradInt) clearInterval(window._gradInt);
+    var gradColors = ["#3b5bdb","#748ffc","#2f9e44","#f59f00","#e03131"];
+    var gi = 0;
+    window._gradInt = setInterval(function() {
+      gi = (gi + 1) % gradColors.length;
+      var el = document.getElementById("tcBannerInner");
+      if (el) el.style.background = gradColors[gi];
     }, 500);
-    setTimeout(() => {
-      clearInterval(window._gradInterval);
-      window._gradInterval = null;
-      if (gradEl) { gradEl.style.transition = "background 1s ease"; gradEl.style.background = "#3b5bdb"; }
+    setTimeout(function() {
+      clearInterval(window._gradInt);
+      var el = document.getElementById("tcBannerInner");
+      if (el) { el.style.transition = "background 1s"; el.style.background = "#3b5bdb"; }
     }, 5000);
+
     if (lastConfettiDate !== dateStr) {
       lastConfettiDate = dateStr;
       launchConfetti();
     }
   } else {
     banner.innerHTML = "";
+    if (window._gradInt) { clearInterval(window._gradInt); window._gradInt = null; }
   }
 }
 
-function updateTopbarNotice(dateStr) {
-  const el = document.getElementById("topbarNoticeText");
-  if (!el) return;
-  const msgs = [];
-  const WACHT_CODES = ["w","w1","w2","w3","h"];
-  const dayRecords = records.filter(r => r.date === dateStr);
-  const aanwezig = dayRecords.filter(r => {
-    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
-    if (tokens.length === 0) return false;
-    return !tokens.every(t => getTagClass(t) === "afwezig");
+// ─── VERJAARDAG OVERLAY ──────────────────────────────────────────
+function checkBirthdayOverlay(dateStr) {
+  if (dateStr !== isoToday()) return;
+  var jarigen = allPeople.filter(function(p) { return isBirthday(p, dateStr); });
+  if (!jarigen.length) return;
+  var key = dateStr + jarigen.join(",");
+  if (shownBdayOverlay === key) return;
+  shownBdayOverlay = key;
+
+  jarigen.forEach(function(naam, idx) {
+    setTimeout(function() {
+      var ov = document.createElement("div");
+      ov.className = "overlay";
+      ov.innerHTML =
+        '<div style="text-align:center;">' +
+        '<div class="bday-txt">🎂 Happy Birthday ' + naam + '! 🎂</div>' +
+        '<div style="font-size:clamp(16px,3vw,30px);font-weight:700;color:rgba(255,200,0,.95);margin-top:10px;text-shadow:0 2px 12px rgba(0,0,0,.3);">Gefeliciteerd! 🎉🥳</div>' +
+        '</div>';
+      document.body.appendChild(ov);
+      setTimeout(function() { ov.remove(); }, 4000);
+      launchConfetti(["#ffd700","#ffec99","#ffe066","#ffd43b","#ff6b6b","#a9e34b","#74c0fc","#fff"]);
+    }, (idx * 4500) + 600);
   });
-  if (aanwezig.length === allPeople.length && allPeople.length > 0) {
-    msgs.push("🎉 Team Complete!");
-  }
-  const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
-  if (dateObj.getDay() === 5) msgs.push("✨ It's Friyay! Have a great weekend! ✨");
-  el.textContent = msgs.join("  ·  ");
 }
 
+// ─── MORGEN STRIP ────────────────────────────────────────────────
 function buildMorgenStrip(dateStr) {
-  const wrap = document.getElementById("morgenStrip");
+  var wrap = document.getElementById("morgenStrip");
   if (!wrap) return;
-  const [y,m,d] = dateStr.split("-").map(Number);
-  const volgende = new Date(y, m-1, d);
-  volgende.setDate(volgende.getDate() + 1);
+
+  var p = dateStr.split("-").map(Number);
+  var volgende = new Date(p[0], p[1] - 1, p[2] + 1);
   while (volgende.getDay() === 0 || volgende.getDay() === 6) {
     volgende.setDate(volgende.getDate() + 1);
   }
-  const volgIso   = isoFromDate(volgende);
-  const isMoregen = volgende.getDate() === new Date(y,m-1,d+1).getDate()
-                    && volgende.getMonth() === new Date(y,m-1,d+1).getMonth();
-  const dagNaam   = isMoregen
+  var volgIso = isoFromDate(volgende);
+  var isMoregen = (volgende.getDate() === p[2] + 1 && volgende.getMonth() === p[1] - 1);
+  var dagNaam = isMoregen
     ? "morgen"
-    : `${DAYS_NL[volgende.getDay()]} ${volgende.getDate()} ${MONTHS_NL[volgende.getMonth()]}`;
+    : DAYS_NL[volgende.getDay()] + " " + volgende.getDate() + " " + MONTHS_NL[volgende.getMonth()];
 
-  const volgRecords = records.filter(r => r.date === volgIso);
-  const hotline = volgRecords.find(r => splitTokens(r.code).includes("H"));
-  const wacht   = volgRecords.find(r => splitTokens(r.code).some(t => ["w","w1","w2","w3"].includes(t.toLowerCase())));
+  var volgRecs = records.filter(function(r) { return r.date === volgIso; });
+  var hotline = null, wacht = null;
+  volgRecs.forEach(function(r) {
+    var tokens = splitTokens(r.code);
+    if (!hotline && tokens.indexOf("H") !== -1) hotline = r;
+    if (!wacht && tokens.some(function(t) { return WACHT_CODES.indexOf(t.toLowerCase()) !== -1; })) wacht = r;
+  });
 
-  if (!hotline && !wacht) { wrap.innerHTML = ""; return; }
+  var bdJarigen = allPeople.filter(function(p) { return isBirthday(p, volgIso); });
 
-  let items = `<span class="morgen-strip-label">Volgende werkdag (${dagNaam}):</span>`;
-  if (hotline) {
-    items += `<span class="morgen-item">
-      <span class="tag hotline" style="font-size:10px;padding:2px 7px;">Hotline</span>
-      <strong>${hotline.person}</strong>
-    </span>`;
-  }
-  if (wacht) {
-    items += `<span class="morgen-item" style="color:var(--sub);">·</span>
-    <span class="morgen-item">
-      <span class="tag wacht" style="font-size:10px;padding:2px 7px;">Wacht</span>
-      <strong>${wacht.person}</strong>
-    </span>`;
-  }
-  wrap.innerHTML = items;
-}
-
-function renderToday() {
-  const dateStr = document.getElementById("datePicker").value || isoToday();
-  const q = "";
-  const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
-  const isVrijdag = dateObj.getDay() === 5;
-  document.getElementById("todayTitle").innerHTML =
-    `Permanenties — <span>${formatDateNL(dateStr)}</span>${isVrijdag ? ' <span style="font-size:18px;">🎉</span>' : ''}`;
-  document.getElementById("todaySub").textContent = "";
-  document.getElementById("legendRow").innerHTML = buildLegend();
-  document.getElementById("statsRow").innerHTML  = buildStats(dateStr);
-  buildMorgenStrip(dateStr);
-  checkTeamComplete(dateStr);
-  updateTopbarNotice(dateStr);
-
-  if (isVrijdag && !window._vrijdagConfetti) {
-    window._vrijdagConfetti = true;
-    setTimeout(() => {
-      const overlay = document.createElement("div");
-      overlay.className = "friyay-overlay";
-      overlay.innerHTML = `<div style="text-align:center;">
-        <div class="friyay-text">✨ It's Friyay! ✨</div>
-        <div style="font-size:clamp(18px,3.5vw,36px); font-weight:700; color:rgba(255,255,255,.9); margin-top:8px; text-shadow: 0 2px 12px rgba(0,0,0,.3);">Have a great weekend! 🎊</div>
-      </div>`;
-      document.body.appendChild(overlay);
-      setTimeout(() => overlay.remove(), 3500);
-      const colors = ["#f59f00","#ffd43b","#ffe066","#fab005","#fd7e14","#ffec99"];
-      for (let i = 0; i < 80; i++) {
-        const el = document.createElement("div");
-        el.className = "confetti-piece";
-        el.style.left = Math.random() * 100 + "vw";
-        el.style.width = el.style.height = (6 + Math.random() * 6) + "px";
-        el.style.background = colors[Math.floor(Math.random() * colors.length)];
-        el.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
-        el.style.animationDuration = (2.5 + Math.random() * 2) + "s";
-        el.style.animationDelay = (Math.random() * 2) + "s";
-        document.body.appendChild(el);
-        el.addEventListener("animationend", () => el.remove());
-      }
-    }, 500);
-  }
-
-  const todayRecords = records.filter(r => r.date === dateStr);
-  let people = filterPerson ? [filterPerson] : allPeople;
-  const cards = [];
-  for (const person of people) {
-    const row = todayRecords.find(r => r.person === person);
-    const code = row ? row.code : null;
-    const tokens = code ? splitTokens(code) : [];
-
-    if (filterCode) {
-      const codeMatch = tokens.some(t => t.toLowerCase() === filterCode.toLowerCase());
-      if (!codeMatch) continue;
-    }
-
-    if (q) {
-      const hay = `${person} ${code||""}`.toLowerCase();
-      if (!hay.includes(q)) continue;
-    }
-
-    let grpCls = "grp-geen"; let sortKey = "9_geen";
-    const hasMiddelheim = tokens.some(t => t.toLowerCase() === "mi");
-    for (const t of tokens) {
-      const cls = (CODE_MAP[t]||{}).cls || CODE_CLASSES[t] || "norm";
-      if (cls === "hotline") { grpCls = "grp-hotline"; sortKey = "1_hotline"; break; }
-      if (cls === "wacht")   { grpCls = "grp-wacht";   sortKey = "2_wacht";   break; }
-      if (hasMiddelheim)     { grpCls = "grp-middelheim"; sortKey = "2_middelheim"; break; }
-      if (cls === "norm")    { grpCls = "grp-norm";     sortKey = "3_" + t;   break; }
-      if (cls === "afwezig") { grpCls = "grp-afwezig";  sortKey = "8_afwezig"; break; }
-    }
-    if (!code) { grpCls = "grp-geen"; sortKey = "9_geen"; }
-    cards.push({ person, code, grpCls, sortKey });
-  }
-
-  cards.sort((a, b) => a.sortKey.localeCompare(b.sortKey) || a.person.localeCompare(b.person, "nl"));
-
-  const grid = document.getElementById("teamGrid");
-  if (!cards.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten${filterCode ? ` voor code <b>${filterCode}</b>` : ""}.</p></div>`;
+  if (!hotline && !wacht && !bdJarigen.length) {
+    wrap.style.display = "none";
     return;
   }
 
-  grid.innerHTML = cards.map((card, i) => {
-    const tags = card.code ? renderTags(card.code) : `<span class="tag empty">Geen data</span>`;
-    return `<div class="team-card ${card.grpCls}" style="animation-delay:${i*0.04}s">
-      <div class="tc-top">
-        <div class="tc-avatar" style="background:${avatarColor(card.person)}">${personInitials(card.person)}</div>
-        <div class="tc-name">${card.person}</div>
-      </div>
-      <div class="tc-codes">${tags}</div>
-    </div>`;
+  wrap.style.display = "flex";
+  var html = '<span class="morgen-label">Volgende werkdag (' + dagNaam + '):</span>';
+  if (hotline) {
+    html += '<span class="morgen-item"><span class="tag hotline" style="font-size:10px;padding:2px 7px;">Hotline</span><strong>' + hotline.person + '</strong></span>';
+  }
+  if (wacht) {
+    if (hotline) html += '<span style="color:var(--sub2);">·</span>';
+    html += '<span class="morgen-item"><span class="tag wacht" style="font-size:10px;padding:2px 7px;">Wacht</span><strong>' + wacht.person + '</strong></span>';
+  }
+  if (bdJarigen.length) {
+    if (hotline || wacht) html += '<span style="color:var(--sub2);">·</span>';
+    html += '<span class="morgen-item">🎂 <strong>' + bdJarigen.join(" & ") + '</strong> is jarig!</span>';
+  }
+  wrap.innerHTML = html;
+}
+
+// ─── TODAY VIEW ──────────────────────────────────────────────────
+function renderToday() {
+  var dateStr = document.getElementById("datePicker").value || isoToday();
+  var p       = dateStr.split("-").map(Number);
+  var dateObj = new Date(p[0], p[1] - 1, p[2]);
+  var isVrij  = dateObj.getDay() === 5;
+
+  document.getElementById("todayTitle").innerHTML =
+    "Permanenties — <span>" + formatDateNL(dateStr) + "</span>" + (isVrij ? ' <span>🎉</span>' : "");
+  document.getElementById("todaySub").textContent = "";
+  document.getElementById("legendRow").innerHTML  = buildLegend();
+  document.getElementById("statsRow").innerHTML   = buildStats(dateStr);
+  buildMorgenStrip(dateStr);
+  checkTeamComplete(dateStr);
+  updateTopbarNotice(dateStr);
+  checkBirthdayOverlay(dateStr);
+
+  // Vrijdag easter egg
+  if (isVrij && !vrijdagDone) {
+    vrijdagDone = true;
+    setTimeout(function() {
+      var ov = document.createElement("div");
+      ov.className = "overlay";
+      ov.innerHTML =
+        '<div style="text-align:center;">' +
+        '<div class="friyay-txt">✨ It\'s Friyay! ✨</div>' +
+        '<div style="font-size:clamp(18px,3vw,34px);font-weight:700;color:rgba(255,255,255,.9);margin-top:8px;text-shadow:0 2px 12px rgba(0,0,0,.3);">Have a great weekend! 🎊</div>' +
+        '</div>';
+      document.body.appendChild(ov);
+      setTimeout(function() { ov.remove(); }, 3500);
+      launchConfetti(["#f59f00","#ffd43b","#ffe066","#fab005","#fd7e14","#ffec99"]);
+    }, 500);
+  }
+
+  // Cards bouwen
+  var todayRecs = records.filter(function(r) { return r.date === dateStr; });
+  var people    = filterPerson ? [filterPerson] : allPeople;
+  var cards     = [];
+
+  people.forEach(function(person) {
+    var row    = todayRecs.find(function(r) { return r.person === person; });
+    var code   = row ? row.code : null;
+    var tokens = code ? splitTokens(code) : [];
+    var isJarig = isBirthday(person, dateStr);
+
+    if (filterCode) {
+      var match = tokens.some(function(t) { return t.toLowerCase() === filterCode.toLowerCase(); });
+      if (!match) return;
+    }
+
+    var grpCls  = "geen";
+    var sortKey = "9_geen";
+    var hasMiddelheim = tokens.some(function(t) { return t.toLowerCase() === "mi"; });
+
+    for (var i = 0; i < tokens.length; i++) {
+      var cls = getTagCls(tokens[i]);
+      if (cls === "hotline")                { grpCls = "hotline";    sortKey = "0_hotline";    break; }
+      if (!isJarig && cls === "wacht")      { grpCls = "wacht";      sortKey = "2_wacht";      break; }
+      if (!isJarig && hasMiddelheim)        { grpCls = "middelheim"; sortKey = "2_middelheim"; break; }
+      if (!isJarig && cls === "norm")       { grpCls = "norm";       sortKey = "3_" + tokens[i]; break; }
+      if (!isJarig && cls === "afwezig")    { grpCls = "afwezig";    sortKey = "8_afwezig";    break; }
+    }
+
+    // Jarig: gouden kaart (tenzij hotline)
+    if (isJarig && grpCls !== "hotline") { grpCls = "bday"; sortKey = "1_bday"; }
+    if (!code && !isJarig)               { grpCls = "geen"; sortKey = "9_geen"; }
+
+    cards.push({ person: person, code: code, grpCls: grpCls, sortKey: sortKey, isJarig: isJarig });
+  });
+
+  cards.sort(function(a, b) {
+    return a.sortKey.localeCompare(b.sortKey) || a.person.localeCompare(b.person, "nl");
+  });
+
+  var grid = document.getElementById("teamGrid");
+  if (!cards.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten' +
+      (filterCode ? ' voor code <b>' + filterCode + '</b>' : "") + '.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = cards.map(function(card, i) {
+    var tags     = card.code ? renderTags(card.code) : '<span class="tag empty">Geen data</span>';
+    var nameHtml = card.isJarig ? card.person + " 🎂" : card.person;
+    return '<div class="team-card ' + card.grpCls + '" style="animation-delay:' + (i * .04) + 's">' +
+      '<div class="tc-top">' +
+      '<div class="tc-av" style="background:' + avatarColor(card.person) + '">' + personInitials(card.person) + '</div>' +
+      '<div class="tc-name">' + nameHtml + '</div>' +
+      '</div>' +
+      '<div class="tc-tags">' + tags + '</div>' +
+      '</div>';
   }).join("");
 }
 
+// ─── WEEK VIEW ───────────────────────────────────────────────────
 function renderWeek() {
   if (!currentWeekStart) {
     currentWeekStart = getMonday(document.getElementById("datePicker").value || isoToday());
   }
 
-  const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
-  const todayIso = isoToday();
+  var days = [];
+  for (var i = 0; i < 5; i++) days.push(isoFromDate(addDays(currentWeekStart, i)));
+  var todayIso = isoToday();
 
-  const startDate = new Date(...days[0].split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
-  const endDate   = new Date(...days[4].split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
+  var s = days[0].split("-").map(Number);
+  var e = days[4].split("-").map(Number);
   document.getElementById("weekLabel").textContent =
-    `Week van ${startDate.getDate()} ${MONTHS_NL[startDate.getMonth()]} — ${endDate.getDate()} ${MONTHS_NL[endDate.getMonth()]} ${endDate.getFullYear()}`;
+    "Week van " + s[2] + " " + MONTHS_NL[s[1]-1] + " — " + e[2] + " " + MONTHS_NL[e[1]-1] + " " + e[0];
 
-  let people = filterPerson ? [filterPerson] : allPeople;
-  const q = "";
-  if (q) people = people.filter(p => p.toLowerCase().includes(q));
+  var people = filterPerson ? [filterPerson] : allPeople;
   if (filterCode) {
-    const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
-    people = people.filter(p => days.some(d => {
-      const r = records.find(rr => rr.date === d && rr.person === p);
-      return r && splitTokens(r.code).some(t => t.toLowerCase() === filterCode.toLowerCase());
-    }));
+    people = people.filter(function(p) {
+      return days.some(function(d) {
+        var r = records.find(function(rr) { return rr.date === d && rr.person === p; });
+        return r && splitTokens(r.code).some(function(t) { return t.toLowerCase() === filterCode.toLowerCase(); });
+      });
+    });
   }
 
-  const dayNames = days.map(d => {
-    const dt = new Date(...d.split("-").map((v,i)=>i===1?Number(v)-1:Number(v)));
-    return { iso: d, name: DAYS_NL[dt.getDay()], num: dt.getDate(), isToday: d === todayIso };
-  });
-
-  const isMobile = window.innerWidth <= 750;
+  var isMobile = window.innerWidth <= 750;
 
   if (isMobile) {
     document.getElementById("weekGridWrap").style.display = "none";
-    const mwrap = document.getElementById("weekMobileWrap");
+    var mwrap = document.getElementById("weekMobileWrap");
     mwrap.style.display = "block";
+    var html = "";
 
-    let html = "";
-    for (const day of dayNames) {
-      const isToday = day.iso === todayIso;
-      const dayRecords = people.map(person => {
-        const row = records.find(r => r.date === day.iso && r.person === person);
-        return row ? { person, code: row.code } : null;
+    days.forEach(function(d) {
+      var dt      = new Date(d.replace(/-/g, "/"));
+      var isToday = d === todayIso;
+      var dayRecs = people.map(function(person) {
+        var r = records.find(function(rr) { return rr.date === d && rr.person === person; });
+        return r ? { person: person, code: r.code } : null;
       }).filter(Boolean);
+      var bdJ = allPeople.filter(function(p) { return isBirthday(p, d); });
 
-      html += `<div style="margin-bottom:10px; background:#fff; border-radius:12px; border:1.5px solid ${isToday ? 'var(--blue)' : 'var(--lineL)'}; overflow:hidden;">
-        <div style="padding:10px 14px; background:${isToday ? 'var(--blue)' : 'var(--navy)'}; display:flex; align-items:center; gap:8px;">
-          <span style="font-size:20px; font-weight:800; color:#fff; line-height:1;">${day.num}</span>
-          <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:rgba(255,255,255,.65);">${day.name}</span>
-          ${isToday ? '<span style="margin-left:auto;font-size:10px;font-weight:700;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:999px;">Vandaag</span>' : ''}
-        </div>`;
+      html += '<div style="margin-bottom:10px;background:#fff;border-radius:12px;border:1.5px solid ' +
+        (isToday ? 'var(--blue)' : 'var(--line2)') + ';overflow:hidden;">';
+      html += '<div style="padding:10px 14px;background:' + (isToday ? 'var(--blue)' : 'var(--ink)') +
+        ';display:flex;align-items:center;gap:8px;">';
+      html += '<span style="font-size:20px;font-weight:800;color:#fff;">' + dt.getDate() + '</span>';
+      html += '<span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.65);">' +
+        DAYS_NL[dt.getDay()] + '</span>';
+      if (bdJ.length) html += '<span style="margin-left:auto;font-size:11px;">🎂 ' + bdJ.join(", ") + '</span>';
+      else if (isToday) html += '<span style="margin-left:auto;font-size:10px;font-weight:700;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:999px;">Vandaag</span>';
+      html += '</div>';
 
-      if (!dayRecords.length) {
-        html += `<div style="padding:10px 14px; color:#94a3b8; font-size:13px; font-style:italic;">Geen data</div>`;
+      if (!dayRecs.length) {
+        html += '<div style="padding:10px 14px;color:#94a3b8;font-size:13px;font-style:italic;">Geen data</div>';
       } else {
-        html += `<div style="padding:6px 10px;">`;
-        for (const r of dayRecords) {
-          html += `<div style="display:flex; align-items:center; gap:8px; padding:6px 4px; border-bottom:1px solid rgba(13,27,42,.05);">
-            <span style="width:24px;height:24px;border-radius:7px;background:${avatarColor(r.person)};color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">${personInitials(r.person)}</span>
-            <span style="font-size:13px;font-weight:700;min-width:70px;">${r.person}</span>
-            <span style="display:flex;flex-wrap:wrap;gap:3px;">${renderTags(r.code)}</span>
-          </div>`;
-        }
-        html += `</div>`;
+        html += '<div style="padding:6px 10px;">';
+        dayRecs.forEach(function(r) {
+          var isJarig = isBirthday(r.person, d);
+          html += '<div style="display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px solid rgba(13,27,42,.05);">';
+          html += '<span style="width:22px;height:22px;border-radius:7px;background:' + avatarColor(r.person) +
+            ';color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+            personInitials(r.person) + '</span>';
+          html += '<span style="font-size:13px;font-weight:700;min-width:70px;">' + r.person + (isJarig ? " 🎂" : "") + '</span>';
+          html += '<span style="display:flex;flex-wrap:wrap;gap:3px;">' + renderTags(r.code) + '</span></div>';
+        });
+        html += '</div>';
       }
-      html += `</div>`;
-    }
+      html += '</div>';
+    });
     mwrap.innerHTML = html;
 
   } else {
     document.getElementById("weekMobileWrap").style.display = "none";
     document.getElementById("weekGridWrap").style.display = "block";
 
-    let html = `<div class="week-grid">`;
-    html += `<div class="wg-header">Medewerker</div>`;
-    dayNames.forEach(d => {
-      html += `<div class="wg-header day-col${d.isToday?" today-col":""}">
-        <span class="day-name">${d.name}</span>
-        <span class="day-num">${d.num}</span>
-      </div>`;
+    var html = '<div class="week-grid">';
+    html += '<div class="wg-head">Medewerker</div>';
+
+    days.forEach(function(d) {
+      var dt    = new Date(d.replace(/-/g, "/"));
+      var cls   = "wg-head wg-day" + (d === todayIso ? " today-col" : "");
+      var bdJ   = allPeople.filter(function(p) { return isBirthday(p, d); });
+      html += '<div class="' + cls + '">';
+      html += '<span class="dn">' + DAYS_NL[dt.getDay()] + '</span>';
+      html += '<span class="dd">' + dt.getDate() + '</span>';
+      if (bdJ.length) html += '<span style="font-size:10px;margin-top:2px;">🎂 ' + bdJ.join(", ") + '</span>';
+      html += '</div>';
     });
-    people.forEach(person => {
-      html += `<div class="wg-person">
-        <div class="avatar" style="background:${avatarColor(person)};width:22px;height:22px;font-size:9px;border-radius:6px;flex-shrink:0;">${personInitials(person)}</div>
-        ${person}
-      </div>`;
-      days.forEach((d, di) => {
-        const row = records.find(r => r.date === d && r.person === person);
-        const tags = row ? renderTags(row.code) : "";
-        html += `<div class="wg-cell${dayNames[di].isToday?" today-col":""}">${tags}</div>`;
+
+    people.forEach(function(person) {
+      html += '<div class="wg-person">';
+      html += '<div class="avatar" style="background:' + avatarColor(person) + ';width:22px;height:22px;font-size:9px;border-radius:6px;flex-shrink:0;">' + personInitials(person) + '</div>';
+      html += person + '</div>';
+
+      days.forEach(function(d, di) {
+        var row    = records.find(function(r) { return r.date === d && r.person === person; });
+        var isJarig = isBirthday(person, d);
+        var extra  = "";
+        if (d === todayIso) extra += " today-col";
+        if (isJarig)        extra += " bday-cell";
+        html += '<div class="wg-cell' + extra + '">';
+        if (isJarig) html += '🎂 ';
+        if (row) html += renderTags(row.code);
+        html += '</div>';
       });
     });
-    html += `</div>`;
+
+    html += '</div>';
     document.getElementById("weekGridWrap").innerHTML = html;
   }
 }
 
-let activeMonth = null;
-
+// ─── LIST VIEW ───────────────────────────────────────────────────
 function buildMonthTabs() {
-  const months = [...new Set(records.map(r => r.date.slice(0,7)))].sort();
-  const todayMonth = isoToday().slice(0,7);
-  if (!activeMonth) activeMonth = months.includes(todayMonth) ? todayMonth : (months[0]||null);
+  var months     = Array.from(new Set(records.map(function(r) { return r.date.slice(0,7); }))).sort();
+  var todayMonth = isoToday().slice(0,7);
+  if (!activeMonth) activeMonth = months.indexOf(todayMonth) !== -1 ? todayMonth : (months[0] || null);
 
-  const wrap = document.getElementById("monthTabs");
-  wrap.innerHTML = months.map(m => {
-    const [y,mo] = m.split("-");
-    return `<div class="month-tab${m===activeMonth?" active":""}" data-month="${m}">
-      ${MONTHS_NL[Number(mo)-1].slice(0,3)} ${y}
-    </div>`;
+  var wrap = document.getElementById("monthTabs");
+  wrap.innerHTML = months.map(function(m) {
+    var parts = m.split("-");
+    var label = MONTHS_NL[Number(parts[1]) - 1].slice(0, 3) + " " + parts[0];
+    return '<div class="month-tab' + (m === activeMonth ? " active" : "") + '" data-month="' + m + '">' + label + '</div>';
   }).join("");
 
-  wrap.querySelectorAll(".month-tab").forEach(el => {
-    el.addEventListener("click", () => {
+  wrap.querySelectorAll(".month-tab").forEach(function(el) {
+    el.addEventListener("click", function() {
       activeMonth = el.dataset.month;
-      wrap.querySelectorAll(".month-tab").forEach(t=>t.classList.remove("active"));
+      wrap.querySelectorAll(".month-tab").forEach(function(t) { t.classList.remove("active"); });
       el.classList.add("active");
       renderList();
     });
@@ -1436,289 +1754,317 @@ function buildMonthTabs() {
 }
 
 function renderList() {
-  const q = "";
-  const wrap = document.getElementById("calendarWrap");
-
-  let filtered = records.slice();
-  if (activeMonth) filtered = filtered.filter(r => r.date.startsWith(activeMonth));
-  if (filterPerson) filtered = filtered.filter(r => r.person === filterPerson);
-  if (filterCode)   filtered = filtered.filter(r => splitTokens(r.code).some(t => t.toLowerCase() === filterCode.toLowerCase()));
-  if (q) filtered = filtered.filter(r => {
-    const mapped = splitTokens(r.code).map(t => (CODE_MAP[t]||{}).label||t).join(" ");
-    return `${r.date} ${r.person} ${r.code} ${mapped}`.toLowerCase().includes(q);
-  });
-
-  if (!activeMonth || !filtered.length) {
-    wrap.innerHTML = `<div class="empty-state"><div class="icon">📭</div><p>Geen data voor deze selectie.</p></div>`;
+  var wrap = document.getElementById("calendarWrap");
+  if (!activeMonth) {
+    wrap.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Geen data beschikbaar.</p></div>';
     return;
   }
 
-  const [yr, mo] = activeMonth.split("-").map(Number);
-  const daysInMonth = new Date(yr, mo, 0).getDate();
-  const todayIso = isoToday();
+  var filtered = records.filter(function(r) { return r.date.startsWith(activeMonth); });
+  if (filterPerson) filtered = filtered.filter(function(r) { return r.person === filterPerson; });
+  if (filterCode)   filtered = filtered.filter(function(r) {
+    return splitTokens(r.code).some(function(t) { return t.toLowerCase() === filterCode.toLowerCase(); });
+  });
 
-  const byDay = {};
-  for (const r of filtered) {
-    const day = Number(r.date.split("-")[2]);
-    if (!byDay[day]) byDay[day] = [];
-    byDay[day].push(r);
-  }
+  var parts = activeMonth.split("-").map(Number);
+  var yr    = parts[0], mo = parts[1];
+  var daysInMonth = new Date(yr, mo, 0).getDate();
+  var todayIso    = isoToday();
 
-  let html = `<div class="cal-grid">`;
-  for (let d = 1; d <= daysInMonth; d++) {
-    const iso = `${yr}-${pad(mo)}-${pad(d)}`;
-    const dt = new Date(yr, mo-1, d);
-    const dayOfWeek = dt.getDay();
-    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-    const isToday = iso === todayIso;
-    const dayName = DAYS_NL[dayOfWeek];
-    const entries = byDay[d] || [];
+  var byDay = {};
+  filtered.forEach(function(r) {
+    var d = Number(r.date.split("-")[2]);
+    if (!byDay[d]) byDay[d] = [];
+    byDay[d].push(r);
+  });
 
-    let cls = "cal-day";
+  var html = '<div class="cal-grid">';
+  for (var d = 1; d <= daysInMonth; d++) {
+    var iso      = yr + "-" + pad(mo) + "-" + pad(d);
+    var dt       = new Date(yr, mo - 1, d);
+    var dow      = dt.getDay();
+    var isWeekend = dow === 0 || dow === 6;
+    var isToday  = iso === todayIso;
+    var entries  = byDay[d] || [];
+    var bdJarigen = allPeople.filter(function(p) { return isBirthday(p, iso); });
+    var hasBday  = bdJarigen.length > 0;
+
+    var cls = "cal-day";
     if (isWeekend) cls += " weekend";
-    if (isToday) cls += " today";
-    if (!entries.length) cls += " empty";
+    if (isToday)   cls += " today";
+    if (hasBday)   cls += " bday-day";
+    if (!entries.length && !hasBday) cls += " empty";
 
-    html += `<div class="${cls}">
-      <div class="cal-day-header">
-        <span class="cal-day-num">${d}</span>
-        <span class="cal-day-name">${dayName}</span>
-      </div>
-      <div class="cal-entries">`;
+    html += '<div class="' + cls + '">';
+    html += '<div class="cal-day-hdr">';
+    html += '<span class="cal-num">' + d + '</span>';
+    html += '<span class="cal-dname">' + DAYS_NL[dow] + '</span>';
+    if (hasBday) html += '<span style="margin-left:auto;font-size:12px;" title="' + bdJarigen.join(", ") + ' jarig!">🎂</span>';
+    html += '</div>';
+    html += '<div class="cal-entries">';
 
-    for (const r of entries) {
-      const tokens = splitTokens(r.code);
-      const chips = renderTags(tokens.join(","));
-      html += `<div class="cal-entry">
-        <span class="cal-entry-name" style="color:${avatarColor(r.person)}">${r.person}</span>
-        <span class="cal-entry-codes">${chips}</span>
-      </div>`;
-    }
+    entries.forEach(function(r) {
+      var isJarig = isBirthday(r.person, iso);
+      html += '<div class="cal-entry">';
+      html += '<span class="cal-ename" style="color:' + avatarColor(r.person) + '">' + r.person + (isJarig ? " 🎂" : "") + '</span>';
+      html += '<span class="cal-ecodes">' + renderTags(r.code) + '</span>';
+      html += '</div>';
+    });
 
-    html += `</div></div>`;
+    // Jarigen zonder record
+    bdJarigen.filter(function(p) {
+      return !entries.find(function(r) { return r.person === p; });
+    }).forEach(function(p) {
+      html += '<div class="cal-entry"><span class="cal-ename" style="color:' + avatarColor(p) + '">' + p + ' 🎂</span></div>';
+    });
+
+    html += '</div></div>';
   }
-  html += `</div>`;
+  html += '</div>';
   wrap.innerHTML = html;
 }
 
-function renderAll(skipSkeleton) {
-  buildFilterPanel();
-  if (activeView === "today") renderToday();
-  else if (activeView === "week") renderWeek();
-  else if (activeView === "list") renderList();
-}
-
+// ─── FILTER PANEL ────────────────────────────────────────────────
 function buildFilterPanel() {
-  const panel = document.getElementById("filterPanel");
+  var panel = document.getElementById("filterPanel");
   if (!panel || panel.style.display === "none") return;
-  const dateStr = document.getElementById("datePicker").value || isoToday();
-  let relevantRecords = records;
+
+  var dateStr = document.getElementById("datePicker").value || isoToday();
+  var relevant = records;
+
   if (activeView === "today") {
-    relevantRecords = records.filter(r => r.date === dateStr);
+    relevant = records.filter(function(r) { return r.date === dateStr; });
   } else if (activeView === "week" && currentWeekStart) {
-    const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
-    relevantRecords = records.filter(r => days.includes(r.date));
+    var days = [];
+    for (var i = 0; i < 5; i++) days.push(isoFromDate(addDays(currentWeekStart, i)));
+    relevant = records.filter(function(r) { return days.indexOf(r.date) !== -1; });
   } else if (activeView === "list" && activeMonth) {
-    relevantRecords = records.filter(r => r.date.startsWith(activeMonth));
+    relevant = records.filter(function(r) { return r.date.startsWith(activeMonth); });
   }
-  if (filterPerson) relevantRecords = relevantRecords.filter(r => r.person === filterPerson);
+  if (filterPerson) relevant = relevant.filter(function(r) { return r.person === filterPerson; });
 
-  const codeCount = {};
-  for (const r of relevantRecords) {
-    for (const t of splitTokens(r.code)) {
-      codeCount[t] = (codeCount[t] || 0) + 1;
+  var codeCount = {};
+  relevant.forEach(function(r) {
+    splitTokens(r.code).forEach(function(t) { codeCount[t] = (codeCount[t] || 0) + 1; });
+  });
+
+  var bw = document.getElementById("filterBtns");
+  var cl = document.getElementById("filterClearAll");
+  if (!bw) return;
+
+  bw.innerHTML = Object.keys(codeCount).sort().map(function(token) {
+    var count = codeCount[token];
+    var def   = codeMap[token] || {};
+    var cls   = def.cls || CODE_CLASSES[token] || "norm";
+    var label = def.label || getTagLabel(token);
+    var style;
+    if      (cls === "hotline") style = "background:var(--red);color:#fff;border-color:var(--red);";
+    else if (cls === "wacht")   style = "background:var(--amber2);color:var(--amber);border-color:#ffd43b;";
+    else if (cls === "afwezig") style = "background:var(--bg);color:var(--sub);border-color:var(--line);";
+    else {
+      var cc = CODE_COLORS[token.toLowerCase()];
+      style = cc || "background:var(--blue5);color:var(--blue);border-color:rgba(59,91,219,.2);";
     }
-  }
-
-  const btnsWrap = document.getElementById("filterBtns");
-  const clearBtn = document.getElementById("filterClearAll");
-  if (!btnsWrap) return;
-
-  btnsWrap.innerHTML = Object.entries(codeCount).sort().map(([token, count]) => {
-    const def = CODE_MAP[token] || {};
-    const cls  = def.cls || CODE_CLASSES[token] || "norm";
-    const label = def.label || (token === "H" ? "Hotline" : token.toUpperCase());
-    const tagStyle = cls === "hotline" ? "background:var(--red);color:#fff;border-color:var(--red);"
-      : cls === "wacht"   ? "background:var(--amber2);color:var(--amber);border-color:#ffd43b;"
-      : cls === "afwezig" ? "background:var(--bg);color:var(--sub);border-color:var(--line);"
-      : (() => { const cs = getCodeStyle(token); return cs ? cs.replace(/style="|"/g,'') : "background:var(--blue5);color:var(--blue);border-color:rgba(59,91,219,.2);"; })();
-    const isActive = filterCode === token;
-    return `<span class="cf-btn${isActive?' active':''}" data-code="${token}" style="${tagStyle}">${label}<span style="opacity:.55;margin-left:4px;font-weight:500;">${count}</span></span>`;
+    var activeCls = filterCode === token ? " active" : "";
+    return '<span class="cf-btn' + activeCls + '" data-code="' + token + '" style="' + style + '">' +
+      label + '<span style="opacity:.55;margin-left:4px;font-weight:500;">' + count + '</span></span>';
   }).join("");
 
-  btnsWrap.querySelectorAll(".cf-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+  bw.querySelectorAll(".cf-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
       filterCode = filterCode === btn.dataset.code ? "" : btn.dataset.code;
       updateFilterBadge();
-      if (clearBtn) clearBtn.style.display = filterCode ? "inline-flex" : "none";
+      if (cl) cl.style.display = filterCode ? "inline-flex" : "none";
       renderAll();
     });
   });
 
-  if (clearBtn) clearBtn.style.display = filterCode ? "inline-flex" : "none";
+  if (cl) cl.style.display = filterCode ? "inline-flex" : "none";
   updateFilterBadge();
-}
-
-function clearCodeFilter() {
-  filterCode = "";
-  updateFilterBadge();
-  renderAll();
 }
 
 function updateFilterBadge() {
-  const badge    = document.getElementById("filterBadge");
-  const btn      = document.getElementById("btnFilter");
-  const mobDot   = document.getElementById("mobFilterDot");
-  const mobBtn   = document.getElementById("mobFilterBtn");
-  if (badge)  { badge.style.display = filterCode ? "inline-block" : "none"; badge.textContent = filterCode ? "1" : ""; }
-  if (btn)    btn.classList.toggle("active", !!filterCode);
-  if (mobDot) mobDot.style.display = filterCode ? "inline" : "none";
-  if (mobBtn) mobBtn.style.color = filterCode ? "var(--blue)" : "";
+  var badge  = document.getElementById("filterBadge");
+  var btn    = document.getElementById("btnFilter");
+  var mobDot = document.getElementById("mobFilterDot");
+  if (badge)  { badge.style.display = filterCode ? "inline-block" : "none"; badge.textContent = "1"; }
+  if (btn)    { btn.classList.toggle("active-filter", !!filterCode); }
+  if (mobDot) { mobDot.style.display = filterCode ? "inline" : "none"; }
 }
 
-document.querySelectorAll(".nav-item").forEach(el => {
-  el.addEventListener("click", () => {
-    activeView = el.dataset.view;
-    document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
-    el.classList.add("active");
-    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-    document.getElementById("view-"+activeView).classList.add("active");
-    renderAll();
-  });
-});
+// ─── RENDER ALL ──────────────────────────────────────────────────
+function renderAll() {
+  buildFilterPanel();
+  if      (activeView === "today") renderToday();
+  else if (activeView === "week")  renderWeek();
+  else if (activeView === "list")  renderList();
+}
 
-const datePicker = document.getElementById("datePicker");
-datePicker.value = isoToday();
+// ─── NAV & CONTROLS ──────────────────────────────────────────────
+var datePicker = document.getElementById("datePicker");
+var datePickerMob = document.getElementById("datePickerMob");
+datePicker.value    = isoToday();
+datePickerMob.value = isoToday();
+currentWeekStart    = getMonday(isoToday());
 
 function switchView(viewName) {
   activeView = viewName;
-  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-  document.querySelector(`.nav-item[data-view="${viewName}"]`).classList.add("active");
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  const target = document.getElementById("view-" + viewName);
-  target.style.opacity = "0";
-  target.classList.remove("active");
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      target.style.opacity = "";
-      target.classList.add("active");
-    });
-  });
-  document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
+  document.querySelectorAll(".nav-item").forEach(function(n) { n.classList.remove("active"); });
+  var navEl = document.querySelector('.nav-item[data-view="' + viewName + '"]');
+  if (navEl) navEl.classList.add("active");
+  document.querySelectorAll(".view").forEach(function(v) { v.classList.remove("active"); });
+  var target = document.getElementById("view-" + viewName);
+  if (target) target.classList.add("active");
+  document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(function(el) {
     el.classList.toggle("active", el.dataset.mobView === viewName);
   });
 }
 
-datePicker.addEventListener("change", () => {
-  currentWeekStart = getMonday(datePicker.value || isoToday());
-  if (activeView === "list") switchView("today");
-  renderAll();
-});
-
-document.getElementById("btnToday").addEventListener("click", () => {
-  const realToday = isoToday();
-  datePicker.value = realToday;
-  currentWeekStart = getMonday(realToday);
-  switchView("today");
-  renderAll();
-});
-
-document.getElementById("btnReset").addEventListener("click", () => {
-  datePicker.value = "";
-  filterPerson = "";
-  filterCode = "";
-  updateFilterBadge();
-  document.getElementById("filterPanel").style.display = "none";
-  document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
-  document.querySelector('.person-chip[data-person=""]')?.classList.add("active");
-  const todayMonth = isoToday().slice(0, 7);
-  const months = [...new Set(records.map(r => r.date.slice(0, 7)))].sort();
-  activeMonth = months.includes(todayMonth) ? todayMonth : (months[0] || null);
-  buildMonthTabs();
-  renderAll();
-});
-
-document.getElementById("btnPrevDay").addEventListener("click", () => {
-  const cur = datePicker.value || isoToday();
-  const prev = isoFromDate(addDays(cur, -1));
-  datePicker.value = prev;
-  datePickerMob.value = prev;
-  currentWeekStart = getMonday(prev);
-  renderAll();
-});
-document.getElementById("btnNextDay").addEventListener("click", () => {
-  const cur = datePicker.value || isoToday();
-  const next = isoFromDate(addDays(cur, 1));
-  datePicker.value = next;
-  datePickerMob.value = next;
-  currentWeekStart = getMonday(next);
-  renderAll();
-});
-
-document.getElementById("btnPrevWeek").addEventListener("click", () => {
-  currentWeekStart = isoFromDate(addDays(currentWeekStart, -7));
-  renderAll();
-});
-document.getElementById("btnNextWeek").addEventListener("click", () => {
-  currentWeekStart = isoFromDate(addDays(currentWeekStart, 7));
-  renderAll();
-});
-
-function syncMobileNav() {
-  document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
-    el.classList.toggle("active", el.dataset.mobView === activeView);
-  });
-}
-
-document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
-  el.addEventListener("click", () => {
-    switchView(el.dataset.mobView);
-    closeMobPeople();
-    syncMobileNav();
+// Sidebar nav
+document.querySelectorAll(".nav-item").forEach(function(el) {
+  el.addEventListener("click", function() {
+    switchView(el.dataset.view);
     renderAll();
   });
 });
 
-let mobPeopleOpen = false;
+// Date pickers — beide gesynchroniseerd via één handler
+datePicker.addEventListener("change", function() {
+  datePickerMob.value  = datePicker.value;
+  currentWeekStart     = getMonday(datePicker.value || isoToday());
+  if (activeView === "list") switchView("today");
+  renderAll();
+});
+datePickerMob.addEventListener("change", function() {
+  datePicker.value     = datePickerMob.value;
+  currentWeekStart     = getMonday(datePickerMob.value || isoToday());
+  if (activeView === "list") switchView("today");
+  renderAll();
+});
+
+// Vandaag knoppen
+document.getElementById("btnToday").addEventListener("click", function() {
+  var t = isoToday();
+  datePicker.value = datePickerMob.value = t;
+  currentWeekStart = getMonday(t);
+  switchView("today");
+  renderAll();
+});
+document.getElementById("btnTodayMob").addEventListener("click", function() {
+  var t = isoToday();
+  datePicker.value = datePickerMob.value = t;
+  currentWeekStart = getMonday(t);
+  switchView("today");
+  renderAll();
+});
+
+// Reset
+document.getElementById("btnReset").addEventListener("click", function() {
+  var t = isoToday();
+  datePicker.value = datePickerMob.value = "";
+  filterPerson = "";
+  filterCode   = "";
+  updateFilterBadge();
+  document.getElementById("filterPanel").style.display = "none";
+  document.querySelectorAll(".person-chip").forEach(function(c) { c.classList.remove("active"); });
+  var all = document.querySelector('.person-chip[data-person=""]');
+  if (all) all.classList.add("active");
+  var months = Array.from(new Set(records.map(function(r) { return r.date.slice(0,7); }))).sort();
+  var tm = t.slice(0,7);
+  activeMonth = months.indexOf(tm) !== -1 ? tm : (months[0] || null);
+  buildMonthTabs();
+  renderAll();
+});
+
+// Dag navigatie
+document.getElementById("btnPrevDay").addEventListener("click", function() {
+  var cur  = datePicker.value || isoToday();
+  var prev = isoFromDate(addDays(cur, -1));
+  datePicker.value = datePickerMob.value = prev;
+  currentWeekStart = getMonday(prev);
+  renderAll();
+});
+document.getElementById("btnNextDay").addEventListener("click", function() {
+  var cur  = datePicker.value || isoToday();
+  var next = isoFromDate(addDays(cur, 1));
+  datePicker.value = datePickerMob.value = next;
+  currentWeekStart = getMonday(next);
+  renderAll();
+});
+
+// Week navigatie
+document.getElementById("btnPrevWeek").addEventListener("click", function() {
+  currentWeekStart = isoFromDate(addDays(currentWeekStart, -7));
+  renderAll();
+});
+document.getElementById("btnNextWeek").addEventListener("click", function() {
+  currentWeekStart = isoFromDate(addDays(currentWeekStart, 7));
+  renderAll();
+});
+
+// Filter panel toggle
+document.getElementById("btnFilter").addEventListener("click", function() {
+  var panel  = document.getElementById("filterPanel");
+  var isOpen = panel.style.display !== "none";
+  panel.style.display = isOpen ? "none" : "block";
+  if (!isOpen) buildFilterPanel();
+});
+document.getElementById("filterPanelClose").addEventListener("click", function() {
+  document.getElementById("filterPanel").style.display = "none";
+});
+document.getElementById("filterClearAll").addEventListener("click", function() {
+  filterCode = "";
+  updateFilterBadge();
+  renderAll();
+});
+
+// Mobile nav
+document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(function(el) {
+  el.addEventListener("click", function() {
+    switchView(el.dataset.mobView);
+    closeMobPeople();
+    renderAll();
+  });
+});
+
+var mobPeopleOpen = false;
+
 function closeMobPeople() {
   mobPeopleOpen = false;
   document.getElementById("mobPeoplePopup").style.display = "none";
 }
 
-function closeMobFilter() {
-  const panel = document.getElementById("filterPanel");
-  if (panel) panel.style.display = "none";
-}
-
-document.getElementById("mobFilterBtn").addEventListener("click", () => {
-  const panel = document.getElementById("filterPanel");
-  if (!panel) return;
-  const isOpen = panel.style.display !== "none";
+document.getElementById("mobFilterBtn").addEventListener("click", function() {
+  var panel  = document.getElementById("filterPanel");
+  var isOpen = panel.style.display !== "none";
   panel.style.display = isOpen ? "none" : "block";
   if (!isOpen) buildFilterPanel();
   closeMobPeople();
 });
 
-document.getElementById("mobPeopleBtn").addEventListener("click", () => {
+document.getElementById("mobPeopleBtn").addEventListener("click", function() {
   mobPeopleOpen = !mobPeopleOpen;
   document.getElementById("mobPeoplePopup").style.display = mobPeopleOpen ? "block" : "none";
-  if (mobPeopleOpen) { buildMobPeopleStrip(); closeMobFilter(); }
+  if (mobPeopleOpen) buildMobPeopleStrip();
 });
 
 function buildMobPeopleStrip() {
-  const strip = document.getElementById("mobPeopleStrip");
-  const people = ["", ...allPeople];
-  strip.innerHTML = people.map(p => {
-    const label = p || "Iedereen";
-    const av = p ? `<span class="avatar" style="background:${avatarColor(p)};display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">${personInitials(p)}</span>` : `<span class="avatar" style="background:rgba(13,27,42,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">👥</span>`;
-    return `<div class="mob-person-btn ${filterPerson===p?'active':''}" data-person="${p}">${av}${label}</div>`;
+  var strip = document.getElementById("mobPeopleStrip");
+  var people = [""].concat(allPeople);
+  strip.innerHTML = people.map(function(p) {
+    var label = p ? (isBirthday(p, isoToday()) ? p + " 🎂" : p) : "Iedereen";
+    var av    = p
+      ? '<span class="avatar" style="background:' + avatarColor(p) + ';display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">' + personInitials(p) + '</span>'
+      : '<span class="avatar" style="background:rgba(13,27,42,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">👥</span>';
+    return '<div class="mob-person-btn ' + (filterPerson === p ? "active" : "") + '" data-person="' + p + '">' + av + label + '</div>';
   }).join("");
 
-  strip.querySelectorAll(".mob-person-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+  strip.querySelectorAll(".mob-person-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
       filterPerson = btn.dataset.person;
-      document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
-      document.querySelector(`.person-chip[data-person="${filterPerson}"]`)?.classList.add("active");
+      document.querySelectorAll(".person-chip").forEach(function(c) { c.classList.remove("active"); });
+      var chip = document.querySelector('.person-chip[data-person="' + filterPerson + '"]');
+      if (chip) chip.classList.add("active");
       buildMobPeopleStrip();
       closeMobPeople();
       renderAll();
@@ -1726,7 +2072,7 @@ function buildMobPeopleStrip() {
   });
 }
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", function(e) {
   if (mobPeopleOpen &&
       !document.getElementById("mobPeoplePopup").contains(e.target) &&
       !document.getElementById("mobPeopleBtn").contains(e.target)) {
@@ -1734,39 +2080,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-currentWeekStart = getMonday(isoToday());
-
-const btnFilterEl = document.getElementById("btnFilter");
-if (btnFilterEl) {
-  btnFilterEl.addEventListener("click", () => {
-    const panel = document.getElementById("filterPanel");
-    if (!panel) return;
-    const isOpen = panel.style.display !== "none";
-    panel.style.display = isOpen ? "none" : "block";
-    if (!isOpen) buildFilterPanel();
-  });
-}
-
-const datePickerMob = document.getElementById("datePickerMob");
-datePickerMob.value = isoToday();
-datePickerMob.addEventListener("change", () => {
-  datePicker.value = datePickerMob.value;
-  currentWeekStart = getMonday(datePickerMob.value || isoToday());
-  renderAll();
-});
-datePicker.addEventListener("change", () => {
-  datePickerMob.value = datePicker.value;
-});
-
-document.getElementById("btnTodayMob").addEventListener("click", () => {
-  const realToday = isoToday();
-  datePicker.value = realToday;
-  datePickerMob.value = realToday;
-  currentWeekStart = getMonday(realToday);
-  switchView("today");
-  renderAll();
-});
-
+// ─── START ────────────────────────────────────────────────────────
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", loadData);
 } else {
