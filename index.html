@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ICT Permanenties Dashboard
-  Laatste aanpassing: maandag 2 maart 2026 om 14:39
+  Laatste aanpassing: dinsdag 24 maart 2026
 -->
 <html lang="nl">
 <head>
@@ -52,7 +52,6 @@
       overflow: hidden;
     }
 
-    /* Zachte achtergrond met lavendel tint */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0;
@@ -183,9 +182,6 @@
       flex-wrap: wrap; position: sticky; top: 0; z-index: 10;
     }
 
-    
-    
-
     .tb-date input[type=date] {
       padding: 9px 12px; border: 1.5px solid var(--line);
       border-radius: 12px; font-family: var(--sans); font-size: 13.5px;
@@ -271,7 +267,7 @@
     .stat-card.accent-orange .stat-value { color: #e8590c !important; }
     .stat-card.accent-sub    .stat-value { color: var(--sub) !important; }
     .stat-value { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: var(--ink); }
-    .stat-card.accent-blue  .stat-card.accent-amber .stat-card.accent-red   @keyframes fadeUp {
+    @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
@@ -328,10 +324,6 @@
       box-shadow: 0 2px 8px rgba(59,91,219,.06);
       transition: all .2s; animation: fadeUp .35s ease both;
       overflow: hidden; min-width: 0;
-    }
-    .team-card:hover {
-      box-shadow: 0 6px 24px rgba(59,91,219,.13);
-      transform: translateY(-2px);
     }
     .team-card:hover {
       border-color: rgba(59,91,219,.2);
@@ -462,16 +454,6 @@
       background: var(--blue); border-color: var(--blue); color: #fff;
       box-shadow: 0 4px 14px rgba(59,91,219,.3);
     }
-    .cf-btn {
-      display: inline-flex; align-items: center;
-      padding: 5px 12px; border-radius: 8px;
-      font-size: 11px; font-weight: 700;
-      font-family: var(--mono); letter-spacing: .3px;
-      cursor: pointer; transition: all .15s;
-      border: 1.5px solid; white-space: nowrap;
-      user-select: none; box-shadow: var(--shadow);
-    }
-    .cf-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow2); }
     .cf-btn.active { transform: translateY(-1px); box-shadow: var(--shadow2); outline: 2px solid var(--blue); outline-offset: 1px; }
 
     /* ── DAG NAV PIJLTJES ── */
@@ -515,12 +497,6 @@
     .morgen-item .tag { font-size: 10px; padding: 2px 7px; }
 
     /* ── VIEW TRANSITIONS ── */
-    .view {
-      animation: none;
-    }
-    .view.active {
-      animation: viewFadeIn .25s ease both;
-    }
     .view.active {
       animation: viewFadeIn .45s cubic-bezier(.22,.68,0,1.15) both;
     }
@@ -559,11 +535,6 @@
       animation: shimmer .9s ease-in-out infinite;
       flex-shrink: 0;
     }
-    .skeleton-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 8px; margin-bottom: 14px;
-    }
     .skeleton-stat {
       background: var(--card);
       border-radius: 12px; padding: 11px 14px;
@@ -577,7 +548,6 @@
       top: 0; left: 0; right: 0; bottom: 0;
       display: flex; align-items: center; justify-content: center;
       z-index: 1000; pointer-events: none;
-      animation: friyayShow 3.5s ease forwards;
     }
     .friyay-text {
       font-size: clamp(40px, 10vw, 90px);
@@ -587,7 +557,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: none;
       filter: drop-shadow(0 4px 24px rgba(245,159,0,.5));
       animation: friyayPop 3.5s ease forwards;
     }
@@ -627,7 +596,6 @@
       box-shadow: 0 8px 32px rgba(59,91,219,.4), 0 2px 8px rgba(0,0,0,.1);
       text-align: center;
     }
-
     @keyframes bannerPop {
       0%   { opacity: 0; transform: scale(.7) translateY(20px); }
       70%  { transform: scale(1.04) translateY(-4px); }
@@ -669,13 +637,11 @@
       .today-title { font-size: 17px; }
       .stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
       .stat-card { padding: 10px 12px; }
-      
       .legend-row { display: none; }
       .week-grid { display: none; }
       #weekMobileWrap { display: block; }
       .cal-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
       .cal-day { padding: 6px 8px; min-height: 54px; }
-
       #filterPanel {
         position: static !important;
         bottom: auto !important;
@@ -687,7 +653,6 @@
         max-height: none;
         padding: 10px 12px !important;
       }
-
       .mobile-nav {
         display: flex; position: fixed; bottom: 0; left: 0; right: 0;
         background: rgba(255,255,255,.85);
@@ -706,7 +671,6 @@
       }
       .mob-nav-item.active { color: var(--blue); border-top-color: var(--blue); }
       .mob-icon { font-size: 17px; line-height: 1; }
-
       .mob-people-strip {
         display: flex; gap: 6px; overflow-x: auto; padding: 0 0 6px;
         -webkit-overflow-scrolling: touch; scrollbar-width: none;
@@ -773,16 +737,7 @@
 <!-- ── MAIN ── -->
 <div class="main">
   <div class="topbar">
-    <div id="topbarNotice" style="
-      flex: 1;
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; color: var(--sub);
-      font-family: var(--sans);
-      min-width: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    ">
+    <div id="topbarNotice" style="flex:1;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub);font-family:var(--sans);min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
       <span id="topbarNoticeText" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
     </div>
     <div class="tb-date">
@@ -845,7 +800,6 @@
 </div>
 
 <script>
-// Globale foutopvang
 window.onerror = function(msg, src, line, col, err) {
   const pill = document.getElementById("statusPill");
   const span = document.getElementById("statusText");
@@ -856,13 +810,8 @@ window.onerror = function(msg, src, line, col, err) {
   return false;
 };
 
-// ─────────────────────────────────────────────
-// CONFIG
-// ─────────────────────────────────────────────
 const DATA_URL = "permanentie.json";
 
-// Kleurklassen per code (afwezig/wacht/hotline/norm)
-// Labels worden dynamisch geladen vanuit de JSON legende
 const CODE_CLASSES = {
   H: "hotline",
   w: "wacht", w1: "wacht", w2: "wacht", w3: "wacht",
@@ -873,7 +822,6 @@ const CODE_CLASSES = {
   kv: "afwezig", b: "afwezig", vbst: "afwezig",
 };
 
-// Wordt gevuld vanuit payload.legend na het laden
 let CODE_MAP = {};
 
 function buildCodeMapFromLegend(legendItems) {
@@ -881,7 +829,6 @@ function buildCodeMapFromLegend(legendItems) {
   for (const item of (legendItems || [])) {
     const code = item.code;
     const label = item.description;
-    // Klasse bepalen: kijk eerst in CODE_CLASSES, daarna "norm"
     const cls = CODE_CLASSES[code] || "norm";
     map[code] = { label, cls };
   }
@@ -892,20 +839,14 @@ const DAYS_NL = ["zo","ma","di","wo","do","vr","za"];
 const DAYS_FULL = ["zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag"];
 const MONTHS_NL = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 
-// ─────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────
 let records    = [];
 let allPeople  = [];
 let payload    = null;
 let activeView = "today";
 let filterPerson = "";
-let filterCode = "";   // actieve code-filter (geldt voor alle views)
-let currentWeekStart = null; // Monday of displayed week
+let filterCode = "";
+let currentWeekStart = null;
 
-// ─────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────
 function isoToday() {
   const d = new Date();
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -943,23 +884,20 @@ function splitTokens(code) {
   return (code||"").split("/").map(s=>s.trim()).filter(Boolean);
 }
 
-// Vaste kleurenpalet per code — elke code krijgt een unieke kleur
 const CODE_COLORS = {
-  // Locaties — elk een eigen kleur
-  mi:    { bg:"#dcfce7", color:"#166534", border:"#bbf7d0" }, // groen  – Middelheim
-  sa:    { bg:"#fce7f3", color:"#9d174d", border:"#fbcfe8" }, // roze   – Sint-Augustinus
-  sv:    { bg:"#ede9fe", color:"#5b21b6", border:"#ddd6fe" }, // paars  – Sint-Vincentius
-  ca:    { bg:"#fff7ed", color:"#9a3412", border:"#fed7aa" }, // oranje – Cadix
-  jp:    { bg:"#cffafe", color:"#155e75", border:"#a5f3fc" }, // cyaan  – Jan Palfijn
-  pl:    { bg:"#fefce8", color:"#854d0e", border:"#fef08a" }, // geel   – Plantin
-  // Werk
-  th:    { bg:"#f0fdf4", color:"#14532d", border:"#bbf7d0" }, // lichtgroen – Thuiswerk
-  opl:   { bg:"#f0f9ff", color:"#0c4a6e", border:"#bae6fd" }, // lichtblauw – Opleiding
-  vp:    { bg:"#fdf4ff", color:"#6b21a8", border:"#e9d5ff" }, // lila  – Verplaatsing
-  syvor: { bg:"#fff1f2", color:"#881337", border:"#fecdd3" }, // zalm  – Syndicale vorming
-  soc:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" }, // limoen – Sociaal verlof
-  sov:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" }, // limoen – Sociaal overleg
-  bh:    { bg:"#fffbeb", color:"#78350f", border:"#fde68a" }, // amber – Boekhoudersdag
+  mi:    { bg:"#dcfce7", color:"#166534", border:"#bbf7d0" },
+  sa:    { bg:"#fce7f3", color:"#9d174d", border:"#fbcfe8" },
+  sv:    { bg:"#ede9fe", color:"#5b21b6", border:"#ddd6fe" },
+  ca:    { bg:"#fff7ed", color:"#9a3412", border:"#fed7aa" },
+  jp:    { bg:"#cffafe", color:"#155e75", border:"#a5f3fc" },
+  pl:    { bg:"#fefce8", color:"#854d0e", border:"#fef08a" },
+  th:    { bg:"#f0fdf4", color:"#14532d", border:"#bbf7d0" },
+  opl:   { bg:"#f0f9ff", color:"#0c4a6e", border:"#bae6fd" },
+  vp:    { bg:"#fdf4ff", color:"#6b21a8", border:"#e9d5ff" },
+  syvor: { bg:"#fff1f2", color:"#881337", border:"#fecdd3" },
+  soc:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" },
+  sov:   { bg:"#f7fee7", color:"#3f6212", border:"#d9f99d" },
+  bh:    { bg:"#fffbeb", color:"#78350f", border:"#fde68a" },
   gbh:   { bg:"#fffbeb", color:"#78350f", border:"#fde68a" },
   gso:   { bg:"#fdf2f8", color:"#831843", border:"#f9a8d4" },
 };
@@ -981,7 +919,6 @@ function renderTags(code) {
       : t === "w2" ? "Zondagwacht"
       : t === "w3" ? "Feestdagwacht"
       : t.toUpperCase();
-    // Speciale klassen krijgen eigen CSS, norm-codes krijgen inline kleur
     const extraStyle = cls === "norm" ? getCodeStyle(t) : "";
     return `<span class="tag ${cls}" ${extraStyle}>${label}</span>`;
   }).join("");
@@ -990,7 +927,6 @@ function renderTags(code) {
 function getTagClass(token) {
   const def = CODE_MAP[token] || CODE_MAP[token.toLowerCase()];
   if (def) return def.cls;
-  // Fallback: check CODE_CLASSES direct
   return CODE_CLASSES[token] || CODE_CLASSES[token.toLowerCase()] || "norm";
 }
 
@@ -1005,9 +941,6 @@ function avatarColor(name) {
   return colors[h];
 }
 
-// ─────────────────────────────────────────────
-// LOAD DATA
-// ─────────────────────────────────────────────
 function setStatus(text, kind) {
   const pill = document.getElementById("statusPill");
   const span = document.getElementById("statusText");
@@ -1016,7 +949,6 @@ function setStatus(text, kind) {
 }
 
 function renderSkeleton() {
-  // Stats skeleton
   const statsRow = document.getElementById("statsRow");
   if (statsRow) {
     statsRow.innerHTML = Array(5).fill(0).map((_, i) => `
@@ -1025,7 +957,6 @@ function renderSkeleton() {
         <div class="skeleton-line" style="height:28px;width:40%;animation-delay:${i*0.1}s"></div>
       </div>`).join("");
   }
-  // Cards skeleton
   const grid = document.getElementById("teamGrid");
   if (grid) {
     grid.innerHTML = `<div class="skeleton-grid" style="grid-column:1/-1;">` +
@@ -1043,23 +974,16 @@ function renderSkeleton() {
 }
 
 async function loadData() {
-  console.log("[Permanenties] loadData() gestart, URL:", DATA_URL);
   setStatus("Laden…","load");
   renderSkeleton();
   try {
     const res = await fetch(`${DATA_URL}?v=${Date.now()}`, {cache:"no-store"});
-    console.log("[Permanenties] fetch status:", res.status, res.ok);
     if (!res.ok) throw new Error(`HTTP ${res.status} - Bestand niet gevonden: ${DATA_URL}`);
     let raw = await res.json();
 
-    // Normaliseer alle mogelijke Power Automate wrapper-formaten
-    // Formaat 1: { stdout: "..." }  (oud formaat)
     if (raw && typeof raw.stdout === "string") raw = JSON.parse(raw.stdout);
-    // Formaat 2: { result: "..." }
     else if (raw && typeof raw.result === "string") raw = JSON.parse(raw.result);
-    // Formaat 3: dubbel geëncoded string
     if (typeof raw === "string") raw = JSON.parse(raw);
-    // Formaat 4: { returncode, stdout } (shell output wrapper)
     if (raw && typeof raw.stdout === "string") raw = JSON.parse(raw.stdout);
 
     payload = raw;
@@ -1067,9 +991,7 @@ async function loadData() {
       r.person && r.person.toLowerCase() !== "legende"
     );
 
-    // Bouw CODE_MAP vanuit de legende in de JSON
     CODE_MAP = buildCodeMapFromLegend(payload.legend || []);
-
     allPeople = [...new Set(records.map(r=>r.person))].sort((a,b)=>a.localeCompare(b,"nl"));
 
     if (payload.generatedAt) {
@@ -1080,7 +1002,6 @@ async function loadData() {
 
     setStatus("Gesynchroniseerd","ok");
 
-    // Start countdown refresh
     (function() {
       const REFRESH_SEC = 10 * 60;
       let remaining = REFRESH_SEC;
@@ -1107,16 +1028,12 @@ async function loadData() {
   } catch(e) {
     console.error("[Permanenties] FOUT:", e);
     setStatus("⚠ " + e.message, "err");
-    // Toon fout in actieve view
     const errHtml = `<div class="empty-state"><div class="icon">❌</div><p style="color:#e84040;">Fout bij laden: ${e.message}</p><p style="font-size:12px;color:var(--sub);margin-top:8px;">Controleer of permanentie.json bereikbaar is.</p></div>`;
     const teamGrid = document.getElementById("teamGrid");
     if (teamGrid) teamGrid.innerHTML = errHtml;
   }
 }
 
-// ─────────────────────────────────────────────
-// SIDEBAR – PEOPLE
-// ─────────────────────────────────────────────
 function buildPeopleList() {
   const wrap = document.getElementById("peopleList");
   wrap.innerHTML = `
@@ -1141,9 +1058,6 @@ function buildPeopleList() {
   });
 }
 
-// ─────────────────────────────────────────────
-// LEGEND ROW
-// ─────────────────────────────────────────────
 function buildLegend() {
   const items = [
     {cls:"hotline", label:"H = Hotline"},
@@ -1157,22 +1071,36 @@ function buildLegend() {
 }
 
 // ─────────────────────────────────────────────
-// STATS
+// STATS — gecorrigeerde versie
+// Wachtcodes worden genegeerd bij aanwezig/afwezig berekening
+// want wacht is altijd buiten de werkuren
 // ─────────────────────────────────────────────
 function buildStats(dateStr) {
   const day = records.filter(r => r.date === dateStr);
-  const total    = allPeople.length;
-  const aanwezig = day.filter(r => !splitTokens(r.code).every(t => ["afwezig"].includes(getTagClass(t)))).length;
-  const hotline  = day.filter(r => splitTokens(r.code).includes("H")).length;
-  const wacht    = day.filter(r => splitTokens(r.code).some(t => ["w","w1","w2","w3"].includes(t.toLowerCase()))).length;
-  const afwezig  = day.filter(r => splitTokens(r.code).every(t => getTagClass(t)==="afwezig")).length;
+  const total = allPeople.length;
+  const WACHT_CODES = ["w","w1","w2","w3","h"];
+
+  const aanwezig = day.filter(r => {
+    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
+    if (tokens.length === 0) return false; // puur wacht = niet meetellen
+    return !tokens.every(t => getTagClass(t) === "afwezig");
+  }).length;
+
+  const afwezig = day.filter(r => {
+    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
+    if (tokens.length === 0) return false; // puur wacht = niet meetellen
+    return tokens.every(t => getTagClass(t) === "afwezig");
+  }).length;
+
+  const hotline = day.filter(r => splitTokens(r.code).some(t => t === "H")).length;
+  const wacht   = day.filter(r => splitTokens(r.code).some(t => WACHT_CODES.includes(t.toLowerCase()))).length;
 
   const items = [
-    { label: "Totaal team", value: total,    accent: "accent-sub",                              delay: ".0s"  },
-    { label: "Aanwezig",    value: aanwezig, accent: "accent-green",                             delay: ".05s" },
-    { label: "Hotline",     value: hotline,  accent: "accent-red",                              delay: ".1s"  },
-    { label: "Wachtdienst", value: wacht,    accent: "accent-amber",                           delay: ".15s" },
-    { label: "Afwezig",     value: afwezig,  accent: "accent-sub",        delay: ".2s"  },
+    { label: "Totaal team", value: total,    accent: "accent-sub",   delay: ".0s"  },
+    { label: "Aanwezig",    value: aanwezig, accent: "accent-green", delay: ".05s" },
+    { label: "Hotline",     value: hotline,  accent: "accent-red",   delay: ".1s"  },
+    { label: "Wachtdienst", value: wacht,    accent: "accent-amber", delay: ".15s" },
+    { label: "Afwezig",     value: afwezig,  accent: "accent-sub",   delay: ".2s"  },
   ];
   return items.map(it => `
     <div class="stat-card ${it.accent}" style="animation-delay:${it.delay}">
@@ -1180,10 +1108,7 @@ function buildStats(dateStr) {
       <div class="stat-value">${it.value}</div>
     </div>`).join("");
 }
-// ─────────────────────────────────────────────
-// MORGEN STRIP
-// ─────────────────────────────────────────────
-// ── CONFETTI ──
+
 function launchConfetti() {
   const colors = ["#3b5bdb","#748ffc","#f59f00","#2f9e44","#e03131","#ae3ec9","#0c8599","#fff"];
   const count = 80;
@@ -1207,13 +1132,15 @@ let lastConfettiDate = null;
 function checkTeamComplete(dateStr) {
   const banner = document.getElementById("teamCompleteBanner");
   if (!banner) return;
+  const WACHT_CODES = ["w","w1","w2","w3","h"];
   const dayRecords = records.filter(r => r.date === dateStr);
-  const aanwezig = dayRecords.filter(r =>
-    !splitTokens(r.code).every(t => getTagClass(t) === "afwezig")
-  );
+  const aanwezig = dayRecords.filter(r => {
+    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
+    if (tokens.length === 0) return false;
+    return !tokens.every(t => getTagClass(t) === "afwezig");
+  });
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
     banner.innerHTML = `<div class="team-complete-banner" id="teamCompleteBannerInner">🎉 Team Complete! &nbsp;·&nbsp; Iedereen aanwezig! 🎊</div>`;
-    // Stop eventueel lopend interval eerst
     if (window._gradInterval) { clearInterval(window._gradInterval); window._gradInterval = null; }
     const gradColors = ["#3b5bdb","#748ffc","#2f9e44","#f59f00","#e03131"];
     let gradIdx = 0;
@@ -1227,7 +1154,6 @@ function checkTeamComplete(dateStr) {
       window._gradInterval = null;
       if (gradEl) { gradEl.style.transition = "background 1s ease"; gradEl.style.background = "#3b5bdb"; }
     }, 5000);
-    // Confetti enkel 1x per dag tonen
     if (lastConfettiDate !== dateStr) {
       lastConfettiDate = dateStr;
       launchConfetti();
@@ -1237,34 +1163,28 @@ function checkTeamComplete(dateStr) {
   }
 }
 
-// ── TOPBAR MELDINGEN ──
 function updateTopbarNotice(dateStr) {
   const el = document.getElementById("topbarNoticeText");
   if (!el) return;
-
   const msgs = [];
-
-  // Team complete?
+  const WACHT_CODES = ["w","w1","w2","w3","h"];
   const dayRecords = records.filter(r => r.date === dateStr);
-  const aanwezig = dayRecords.filter(r =>
-    !splitTokens(r.code).every(t => getTagClass(t) === "afwezig")
-  );
+  const aanwezig = dayRecords.filter(r => {
+    const tokens = splitTokens(r.code).filter(t => !WACHT_CODES.includes(t.toLowerCase()));
+    if (tokens.length === 0) return false;
+    return !tokens.every(t => getTagClass(t) === "afwezig");
+  });
   if (aanwezig.length === allPeople.length && allPeople.length > 0) {
     msgs.push("🎉 Team Complete!");
   }
-
-  // Vrijdag?
   const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
   if (dateObj.getDay() === 5) msgs.push("✨ It's Friyay! Have a great weekend! ✨");
-
   el.textContent = msgs.join("  ·  ");
 }
 
 function buildMorgenStrip(dateStr) {
   const wrap = document.getElementById("morgenStrip");
   if (!wrap) return;
-
-  // Bereken volgende werkdag (sla weekend over)
   const [y,m,d] = dateStr.split("-").map(Number);
   const volgende = new Date(y, m-1, d);
   volgende.setDate(volgende.getDate() + 1);
@@ -1285,7 +1205,6 @@ function buildMorgenStrip(dateStr) {
   if (!hotline && !wacht) { wrap.innerHTML = ""; return; }
 
   let items = `<span class="morgen-strip-label">Volgende werkdag (${dagNaam}):</span>`;
-
   if (hotline) {
     items += `<span class="morgen-item">
       <span class="tag hotline" style="font-size:10px;padding:2px 7px;">Hotline</span>
@@ -1299,17 +1218,12 @@ function buildMorgenStrip(dateStr) {
       <strong>${wacht.person}</strong>
     </span>`;
   }
-
   wrap.innerHTML = items;
 }
 
-// ─────────────────────────────────────────────
-// TODAY VIEW
-// ─────────────────────────────────────────────
 function renderToday() {
   const dateStr = document.getElementById("datePicker").value || isoToday();
   const q = "";
-
   const dateObj = new Date(...dateStr.split("-").map((v,i) => i===1 ? Number(v)-1 : Number(v)));
   const isVrijdag = dateObj.getDay() === 5;
   document.getElementById("todayTitle").innerHTML =
@@ -1321,11 +1235,9 @@ function renderToday() {
   checkTeamComplete(dateStr);
   updateTopbarNotice(dateStr);
 
-  // Vrijdag easter egg — confetti bij eerste load op vrijdag
   if (isVrijdag && !window._vrijdagConfetti) {
     window._vrijdagConfetti = true;
     setTimeout(() => {
-      // Friyay overlay tekst
       const overlay = document.createElement("div");
       overlay.className = "friyay-overlay";
       overlay.innerHTML = `<div style="text-align:center;">
@@ -1334,7 +1246,6 @@ function renderToday() {
       </div>`;
       document.body.appendChild(overlay);
       setTimeout(() => overlay.remove(), 3500);
-
       const colors = ["#f59f00","#ffd43b","#ffe066","#fab005","#fd7e14","#ffec99"];
       for (let i = 0; i < 80; i++) {
         const el = document.createElement("div");
@@ -1351,7 +1262,6 @@ function renderToday() {
     }, 500);
   }
 
-  // Bouw kaarten
   const todayRecords = records.filter(r => r.date === dateStr);
   let people = filterPerson ? [filterPerson] : allPeople;
   const cards = [];
@@ -1360,7 +1270,6 @@ function renderToday() {
     const code = row ? row.code : null;
     const tokens = code ? splitTokens(code) : [];
 
-    // Code-filter: exacte token match OF code bevat de filterwaarde (case-insensitive)
     if (filterCode) {
       const codeMatch = tokens.some(t => t.toLowerCase() === filterCode.toLowerCase());
       if (!codeMatch) continue;
@@ -1372,7 +1281,6 @@ function renderToday() {
     }
 
     let grpCls = "grp-geen"; let sortKey = "9_geen";
-    // Middelheim krijgt prioriteit highlight (maar hotline gaat voor)
     const hasMiddelheim = tokens.some(t => t.toLowerCase() === "mi");
     for (const t of tokens) {
       const cls = (CODE_MAP[t]||{}).cls || CODE_CLASSES[t] || "norm";
@@ -1406,11 +1314,6 @@ function renderToday() {
   }).join("");
 }
 
-
-
-// ─────────────────────────────────────────────
-// WEEK VIEW
-// ─────────────────────────────────────────────
 function renderWeek() {
   if (!currentWeekStart) {
     currentWeekStart = getMonday(document.getElementById("datePicker").value || isoToday());
@@ -1427,7 +1330,6 @@ function renderWeek() {
   let people = filterPerson ? [filterPerson] : allPeople;
   const q = "";
   if (q) people = people.filter(p => p.toLowerCase().includes(q));
-  // Code filter: behoud alleen mensen die deze week de code hebben
   if (filterCode) {
     const days = Array.from({length:5}, (_,i) => isoFromDate(addDays(currentWeekStart, i)));
     people = people.filter(p => days.some(d => {
@@ -1444,7 +1346,6 @@ function renderWeek() {
   const isMobile = window.innerWidth <= 750;
 
   if (isMobile) {
-    // Mobiele versie: gestapelde dagkaarten
     document.getElementById("weekGridWrap").style.display = "none";
     const mwrap = document.getElementById("weekMobileWrap");
     mwrap.style.display = "block";
@@ -1482,7 +1383,6 @@ function renderWeek() {
     mwrap.innerHTML = html;
 
   } else {
-    // Desktop versie: raster
     document.getElementById("weekMobileWrap").style.display = "none";
     document.getElementById("weekGridWrap").style.display = "block";
 
@@ -1510,9 +1410,6 @@ function renderWeek() {
   }
 }
 
-// ─────────────────────────────────────────────
-// LIST VIEW
-// ─────────────────────────────────────────────
 let activeMonth = null;
 
 function buildMonthTabs() {
@@ -1560,7 +1457,6 @@ function renderList() {
   const daysInMonth = new Date(yr, mo, 0).getDate();
   const todayIso = isoToday();
 
-  // Groepeer per dag
   const byDay = {};
   for (const r of filtered) {
     const day = Number(r.date.split("-")[2]);
@@ -1568,13 +1464,11 @@ function renderList() {
     byDay[day].push(r);
   }
 
-  // Bouw kalender-raster
   let html = `<div class="cal-grid">`;
-
   for (let d = 1; d <= daysInMonth; d++) {
     const iso = `${yr}-${pad(mo)}-${pad(d)}`;
     const dt = new Date(yr, mo-1, d);
-    const dayOfWeek = dt.getDay(); // 0=zo, 6=za
+    const dayOfWeek = dt.getDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
     const isToday = iso === todayIso;
     const dayName = DAYS_NL[dayOfWeek];
@@ -1595,7 +1489,6 @@ function renderList() {
     for (const r of entries) {
       const tokens = splitTokens(r.code);
       const chips = renderTags(tokens.join(","));
-
       html += `<div class="cal-entry">
         <span class="cal-entry-name" style="color:${avatarColor(r.person)}">${r.person}</span>
         <span class="cal-entry-codes">${chips}</span>
@@ -1604,14 +1497,10 @@ function renderList() {
 
     html += `</div></div>`;
   }
-
   html += `</div>`;
   wrap.innerHTML = html;
 }
 
-// ─────────────────────────────────────────────
-// RENDER ALL
-// ─────────────────────────────────────────────
 function renderAll(skipSkeleton) {
   buildFilterPanel();
   if (activeView === "today") renderToday();
@@ -1621,7 +1510,7 @@ function renderAll(skipSkeleton) {
 
 function buildFilterPanel() {
   const panel = document.getElementById("filterPanel");
-  if (!panel || panel.style.display === "none") return; // panel is dicht, niet herbouwen
+  if (!panel || panel.style.display === "none") return;
   const dateStr = document.getElementById("datePicker").value || isoToday();
   let relevantRecords = records;
   if (activeView === "today") {
@@ -1687,9 +1576,6 @@ function updateFilterBadge() {
   if (mobBtn) mobBtn.style.color = filterCode ? "var(--blue)" : "";
 }
 
-// ─────────────────────────────────────────────
-// NAV
-// ─────────────────────────────────────────────
 document.querySelectorAll(".nav-item").forEach(el => {
   el.addEventListener("click", () => {
     activeView = el.dataset.view;
@@ -1701,17 +1587,14 @@ document.querySelectorAll(".nav-item").forEach(el => {
   });
 });
 
-// ─────────────────────────────────────────────
-// TOPBAR CONTROLS
-// ─────────────────────────────────────────────
 const datePicker = document.getElementById("datePicker");
 datePicker.value = isoToday();
+
 function switchView(viewName) {
   activeView = viewName;
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   document.querySelector(`.nav-item[data-view="${viewName}"]`).classList.add("active");
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  // Re-trigger animatie
   const target = document.getElementById("view-" + viewName);
   target.style.opacity = "0";
   target.classList.remove("active");
@@ -1721,7 +1604,6 @@ function switchView(viewName) {
       target.classList.add("active");
     });
   });
-  // Sync mobile nav ook
   document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
     el.classList.toggle("active", el.dataset.mobView === viewName);
   });
@@ -1729,18 +1611,14 @@ function switchView(viewName) {
 
 datePicker.addEventListener("change", () => {
   currentWeekStart = getMonday(datePicker.value || isoToday());
-  // Datum kiezen heeft alleen zin in Vandaag/Week view — stuur door als in Lijst
   if (activeView === "list") switchView("today");
   renderAll();
 });
 
-
-
 document.getElementById("btnToday").addEventListener("click", () => {
-  const realToday = isoToday(); // altijd de echte datum, ongeacht wat in datepicker staat
+  const realToday = isoToday();
   datePicker.value = realToday;
   currentWeekStart = getMonday(realToday);
-  
   switchView("today");
   renderAll();
 });
@@ -1751,10 +1629,8 @@ document.getElementById("btnReset").addEventListener("click", () => {
   filterCode = "";
   updateFilterBadge();
   document.getElementById("filterPanel").style.display = "none";
-  
   document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
   document.querySelector('.person-chip[data-person=""]')?.classList.add("active");
-  // Reset maandtab naar huidige maand
   const todayMonth = isoToday().slice(0, 7);
   const months = [...new Set(records.map(r => r.date.slice(0, 7)))].sort();
   activeMonth = months.includes(todayMonth) ? todayMonth : (months[0] || null);
@@ -1762,7 +1638,6 @@ document.getElementById("btnReset").addEventListener("click", () => {
   renderAll();
 });
 
-// Dag navigatie pijltjes
 document.getElementById("btnPrevDay").addEventListener("click", () => {
   const cur = datePicker.value || isoToday();
   const prev = isoFromDate(addDays(cur, -1));
@@ -1789,9 +1664,6 @@ document.getElementById("btnNextWeek").addEventListener("click", () => {
   renderAll();
 });
 
-// ─────────────────────────────────────────────
-// MOBILE NAV
-// ─────────────────────────────────────────────
 function syncMobileNav() {
   document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
     el.classList.toggle("active", el.dataset.mobView === activeView);
@@ -1807,7 +1679,6 @@ document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(el => {
   });
 });
 
-// Persoon popup op mobiel
 let mobPeopleOpen = false;
 function closeMobPeople() {
   mobPeopleOpen = false;
@@ -1819,14 +1690,12 @@ function closeMobFilter() {
   if (panel) panel.style.display = "none";
 }
 
-// Mobiele filter knop
 document.getElementById("mobFilterBtn").addEventListener("click", () => {
   const panel = document.getElementById("filterPanel");
   if (!panel) return;
   const isOpen = panel.style.display !== "none";
   panel.style.display = isOpen ? "none" : "block";
   if (!isOpen) buildFilterPanel();
-  // Sluit people popup
   closeMobPeople();
 });
 
@@ -1848,7 +1717,6 @@ function buildMobPeopleStrip() {
   strip.querySelectorAll(".mob-person-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       filterPerson = btn.dataset.person;
-      // Sync sidebar ook
       document.querySelectorAll(".person-chip").forEach(c => c.classList.remove("active"));
       document.querySelector(`.person-chip[data-person="${filterPerson}"]`)?.classList.add("active");
       buildMobPeopleStrip();
@@ -1858,7 +1726,6 @@ function buildMobPeopleStrip() {
   });
 }
 
-// Sluit popup bij klik buiten
 document.addEventListener("click", (e) => {
   if (mobPeopleOpen &&
       !document.getElementById("mobPeoplePopup").contains(e.target) &&
@@ -1867,12 +1734,8 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ─────────────────────────────────────────────
-// START
-// ─────────────────────────────────────────────
 currentWeekStart = getMonday(isoToday());
 
-// Filter panel toggle
 const btnFilterEl = document.getElementById("btnFilter");
 if (btnFilterEl) {
   btnFilterEl.addEventListener("click", () => {
@@ -1884,7 +1747,6 @@ if (btnFilterEl) {
   });
 }
 
-// Mobiele datumkiezer sync
 const datePickerMob = document.getElementById("datePickerMob");
 datePickerMob.value = isoToday();
 datePickerMob.addEventListener("change", () => {
@@ -1892,7 +1754,6 @@ datePickerMob.addEventListener("change", () => {
   currentWeekStart = getMonday(datePickerMob.value || isoToday());
   renderAll();
 });
-// Sync desktop -> mobiel ook
 datePicker.addEventListener("change", () => {
   datePickerMob.value = datePicker.value;
 });
@@ -1902,19 +1763,15 @@ document.getElementById("btnTodayMob").addEventListener("click", () => {
   datePicker.value = realToday;
   datePickerMob.value = realToday;
   currentWeekStart = getMonday(realToday);
-  
   switchView("today");
   renderAll();
 });
 
-// Auto-refresh met countdown
-// Start zodra DOM klaar is — werkt ook als DOMContentLoaded al voorbij is
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", loadData);
 } else {
-  loadData(); // DOM is al klaar
+  loadData();
 }
-
 </script>
 </body>
 </html>
