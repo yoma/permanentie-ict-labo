@@ -1083,6 +1083,18 @@
 <!-- ═══════════════════════════════
      JAVASCRIPT
 ═══════════════════════════════ -->
+  <!-- Verjaardag overzicht popup -->
+  <div class="bday-popup" id="bdayPopup" style="display:none;">
+    <div class="bday-popup-backdrop" id="bdayPopupBackdrop"></div>
+    <div class="bday-popup-box">
+      <div class="bday-popup-title">
+        <span>🎂 Verjaardagen team</span>
+        <span class="bday-popup-close" id="bdayPopupClose">✕</span>
+      </div>
+      <div id="bdayPopupList"></div>
+    </div>
+  </div>
+
 <script>
 "use strict";
 
@@ -2253,17 +2265,5 @@ if (document.readyState === "loading") {
   loadData();
 }
 </script>
-  <!-- Verjaardag overzicht popup -->
-  <div class="bday-popup" id="bdayPopup" style="display:none;">
-    <div class="bday-popup-backdrop" id="bdayPopupBackdrop"></div>
-    <div class="bday-popup-box">
-      <div class="bday-popup-title">
-        <span>🎂 Verjaardagen team</span>
-        <span class="bday-popup-close" id="bdayPopupClose">✕</span>
-      </div>
-      <div id="bdayPopupList"></div>
-    </div>
-  </div>
-
 </body>
 </html>
