@@ -989,18 +989,6 @@
     <span class="bday-overview-link" id="bdayOverviewLink" style="display:none;">Alle verjaardagen →</span>
   </div>
 
-  <!-- Verjaardag overzicht popup -->
-  <div class="bday-popup" id="bdayPopup" style="display:none;">
-    <div class="bday-popup-backdrop" id="bdayPopupBackdrop"></div>
-    <div class="bday-popup-box">
-      <div class="bday-popup-title">
-        <span>🎂 Verjaardagen team</span>
-        <span class="bday-popup-close" id="bdayPopupClose">✕</span>
-      </div>
-      <div id="bdayPopupList"></div>
-    </div>
-  </div>
-
   <nav class="sidebar-nav">
     <div class="nav-label">Weergave</div>
     <div class="nav-item active" data-view="today"><span class="icon">📅</span> Vandaag</div>
@@ -2265,5 +2253,17 @@ if (document.readyState === "loading") {
   loadData();
 }
 </script>
+  <!-- Verjaardag overzicht popup -->
+  <div class="bday-popup" id="bdayPopup" style="display:none;">
+    <div class="bday-popup-backdrop" id="bdayPopupBackdrop"></div>
+    <div class="bday-popup-box">
+      <div class="bday-popup-title">
+        <span>🎂 Verjaardagen team</span>
+        <span class="bday-popup-close" id="bdayPopupClose">✕</span>
+      </div>
+      <div id="bdayPopupList"></div>
+    </div>
+  </div>
+
 </body>
 </html>
