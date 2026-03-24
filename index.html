@@ -851,6 +851,7 @@
        MOBILE
     ═══════════════════════════════ */
     .mobile-nav { display: none; }
+    .mob-bday-chip { display: none !important; }
 
     @media (max-width: 750px) {
       body { flex-direction: column; overflow: auto; }
@@ -865,7 +866,7 @@
       .sidebar-status { margin: 0; }
       .sidebar-nav, .sidebar-people, .sidebar-bday { display: none; }
       .mob-bday-chip {
-        display: inline-flex;
+        display: inline-flex !important;
         align-items: center;
         gap: 5px;
         background: rgba(255,215,0,.12);
@@ -1045,7 +1046,7 @@
       <input type="date" id="datePickerMob" style="flex:1;padding:8px 10px;border:1.5px solid rgba(59,91,219,.1);border-radius:10px;font-family:var(--sans);font-size:13px;color:var(--ink);background:#fff;outline:none;box-shadow:var(--shadow);"/>
       <button id="btnTodayMob" style="padding:8px 14px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(59,91,219,.3);">Vandaag</button>
     </div>
-    <span class="mob-bday-chip" id="mobBdayChip" style="display:none;" id="mobBdayChip"></span>
+    <span class="mob-bday-chip" id="mobBdayChip" style="display:none!important;"></span>
   </div>
 
   <!-- FILTER PANEL -->
