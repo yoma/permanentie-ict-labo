@@ -156,6 +156,109 @@
     }
     .bday-next-pill .bday-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
     .bday-next-pill strong { color: #ffd700; }
+    .bday-overview-link {
+      display: block;
+      margin-top: 6px;
+      font-size: 10px;
+      color: rgba(255,215,0,.55);
+      cursor: pointer;
+      text-align: right;
+      padding-right: 2px;
+      letter-spacing: .3px;
+      transition: color .15s;
+    }
+    .bday-overview-link:hover { color: rgba(255,215,0,.9); }
+
+    /* Verjaardag overzicht popup */
+    .bday-popup {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bday-popup-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .bday-popup-box {
+      position: relative;
+      background: var(--ink);
+      border: 1px solid rgba(255,215,0,.25);
+      border-radius: 18px;
+      padding: 22px 20px;
+      width: 320px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,.5);
+      z-index: 1;
+    }
+    .bday-popup-box::-webkit-scrollbar { width: 3px; }
+    .bday-popup-box::-webkit-scrollbar-thumb { background: rgba(255,215,0,.2); border-radius: 4px; }
+    .bday-popup-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffd700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bday-popup-close {
+      width: 26px; height: 26px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: rgba(255,255,255,.5);
+      transition: all .15s;
+    }
+    .bday-popup-close:hover { background: rgba(255,255,255,.15); color: #fff; }
+    .bday-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .bday-row:last-child { border-bottom: none; }
+    .bday-row .br-num {
+      font-size: 9px;
+      font-family: var(--mono);
+      color: rgba(255,255,255,.25);
+      width: 14px;
+      flex-shrink: 0;
+    }
+    .bday-row .br-av {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0; color: #fff;
+    }
+    .bday-row .br-info { flex: 1; }
+    .bday-row .br-name {
+      font-size: 12px; font-weight: 700;
+      color: #fff;
+    }
+    .bday-row .br-date {
+      font-size: 10px;
+      color: rgba(255,255,255,.45);
+      font-family: var(--mono);
+    }
+    .bday-row .br-days {
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .bday-row.br-today  .br-days { color: #ffd700; }
+    .bday-row.br-soon   .br-days { color: #69db7c; }
+    .bday-row.br-normal .br-days { color: rgba(255,255,255,.4); }
 
     /* Nav */
     .sidebar-nav { padding: 20px 0; flex: 1; }
@@ -883,6 +986,19 @@
       <span class="bday-icon">🎂</span>
       <span id="bdayNextText"></span>
     </div>
+    <span class="bday-overview-link" id="bdayOverviewLink" style="display:none;">Alle verjaardagen →</span>
+  </div>
+
+  <!-- Verjaardag overzicht popup -->
+  <div class="bday-popup" id="bdayPopup" style="display:none;">
+    <div class="bday-popup-backdrop" id="bdayPopupBackdrop"></div>
+    <div class="bday-popup-box">
+      <div class="bday-popup-title">
+        <span>🎂 Verjaardagen team</span>
+        <span class="bday-popup-close" id="bdayPopupClose">✕</span>
+      </div>
+      <div id="bdayPopupList"></div>
+    </div>
   </div>
 
   <nav class="sidebar-nav">
@@ -1294,20 +1410,77 @@ function startRefreshCountdown() {
 }
 
 // ─── SIDEBAR VERJAARDAG PILL ─────────────────────────────────────
+function bdayDateLabel(name) {
+  var bd = BIRTHDAYS[name];
+  if (!bd) return "";
+  var parts = bd.split("/").map(Number);
+  var dd = parts[0], mm = parts[1];
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var dt = new Date(now.getFullYear(), mm - 1, dd);
+  if (dt < today) dt = new Date(now.getFullYear() + 1, mm - 1, dd);
+  return DAYS_NL[dt.getDay()] + " " + dd + " " + MONTHS_NL[mm - 1];
+}
+
 function updateBdaySidebar() {
   var pill = document.getElementById("bdayNextPill");
   var txt  = document.getElementById("bdayNextText");
+  var link = document.getElementById("bdayOverviewLink");
   if (!pill || !txt) return;
   var next = getNextBirthday();
   if (!next) return;
   pill.style.display = "flex";
+  if (link) link.style.display = "block";
+  var dateLbl = bdayDateLabel(next.name);
   if (next.days === 0) {
-    txt.innerHTML = "Vandaag jarig: <strong>" + next.name + "! 🎉</strong>";
+    txt.innerHTML = "Vandaag jarig:<br><strong>" + next.name + " \U0001f389</strong><br>"
+      + "<span style='font-size:10px;color:rgba(255,215,0,.6);'>" + dateLbl + "</span>";
   } else if (next.days === 1) {
-    txt.innerHTML = "Morgen jarig:<br><strong>" + next.name + "</strong>";
+    txt.innerHTML = "Morgen jarig:<br><strong>" + next.name + "</strong><br>"
+      + "<span style='font-size:10px;color:rgba(255,215,0,.6);'>" + dateLbl + "</span>";
   } else {
-    txt.innerHTML = "Volgende verjaardag:<br><strong>" + next.name + "</strong> over " + next.days + " dagen";
+    txt.innerHTML = "Volgende verjaardag:<br><strong>" + next.name
+      + " <span style='font-weight:500;color:rgba(255,215,0,.8);'>(" + dateLbl + ")</span></strong><br>"
+      + "<span style='font-size:10px;color:rgba(255,215,0,.5);'>over " + next.days + " dagen</span>";
   }
+}
+
+function buildBdayPopup() {
+  var list = document.getElementById("bdayPopupList");
+  if (!list) return;
+  var entries = Object.keys(BIRTHDAYS).map(function(name) {
+    return { name: name, days: daysUntilBirthday(name), bd: BIRTHDAYS[name] };
+  });
+  entries.sort(function(a, b) { return a.days - b.days; });
+  list.innerHTML = entries.map(function(e, i) {
+    var parts  = e.bd.split("/").map(Number);
+    var dd = parts[0], mm = parts[1];
+    var now   = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var dt    = new Date(now.getFullYear(), mm - 1, dd);
+    if (dt < today) dt = new Date(now.getFullYear() + 1, mm - 1, dd);
+    var dayName = DAYS_NL[dt.getDay()];
+    var dateLbl = dayName + " " + dd + " " + MONTHS_NL[mm - 1];
+    var daysLbl = e.days === 0 ? "Vandaag! \U0001f389" : e.days === 1 ? "Morgen" : "over " + e.days + " dagen";
+    var rowCls  = e.days === 0 ? "br-today" : e.days <= 14 ? "br-soon" : "br-normal";
+    return "<div class='bday-row " + rowCls + "'>"
+      + "<span class='br-num'>" + (i+1) + "</span>"
+      + "<span class='br-av' style='background:" + avatarColor(e.name) + "'>" + personInitials(e.name) + "</span>"
+      + "<span class='br-info'>"
+      + "<div class='br-name'>" + e.name + "</div>"
+      + "<div class='br-date'>" + dateLbl + "</div>"
+      + "</span>"
+      + "<span class='br-days'>" + daysLbl + "</span>"
+      + "</div>";
+  }).join("");
+}
+
+function openBdayPopup() {
+  buildBdayPopup();
+  document.getElementById("bdayPopup").style.display = "flex";
+}
+function closeBdayPopup() {
+  document.getElementById("bdayPopup").style.display = "none";
 }
 
 // ─── PEOPLE LIST ─────────────────────────────────────────────────
@@ -2080,7 +2253,12 @@ document.addEventListener("click", function(e) {
   }
 });
 
-// ─── START ────────────────────────────────────────────────────────
+// ─── BDAY POPUP EVENTS ──────────────────────────────────────────
+document.getElementById("bdayOverviewLink").addEventListener("click", openBdayPopup);
+document.getElementById("bdayPopupClose").addEventListener("click", closeBdayPopup);
+document.getElementById("bdayPopupBackdrop").addEventListener("click", closeBdayPopup);
+
+// ─── START ────────────────────────────────────────────────────────────────
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", loadData);
 } else {
