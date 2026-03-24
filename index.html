@@ -160,14 +160,14 @@
       display: block;
       margin-top: 6px;
       font-size: 10px;
-      color: rgba(255,215,0,.55);
+      color: rgba(255,255,255,.7);
       cursor: pointer;
       text-align: right;
       padding-right: 2px;
       letter-spacing: .3px;
       transition: color .15s;
     }
-    .bday-overview-link:hover { color: rgba(255,215,0,.9); }
+    .bday-overview-link:hover { color: #ffd700; }
 
     /* Verjaardag overzicht popup */
     .bday-popup {
@@ -1441,7 +1441,7 @@ function updateBdaySidebar() {
   } else {
     txt.innerHTML = "Volgende verjaardag:<br><strong>" + next.name
       + " <span style='font-weight:500;color:rgba(255,215,0,.8);'>(" + dateLbl + ")</span></strong><br>"
-      + "<span style='font-size:10px;color:rgba(255,215,0,.5);'>over " + next.days + " dagen</span>";
+      + "<span style='font-size:10px;color:rgba(255,255,255,.65);'>over " + next.days + " dagen</span>";
   }
 }
 
