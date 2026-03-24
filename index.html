@@ -1166,10 +1166,19 @@ var CODE_CLASSES = {
   "w":    "wacht", "w1": "wacht", "w2": "wacht", "w3": "wacht",
   "adv":  "afwezig", "gadv": "afwezig",
   "v":    "afwezig", "vV": "afwezig", "gvV": "afwezig",
-  "z":    "afwezig",
+  "z":    "afwezig", "ziek": "afwezig",
   "x":    "afwezig", "xg": "afwezig", "xh": "afwezig", "gx": "afwezig",
-  "kv":   "afwezig", "b": "afwezig", "vbst": "afwezig"
+  "kv":   "afwezig", "b": "afwezig", "vbst": "afwezig",
+  "sv":   "afwezig", "sov": "afwezig", "soc": "afwezig",
+  "rec":  "afwezig", "vp": "afwezig"
 };
+
+// Trefwoorden in de legende-omschrijving die "afwezig" aanduiden
+var AFWEZIG_KEYWORDS = [
+  "verlof", "afwezig", "ziekte", "ziek", "recuperatie", "recup",
+  "sociaal", "thv", "zwanger", "hospitalisatie", "rouwverlof",
+  "feestdag", "inhaalrust"
+];
 
 var CODE_COLORS = {
   "mi":    "background:#dcfce7;color:#166534;border-color:#bbf7d0;",
@@ -1360,10 +1369,16 @@ async function loadData() {
     // Build code map van legend
     codeMap = {};
     (raw.legend || []).forEach(function(item) {
-      codeMap[item.code] = {
-        label: item.description,
-        cls:   CODE_CLASSES[item.code] || "norm"
-      };
+      var cls = CODE_CLASSES[item.code] || CODE_CLASSES[item.code.toLowerCase()] || "norm";
+      // Detecteer afwezigheid via trefwoorden in de omschrijving
+      if (cls === "norm") {
+        var descLower = (item.description || "").toLowerCase();
+        var isAfwezig = AFWEZIG_KEYWORDS.some(function(kw) {
+          return descLower.indexOf(kw) !== -1;
+        });
+        if (isAfwezig) cls = "afwezig";
+      }
+      codeMap[item.code] = { label: item.description, cls: cls };
     });
 
     // Timestamp
