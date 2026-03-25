@@ -1657,6 +1657,8 @@ function checkMiddelheimBezetting() {
 
   checkDays.forEach(function(dayIso) {
     var dayRecs = records.filter(function(r) { return r.date === dayIso; });
+    // Geen records = feestdag of dag zonder data → overslaan
+    if (dayRecs.length === 0) return;
     // Personen in MI die dag, exclusief verantwoordelijke
     var inMI = dayRecs.filter(function(r) {
       if (r.person === MI_VERANTWOORDELIJKE) return false;
