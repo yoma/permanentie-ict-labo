@@ -940,6 +940,89 @@
       }
       .mob-person-btn.active { background: var(--blue4); border-color: rgba(59,91,219,.3); color: var(--blue); }
     }
+
+    /* ═══════════════════════════════
+       MIDDELHEIM WAARSCHUWING POPUP
+    ═══════════════════════════════ */
+    .mi-popup {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 2100;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mi-popup-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .mi-popup-box {
+      position: relative; z-index: 1;
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px 22px;
+      width: 360px;
+      max-width: 92vw;
+      box-shadow: 0 24px 64px rgba(0,0,0,.3);
+      border-top: 4px solid var(--amber);
+    }
+    .mi-popup-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 15px; font-weight: 800;
+      color: var(--ink); margin-bottom: 14px;
+    }
+    .mi-popup-title .mi-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: #fff3bf;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .mi-popup-close {
+      margin-left: auto;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--bg); color: var(--sub);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; flex-shrink: 0;
+      transition: all .15s;
+    }
+    .mi-popup-close:hover { background: var(--line); color: var(--ink); }
+    .mi-warning-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px;
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: 10px;
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+    .mi-warning-row:last-child { margin-bottom: 0; }
+    .mi-warning-day {
+      font-weight: 700; color: var(--ink);
+      min-width: 110px;
+    }
+    .mi-warning-count {
+      font-size: 11px; font-weight: 600;
+      background: var(--amber2); color: var(--amber);
+      border: 1px solid #ffd43b;
+      border-radius: 6px; padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .mi-warning-names {
+      font-size: 11px; color: var(--sub); margin-left: auto;
+    }
+    .mi-popup-footer {
+      margin-top: 16px;
+      display: flex; justify-content: flex-end;
+    }
+    .mi-popup-btn {
+      padding: 9px 20px; border-radius: 10px;
+      background: var(--blue); color: #fff;
+      border: none; font-family: var(--sans);
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(59,91,219,.3);
+      transition: all .15s;
+    }
+    .mi-popup-btn:hover { background: var(--blue2); transform: translateY(-1px); }
   </style>
 </head>
 <body>
@@ -1114,6 +1197,23 @@
     </div>
   </div>
 
+  <!-- Middelheim waarschuwing popup -->
+  <div class="mi-popup" id="miPopup" style="display:none;">
+    <div class="mi-popup-backdrop" id="miPopupBackdrop"></div>
+    <div class="mi-popup-box">
+      <div class="mi-popup-title">
+        <span class="mi-icon">⚠️</span>
+        <span>Let op — Middelheim bezetting</span>
+        <span class="mi-popup-close" id="miPopupClose">✕</span>
+      </div>
+      <div id="miWarningList"></div>
+      <div class="mi-popup-footer">
+        <button class="mi-popup-btn" id="miPopupOk">Begrepen</button>
+      </div>
+    </div>
+  </div>
+
+
 <script>
 "use strict";
 
@@ -1141,7 +1241,7 @@ var BIRTHDAYS = {
   "Kathleen": "21/10",
   "Youssef":  "27/10",
   "Mina":     "14/09",
-   "Kim":  "09/09"
+  "Kim":      "09/09"
 };
 
 function isBirthday(name, isoDate) {
@@ -1411,6 +1511,7 @@ async function loadData() {
 
     setStatus("Gesynchroniseerd", "ok");
     updateBdaySidebar();
+    setTimeout(checkMiddelheimBezetting, 800);
     startRefreshCountdown();
     buildPeopleList();
     buildMonthTabs();
@@ -1529,6 +1630,73 @@ function openBdayPopup() {
 }
 function closeBdayPopup() {
   document.getElementById("bdayPopup").style.display = "none";
+}
+
+
+// ─── MIDDELHEIM BEZETTING CHECK ──────────────────────────────────
+var MI_VERANTWOORDELIJKE = "Debby"; // telt niet mee
+var MI_MIN = 2; // minimum vereist
+
+function checkMiddelheimBezetting() {
+  // Kijk naar de huidige werkweek + volgende 7 werkdagen
+  var today = new Date();
+  var todayIso = isoToday();
+  var checkDays = [];
+  var d = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  var counted = 0;
+  while (counted < 10) {
+    // sla weekend over
+    if (d.getDay() !== 0 && d.getDay() !== 6) {
+      checkDays.push(isoFromDate(d));
+      counted++;
+    }
+    d.setDate(d.getDate() + 1);
+  }
+
+  var warnings = [];
+
+  checkDays.forEach(function(dayIso) {
+    var dayRecs = records.filter(function(r) { return r.date === dayIso; });
+    // Personen in MI die dag, exclusief verantwoordelijke
+    var inMI = dayRecs.filter(function(r) {
+      if (r.person === MI_VERANTWOORDELIJKE) return false;
+      var tokens = splitTokens(r.code);
+      return tokens.some(function(t) { return t.toLowerCase() === "mi"; });
+    });
+
+    if (inMI.length < MI_MIN) {
+      var p = dayIso.split("-").map(Number);
+      var dt = new Date(p[0], p[1]-1, p[2]);
+      var label = DAYS_NL[dt.getDay()] + " " + p[2] + " " + MONTHS_NL[p[1]-1];
+      warnings.push({
+        label: label,
+        count: inMI.length,
+        names: inMI.map(function(r) { return r.person; })
+      });
+    }
+  });
+
+  if (!warnings.length) return;
+
+  // Vul de popup
+  var list = document.getElementById("miWarningList");
+  if (!list) return;
+  list.innerHTML = warnings.map(function(w) {
+    var countLbl = w.count === 0 ? "Niemand" : w.count === 1 ? "1 collega" : w.count + " collega's";
+    var namesStr = w.names.length ? w.names.join(", ") : "—";
+    return "<div class='mi-warning-row'>"
+      + "<span class='mi-warning-day'>" + w.label + "</span>"
+      + "<span class='mi-warning-count'>" + countLbl + " in MI</span>"
+      + "<span class='mi-warning-names'>" + namesStr + "</span>"
+      + "</div>";
+  }).join("");
+
+  document.getElementById("miPopup").style.display = "flex";
+}
+
+function closeMiPopup() {
+  var p = document.getElementById("miPopup");
+  if (p) p.style.display = "none";
 }
 
 // ─── PEOPLE LIST ─────────────────────────────────────────────────
@@ -2300,6 +2468,11 @@ document.addEventListener("click", function(e) {
     closeMobPeople();
   }
 });
+
+// ─── MI POPUP EVENTS ──────────────────────────────────────────────
+document.getElementById("miPopupClose").addEventListener("click", closeMiPopup);
+document.getElementById("miPopupOk").addEventListener("click", closeMiPopup);
+document.getElementById("miPopupBackdrop").addEventListener("click", closeMiPopup);
 
 // ─── BDAY POPUP EVENTS ──────────────────────────────────────────
 document.getElementById("bdayOverviewLink").addEventListener("click", openBdayPopup);
