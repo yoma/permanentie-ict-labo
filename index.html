@@ -1657,8 +1657,15 @@ function checkMiddelheimBezetting() {
 
   checkDays.forEach(function(dayIso) {
     var dayRecs = records.filter(function(r) { return r.date === dayIso; });
-    // Geen records = feestdag of dag zonder data → overslaan
+    // Geen records = feestdag zonder data → overslaan
     if (dayRecs.length === 0) return;
+    // Als ALLE records enkel wacht-codes bevatten = feestdag → overslaan
+    var alleenWacht = dayRecs.every(function(r) {
+      return splitTokens(r.code).every(function(t) {
+        return ["w","w1","w2","w3","h"].indexOf(t.toLowerCase()) !== -1;
+      });
+    });
+    if (alleenWacht) return;
     // Personen in MI die dag, exclusief verantwoordelijke
     var inMI = dayRecs.filter(function(r) {
       if (r.person === MI_VERANTWOORDELIJKE) return false;
