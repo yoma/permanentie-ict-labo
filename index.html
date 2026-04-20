@@ -292,6 +292,19 @@
       font-weight: 600;
     }
     .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+    .nav-item:focus-visible,
+    .person-chip:focus-visible,
+    .mob-nav-item:focus-visible,
+    .mob-person-btn:focus-visible,
+    .bday-overview-link:focus-visible,
+    .bday-popup-close:focus-visible,
+    .mi-popup-close:focus-visible,
+    #filterPanelClose:focus-visible,
+    #filterClearAll:focus-visible,
+    .cf-btn:focus-visible {
+      outline: 2px solid var(--blue3);
+      outline-offset: 2px;
+    }
 
     /* People list */
     .sidebar-people {
@@ -1226,7 +1239,7 @@ window.onerror = function(msg, src, line) {
   var grid = document.getElementById("teamGrid");
   if (grid) grid.innerHTML =
     '<div class="empty-state"><div class="icon">❌</div>' +
-    '<p style="color:var(--red)">Fout: ' + msg + '</p></div>';
+    '<p style="color:var(--red)">Fout: ' + escapeHtml(msg) + '</p></div>';
   return false;
 };
 
@@ -1338,6 +1351,15 @@ var vrijdagDone      = false;
 // ─── HELPERS ─────────────────────────────────────────────────────
 function pad(n) { return n < 10 ? "0" + n : "" + n; }
 
+function escapeHtml(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function isoToday() {
   var d = new Date();
   return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
@@ -1400,7 +1422,7 @@ function renderTags(code) {
     var cls    = getTagCls(t);
     var label  = getTagLabel(t);
     var extra  = cls === "norm" ? (CODE_COLORS[t.toLowerCase()] ? ' style="' + CODE_COLORS[t.toLowerCase()] + '"' : "") : "";
-    return '<span class="tag ' + cls + '"' + extra + '>' + label + '</span>';
+    return '<span class="tag ' + cls + '"' + extra + '>' + escapeHtml(label) + '</span>';
   }).join("");
 }
 
@@ -1420,6 +1442,19 @@ function setStatus(text, kind) {
   var span = document.getElementById("statusText");
   if (pill) pill.className = "status-pill " + (kind || "");
   if (span) span.textContent = text;
+}
+
+function makeAccessibleClickable(el, label) {
+  if (!el) return;
+  el.setAttribute("role", "button");
+  el.setAttribute("tabindex", "0");
+  if (label) el.setAttribute("aria-label", label);
+  el.addEventListener("keydown", function(ev) {
+    if (ev.key === "Enter" || ev.key === " ") {
+      ev.preventDefault();
+      el.click();
+    }
+  });
 }
 
 // ─── CONFETTI ────────────────────────────────────────────────────
@@ -1523,7 +1558,7 @@ async function loadData() {
     var grid = document.getElementById("teamGrid");
     if (grid) grid.innerHTML =
       '<div class="empty-state"><div class="icon">❌</div>' +
-      '<p style="color:#e84040">Fout bij laden:<br>' + e.message + '</p>' +
+      '<p style="color:#e84040">Fout bij laden:<br>' + escapeHtml(e.message) + '</p>' +
       '<p style="font-size:12px;color:var(--sub);margin-top:8px;">Controleer of <b>permanentie.json</b> in dezelfde map staat.</p></div>';
   }
 }
@@ -1716,13 +1751,15 @@ function buildPeopleList() {
 
   allPeople.forEach(function(p) {
     var bday = isBirthday(p, isoToday()) ? " 🎂" : "";
-    html += '<div class="person-chip ' + (filterPerson === p ? "active" : "") + '" data-person="' + p + '">' +
+    html += '<div class="person-chip ' + (filterPerson === p ? "active" : "") + '" data-person="' + escapeHtml(p) + '">' +
       '<div class="avatar" style="background:' + avatarColor(p) + '">' + personInitials(p) + '</div>' +
-      '<span>' + p + bday + '</span></div>';
+      '<span>' + escapeHtml(p) + bday + '</span></div>';
   });
 
   wrap.innerHTML = html;
   wrap.querySelectorAll(".person-chip").forEach(function(el) {
+    var personLabel = el.dataset.person ? "Filter op " + el.dataset.person : "Toon iedereen";
+    makeAccessibleClickable(el, personLabel);
     el.addEventListener("click", function() {
       filterPerson = el.dataset.person;
       wrap.querySelectorAll(".person-chip").forEach(function(c) { c.classList.remove("active"); });
@@ -1998,13 +2035,14 @@ function renderToday() {
   var grid = document.getElementById("teamGrid");
   if (!cards.length) {
     grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Geen resultaten' +
-      (filterCode ? ' voor code <b>' + filterCode + '</b>' : "") + '.</p></div>';
+      (filterCode ? ' voor code <b>' + escapeHtml(filterCode) + '</b>' : "") + '.</p></div>';
     return;
   }
 
   grid.innerHTML = cards.map(function(card, i) {
     var tags     = card.code ? renderTags(card.code) : '<span class="tag empty">Geen data</span>';
-    var nameHtml = card.isJarig ? card.person + " 🎂" : card.person;
+    var safeName = escapeHtml(card.person);
+    var nameHtml = card.isJarig ? safeName + " 🎂" : safeName;
     return '<div class="team-card ' + card.grpCls + '" style="animation-delay:' + (i * .04) + 's">' +
       '<div class="tc-top">' +
       '<div class="tc-av" style="background:' + avatarColor(card.person) + '">' + personInitials(card.person) + '</div>' +
@@ -2204,7 +2242,7 @@ function renderList() {
     entries.forEach(function(r) {
       var isJarig = isBirthday(r.person, iso);
       html += '<div class="cal-entry">';
-      html += '<span class="cal-ename" style="color:' + avatarColor(r.person) + '">' + r.person + (isJarig ? " 🎂" : "") + '</span>';
+      html += '<span class="cal-ename" style="color:' + avatarColor(r.person) + '">' + escapeHtml(r.person) + (isJarig ? " 🎂" : "") + '</span>';
       html += '<span class="cal-ecodes">' + renderTags(r.code) + '</span>';
       html += '</div>';
     });
@@ -2213,7 +2251,7 @@ function renderList() {
     bdJarigen.filter(function(p) {
       return !entries.find(function(r) { return r.person === p; });
     }).forEach(function(p) {
-      html += '<div class="cal-entry"><span class="cal-ename" style="color:' + avatarColor(p) + '">' + p + ' 🎂</span></div>';
+      html += '<div class="cal-entry"><span class="cal-ename" style="color:' + avatarColor(p) + '">' + escapeHtml(p) + ' 🎂</span></div>';
     });
 
     html += '</div></div>';
@@ -2269,6 +2307,7 @@ function buildFilterPanel() {
   }).join("");
 
   bw.querySelectorAll(".cf-btn").forEach(function(btn) {
+    makeAccessibleClickable(btn, "Filter op code " + (btn.dataset.code || ""));
     btn.addEventListener("click", function() {
       filterCode = filterCode === btn.dataset.code ? "" : btn.dataset.code;
       updateFilterBadge();
@@ -2320,6 +2359,7 @@ function switchView(viewName) {
 
 // Sidebar nav
 document.querySelectorAll(".nav-item").forEach(function(el) {
+  makeAccessibleClickable(el, "Ga naar " + (el.dataset.view || "weergave"));
   el.addEventListener("click", function() {
     switchView(el.dataset.view);
     renderAll();
@@ -2418,6 +2458,7 @@ document.getElementById("filterClearAll").addEventListener("click", function() {
 
 // Mobile nav
 document.querySelectorAll(".mob-nav-item[data-mob-view]").forEach(function(el) {
+  makeAccessibleClickable(el, "Ga naar " + (el.dataset.mobView || "weergave"));
   el.addEventListener("click", function() {
     switchView(el.dataset.mobView);
     closeMobPeople();
@@ -2454,14 +2495,19 @@ function buildMobPeopleStrip() {
     var av    = p
       ? '<span class="avatar" style="background:' + avatarColor(p) + ';display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">' + personInitials(p) + '</span>'
       : '<span class="avatar" style="background:rgba(13,27,42,.15);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">👥</span>';
-    return '<div class="mob-person-btn ' + (filterPerson === p ? "active" : "") + '" data-person="' + p + '">' + av + label + '</div>';
+    return '<div class="mob-person-btn ' + (filterPerson === p ? "active" : "") + '" data-person="' + escapeHtml(p) + '">' + av + escapeHtml(label) + '</div>';
   }).join("");
 
   strip.querySelectorAll(".mob-person-btn").forEach(function(btn) {
+    var mbLabel = btn.dataset.person ? "Filter op " + btn.dataset.person : "Toon iedereen";
+    makeAccessibleClickable(btn, mbLabel);
     btn.addEventListener("click", function() {
       filterPerson = btn.dataset.person;
       document.querySelectorAll(".person-chip").forEach(function(c) { c.classList.remove("active"); });
-      var chip = document.querySelector('.person-chip[data-person="' + filterPerson + '"]');
+      var chip = null;
+      document.querySelectorAll(".person-chip").forEach(function(c) {
+        if (!chip && c.dataset.person === filterPerson) chip = c;
+      });
       if (chip) chip.classList.add("active");
       buildMobPeopleStrip();
       closeMobPeople();
@@ -2479,6 +2525,15 @@ document.addEventListener("click", function(e) {
 });
 
 // ─── MI POPUP EVENTS ──────────────────────────────────────────────
+makeAccessibleClickable(document.getElementById("miPopupClose"), "Sluit Middelheim waarschuwing");
+makeAccessibleClickable(document.getElementById("bdayOverviewLink"), "Open verjaardagen overzicht");
+makeAccessibleClickable(document.getElementById("bdayPopupClose"), "Sluit verjaardagen overzicht");
+makeAccessibleClickable(document.getElementById("filterPanelClose"), "Sluit filterpaneel");
+makeAccessibleClickable(document.getElementById("filterClearAll"), "Wis codefilter");
+makeAccessibleClickable(document.getElementById("mobFilterBtn"), "Open filter");
+makeAccessibleClickable(document.getElementById("mobPeopleBtn"), "Open persoonfilter");
+makeAccessibleClickable(document.getElementById("mobBdayBtn"), "Open verjaardagen");
+
 document.getElementById("miPopupClose").addEventListener("click", closeMiPopup);
 document.getElementById("miPopupOk").addEventListener("click", closeMiPopup);
 document.getElementById("miPopupBackdrop").addEventListener("click", closeMiPopup);
