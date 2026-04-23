@@ -1178,9 +1178,9 @@
     <!-- WEEK VIEW -->
     <div class="view" id="view-week">
       <div class="week-nav">
-        <button class="btn" id="btnPrevWeek">← Vorige</button>
+        <button class="btn mob-visible" id="btnPrevWeek" type="button">← Vorige</button>
         <div class="week-label" id="weekLabel">—</div>
-        <button class="btn" id="btnNextWeek">Volgende →</button>
+        <button class="btn mob-visible" id="btnNextWeek" type="button">Volgende →</button>
       </div>
       <div id="weekGridWrap"></div>
       <div id="weekMobileWrap" style="display:none;"></div>
@@ -2431,12 +2431,61 @@ document.getElementById("btnNextDay").addEventListener("click", function() {
 });
 
 // Week navigatie
-document.getElementById("btnPrevWeek").addEventListener("click", function() {
-  currentWeekStart = isoFromDate(addDays(currentWeekStart, -7));
+function shiftWeek(days) {
+  if (!currentWeekStart) {
+    currentWeekStart = getMonday(document.getElementById("datePicker").value || isoToday());
+  }
+  currentWeekStart = isoFromDate(addDays(currentWeekStart, days));
+  datePicker.value = datePickerMob.value = currentWeekStart;
   renderAll();
+}
+
+document.getElementById("btnPrevWeek").addEventListener("click", function(ev) {
+  ev.preventDefault();
+  shiftWeek(-7);
 });
-document.getElementById("btnNextWeek").addEventListener("click", function() {
-  currentWeekStart = isoFromDate(addDays(currentWeekStart, 7));
+document.getElementById("btnNextWeek").addEventListener("click", function(ev) {
+  ev.preventDefault();
+  shiftWeek(7);
+});
+
+// Keyboard week navigatie (alleen in week view)
+document.addEventListener("keydown", function(ev) {
+  if (activeView !== "week") return;
+  if (ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return;
+  var t = ev.target;
+  var tag = t && t.tagName ? t.tagName.toUpperCase() : "";
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
+  if (ev.key === "ArrowLeft") {
+    ev.preventDefault();
+    shiftWeek(-7);
+  } else if (ev.key === "ArrowRight") {
+    ev.preventDefault();
+    shiftWeek(7);
+  }
+});
+
+// Houd weekweergave in sync met gekozen datum
+datePicker.addEventListener("change", function() {
+  if (activeView === "week") currentWeekStart = getMonday(datePicker.value || isoToday());
+});
+datePickerMob.addEventListener("change", function() {
+  if (activeView === "week") currentWeekStart = getMonday(datePickerMob.value || isoToday());
+});
+document.getElementById("btnToday").addEventListener("click", function() {
+  if (activeView === "week") currentWeekStart = getMonday(datePicker.value || isoToday());
+});
+document.getElementById("btnTodayMob").addEventListener("click", function() {
+  if (activeView === "week") currentWeekStart = getMonday(datePickerMob.value || isoToday());
+});
+document.getElementById("btnPrevDay").addEventListener("click", function() {
+  if (activeView === "week") currentWeekStart = getMonday(datePicker.value || isoToday());
+});
+document.getElementById("btnNextDay").addEventListener("click", function() {
+  if (activeView === "week") currentWeekStart = getMonday(datePicker.value || isoToday());
+});
+document.getElementById("btnReset").addEventListener("click", function() {
+  if (activeView === "week") currentWeekStart = getMonday(isoToday());
   renderAll();
 });
 
